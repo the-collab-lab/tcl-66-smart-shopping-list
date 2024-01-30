@@ -66,3 +66,4 @@ You’ll want to make your first contribution to this repo before your kick-off 
 2. Add your name to the [CONTRIBUTORS.md](CONTRIBUTORS.md) file.
    - Do this from your local environment and not from GitHub in your browser. The purpose (aside from highlighting our amazing team) is to make sure your local environment is set up properly!
    - Commit to the `main` branch and push it up to the remote repo. (Over the next 8 weeks, we will rely on feature branches as we collaborate on the project, but for this task committing to main will do just fine.)
+
