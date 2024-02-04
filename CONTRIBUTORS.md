@@ -6,6 +6,10 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 ## Cohort Participants
 
+- [Stefanie Caffarel](https://github.com/stefiecaff) 🐌
+- [Aloe Nelson](https://github.com/eonflower) ✨
+- [Emilio Campos](https://github.com/3campos) 🧙‍♂️
+
 ## Mentors
 
 - [Danielle Heberling](https://github.com/deeheber) 🧐
