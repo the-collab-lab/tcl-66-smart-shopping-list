@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 import './Layout.css';
+import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 import { auth } from '../api/config.js';
 
 /**
@@ -12,6 +13,8 @@ import { auth } from '../api/config.js';
  */
 
 export function Layout() {
+	const { user } = useAuth();
+
 	return (
 		<>
 			<div className="Layout">
@@ -32,6 +35,7 @@ export function Layout() {
 						<a href="#" className="Nav-link">
 							Manage List
 						</a>
+						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
 				</nav>
 			</div>
