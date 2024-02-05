@@ -14,7 +14,7 @@ import { auth } from '../api/config.js';
 
 export function Layout() {
 	const { user } = useAuth();
-	console.log({ user });
+
 	return (
 		<>
 			<div className="Layout">
