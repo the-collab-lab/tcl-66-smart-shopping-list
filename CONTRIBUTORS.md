@@ -9,6 +9,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 - [Stefanie Caffarel](https://github.com/stefiecaff) 🐌
 - [Aloe Nelson](https://github.com/eonflower) ✨
 - [Emilio Campos](https://github.com/3campos) 🧙‍♂️
+- [Hannah Wohl-Machado](https://github.com/hun-ah) 🥹
 
 ## Mentors
 
