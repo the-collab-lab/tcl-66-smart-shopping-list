@@ -2,10 +2,7 @@ import './SingleList.css';
 import { useStateWithStorage } from '../utils';
 
 export function SingleList({ name, index, path }) {
-	const [listPath, setListPath] = useStateWithStorage(
-		'tcl-shopping-list-path',
-		null,
-	);
+	const [setListPath] = useStateWithStorage('tcl-shopping-list-path', null);
 
 	function handleClick() {
 		setListPath(path);
