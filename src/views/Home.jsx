@@ -2,7 +2,6 @@ import './Home.css';
 import { SingleList } from '../components/SingleList';
 
 export function Home({ data }) {
-	console.log(data);
 	return (
 		<div className="Home">
 			<p>
