@@ -1,7 +1,7 @@
 import './Home.css';
 import { SingleList } from '../components/SingleList';
 
-export function Home({ data }) {
+export function Home({ data, setListPath }) {
 	return (
 		<div className="Home">
 			<p>
@@ -9,7 +9,12 @@ export function Home({ data }) {
 			</p>
 			<ul>
 				{data.map((list, index) => (
-					<SingleList key={index} name={list.name} path={list.path} />
+					<SingleList
+						key={index}
+						name={list.name}
+						path={list.path}
+						setListPath={setListPath}
+					/>
 				))}
 			</ul>
 		</div>
