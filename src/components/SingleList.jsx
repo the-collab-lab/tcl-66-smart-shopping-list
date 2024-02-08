@@ -1,18 +1,12 @@
 import './SingleList.css';
-import { useStateWithStorage } from '../utils';
 
-export function SingleList({ name, index, path }) {
-	const [listPath, setListPath] = useStateWithStorage(
-		'tcl-shopping-list-path',
-		null,
-	);
-
+export function SingleList({ name, path, setListPath }) {
 	function handleClick() {
 		setListPath(path);
 	}
 
 	return (
-		<li className="SingleList" key={index}>
+		<li className="SingleList">
 			<button onClick={handleClick}>{name}</button>
 		</li>
 	);

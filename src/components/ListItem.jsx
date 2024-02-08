@@ -1,9 +1,5 @@
 import './ListItem.css';
 
-export function ListItem({ name, index }) {
-	return (
-		<li className="ListItem" key={index}>
-			{name}
-		</li>
-	);
+export function ListItem({ name }) {
+	return <li className="ListItem">{name}</li>;
 }
