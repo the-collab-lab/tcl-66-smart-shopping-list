@@ -8,9 +8,9 @@ export function Home({ data, setListPath }) {
 				Hello from the home (<code>/</code>) page!
 			</p>
 			<ul>
-				{data.map((list, index) => (
+				{data.map((list) => (
 					<SingleList
-						key={index}
+						key={list.name}
 						name={list.name}
 						path={list.path}
 						setListPath={setListPath}

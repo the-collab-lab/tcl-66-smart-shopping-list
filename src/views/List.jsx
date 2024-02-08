@@ -7,8 +7,8 @@ export function List({ data }) {
 				Hello from the <code>/list</code> page!
 			</p>
 			<ul>
-				{data.map((item, index) => (
-					<ListItem key={index} name={item.name} />
+				{data.map((item) => (
+					<ListItem key={item.name} name={item.name} />
 				))}
 			</ul>
 		</>
