@@ -1,4 +1,4 @@
-import { ListItem } from '../components';
+import { ListItem } from '../components/ListItem';
 
 export function List({ data }) {
 	return (
@@ -7,11 +7,9 @@ export function List({ data }) {
 				Hello from the <code>/list</code> page!
 			</p>
 			<ul>
-				{/**
-				 * TODO: write some JavaScript that renders the `data` array
-				 * using the `ListItem` component that's imported at the top
-				 * of this file.
-				 */}
+				{data.map((item) => (
+					<ListItem key={item.name} name={item.name} />
+				))}
 			</ul>
 		</>
 	);
