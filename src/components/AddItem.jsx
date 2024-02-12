@@ -3,21 +3,19 @@ import { addItem } from '../api/firebase';
 
 export default function AddItem({ listPath }) {
 	const [itemValue, setItemValue] = useState({
-		name: '',
+		itemName: '',
 		daysUntilNextPurchase: 0,
 	});
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		const res = addItem(listPath, itemValue);
-		console.log(listPath);
-		console.log(res);
-		// try {
-		// 	// alert('Item added!');
-		// } catch (err) {
-		// 	alert('Error adding item to database');
-		// }
+		try {
+			alert('Item added!');
+			await addItem(listPath, itemValue);
+		} catch (err) {
+			alert('Error adding item to database');
+		}
 	};
 
 	const handleInputChange = (e) => {
@@ -34,9 +32,9 @@ export default function AddItem({ listPath }) {
 				Item name:
 				<input
 					type="text"
-					name="name"
+					name="itemName"
 					onChange={handleInputChange}
-					value={itemValue.name}
+					value={itemValue.itemName}
 				/>
 			</label>
 			<label>
