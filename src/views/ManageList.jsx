@@ -1,12 +1,12 @@
 import AddItem from '../components/AddItem';
 
-export function ManageList() {
+export function ManageList({ listPath }) {
 	return (
 		<>
 			<p>
 				Hello from the <code>/manage-list</code> page!
 			</p>
-			<AddItem />
+			<AddItem listPath={listPath} />
 		</>
 	);
 }
