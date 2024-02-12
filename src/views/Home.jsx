@@ -10,17 +10,17 @@ export function Home({ data, setListPath }) {
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	console.log(listName, 'before submit');
-	// console.log( user.displayName, "user");
-	const handleSubmit = async (event) => {
+
+	const handleSubmit = (event) => {
 		event.preventDefault();
 		try {
-			console.log(listName, 'in submit');
-			const newList = await createList(user.displayName, user.email, listName);
+			const newList = createList(user.uid, user.email, listName);
+			const listPath = user.uid + '/' + listName;
+
 			if (newList) {
 				setMessage(`Your list ${listName} was created`);
+				setListPath(listPath);
 				navigate('/list');
-				setListPath(listName);
 			} else {
 				setMessage(`Your list ${listName} was not created, please try again`);
 				return;
