@@ -11,8 +11,8 @@ export default function AddItem({ listPath }) {
 		e.preventDefault();
 
 		try {
-			alert('Item added!');
 			await addItem(listPath, itemValue);
+			alert('Item added!');
 		} catch (err) {
 			alert('Error adding item to database');
 		}
