@@ -18,16 +18,20 @@ export function Home({ data, setListPath }) {
 			const listPath = user.uid + '/' + listName;
 
 			if (newList) {
-				setMessage(`Your list ${listName} was created`);
+				setMessage(`Your list, ${listName}, was created.`);
 				setListPath(listPath);
-				navigate('/list');
+				setTimeout(() => {
+					navigate('/list');
+				}, 2000);
 			} else {
-				setMessage(`Your list ${listName} was not created, please try again`);
+				setMessage(
+					`Your list, ${listName}, was not created, please try again.`,
+				);
 				return;
 			}
 		} catch (err) {
 			console.error(err);
-			setMessage(`Your list ${listName} was not created, please try again`);
+			setMessage(`Your list ${listName} was not created, please try again.`);
 		}
 		return;
 	};
