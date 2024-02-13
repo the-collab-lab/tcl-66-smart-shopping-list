@@ -43,7 +43,7 @@ export default function AddList({ setListPath }) {
 				></input>
 				<button type="submit">Create List</button>
 			</form>
-			{message && <p>{message}</p>}
+			{message ? <p>{message}</p> : null}
 		</>
 	);
 }
