@@ -4,14 +4,6 @@ import './Layout.css';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 import { auth } from '../api/config.js';
 
-/**
- * TODO: The links defined in this file don't work!
- *
- * Instead of anchor element, they should use a component
- * from `react-router-dom` to navigate to the routes
- * defined in `App.jsx`.
- */
-
 export function Layout() {
 	const { user } = useAuth();
 

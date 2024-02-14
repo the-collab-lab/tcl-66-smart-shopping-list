@@ -1,5 +1,6 @@
 import './Home.css';
 import { SingleList } from '../components/SingleList';
+import AddList from '../components/AddList.jsx';
 
 export function Home({ data, setListPath }) {
 	return (
@@ -7,6 +8,7 @@ export function Home({ data, setListPath }) {
 			<p>
 				Hello from the home (<code>/</code>) page!
 			</p>
+			<AddList setListPath={setListPath} />
 			<ul>
 				{data.map((list) => (
 					<SingleList
