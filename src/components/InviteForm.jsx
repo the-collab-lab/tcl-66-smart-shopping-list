@@ -3,27 +3,22 @@ import { shareList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
 
 const InviteForm = ({ listPath, closeModal }) => {
-	const [input, setInput] = useState({
-		recipientEmail: '',
-	});
+	const [input, setInput] = useState('');
 	const { user } = useAuth();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await shareList(listPath, user.uid, input.recipientEmail);
-			setInput({ recipientEmail: '' });
+			await shareList(listPath, user.uid, input);
+			setInput('');
 			closeModal();
 		} catch (err) {
 			console.error(err);
 		}
 	};
+
 	const handleInputChange = (e) => {
-		const { name, value } = e.target;
-		setInput((prevState) => ({
-			...prevState,
-			[name]: value,
-		}));
+		setInput(e.target.value);
 	};
 	return (
 		<>
@@ -35,7 +30,7 @@ const InviteForm = ({ listPath, closeModal }) => {
 						name="recipientEmail"
 						placeholder="friend@email.com"
 						id="email"
-						value={input.recipientEmail}
+						value={input}
 						onChange={handleInputChange}
 					/>
 				</label>
