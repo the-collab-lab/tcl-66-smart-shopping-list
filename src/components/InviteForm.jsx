@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { shareList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
 
-const InviteForm = ({ listPath }) => {
+const InviteForm = ({ listPath, closeModal }) => {
 	const [input, setInput] = useState({
 		recipientEmail: '',
 	});
@@ -13,6 +13,7 @@ const InviteForm = ({ listPath }) => {
 		try {
 			await shareList(listPath, user.uid, input.recipientEmail);
 			setInput({ recipientEmail: '' });
+			closeModal();
 		} catch (err) {
 			console.error(err);
 		}
@@ -28,16 +29,17 @@ const InviteForm = ({ listPath }) => {
 		<>
 			<form onSubmit={handleSubmit}>
 				<label htmlFor="email">
-					invite user with email
+					Please enter the email of the person you want to invite:
 					<input
 						type="email"
 						name="recipientEmail"
+						placeholder="friend@email.com"
 						id="email"
 						value={input.recipientEmail}
 						onChange={handleInputChange}
 					/>
 				</label>
-				<button type="submit">invite</button>
+				<button type="submit">Invite to List</button>
 			</form>
 		</>
 	);
