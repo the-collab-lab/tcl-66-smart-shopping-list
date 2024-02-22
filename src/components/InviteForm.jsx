@@ -9,9 +9,13 @@ const InviteForm = ({ listPath, closeModal }) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await shareList(listPath, user.uid, input);
-			setInput('');
-			closeModal();
+			const message = await shareList(listPath, user.uid, input);
+			if (message) {
+				alert(message);
+				setInput('');
+				closeModal();
+				return;
+			}
 		} catch (err) {
 			console.error(err);
 		}
