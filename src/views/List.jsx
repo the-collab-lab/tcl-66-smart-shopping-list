@@ -1,5 +1,5 @@
-import { ListItem } from '../components/ListItem';
 import { useState } from 'react';
+import { ListItem } from '../components/ListItem';
 
 export function List({ data }) {
 	const [search, setSearch] = useState('');
@@ -34,7 +34,9 @@ export function List({ data }) {
 					onChange={handleChange}
 					value={search}
 				/>
-				<button onClick={handleClear}>x</button>
+				<button type="button" onClick={handleClear}>
+					x
+				</button>
 			</form>
 			<ul>
 				{filteredData.map((item) => (
