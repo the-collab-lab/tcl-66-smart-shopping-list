@@ -1,21 +1,32 @@
+import { updateItem } from '../api';
+import { subtractDates } from '../utils';
 import './ListItem.css';
 
-import { updateItem } from '../api';
+export function ListItem({ name, listPath, id, dateLastPurchased }) {
+	const todaysDate = new Date();
 
-export function ListItem({ name, listPath, id }) {
 	const handleChecked = async () => {
-		const todaysDate = new Date();
 		try {
 			await updateItem(listPath, id, todaysDate);
 		} catch (err) {
 			console.error(err);
 		}
 	};
+
 	return (
 		<li className="ListItem">
 			<label>
 				{name}
-				<input type="checkbox" name={name} onClick={handleChecked}></input>
+				<input
+					type="checkbox"
+					name={name}
+					onChange={handleChecked}
+					checked={
+						dateLastPurchased && subtractDates(todaysDate, dateLastPurchased)
+							? true
+							: false
+					}
+				></input>
 			</label>
 		</li>
 	);

@@ -19,7 +19,7 @@ export function List({ data, listPath }) {
 	const filteredData = data.filter((item) =>
 		item.name.includes(search.toLowerCase()),
 	);
-	console.log(filteredData, 'filteredData');
+
 	return (
 		<>
 			<p>
@@ -44,6 +44,7 @@ export function List({ data, listPath }) {
 						key={item.name}
 						name={item.name}
 						id={item.id}
+						dateLastPurchased={item.dateLastPurchased}
 						listPath={listPath}
 					/>
 				))}
