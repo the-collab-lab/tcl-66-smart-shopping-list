@@ -1,7 +1,6 @@
 import './Home.css';
 import { SingleList } from '../components/SingleList';
 import AddList from '../components/AddList.jsx';
-import { Link } from 'react-router-dom';
 
 export function Home({ data, setListPath }) {
 	return (
@@ -12,14 +11,12 @@ export function Home({ data, setListPath }) {
 			<AddList setListPath={setListPath} />
 			<ul>
 				{data.map((list) => (
-					<Link key={list.id} to="/list">
-						<SingleList
-							key={list.name}
-							name={list.name}
-							path={list.path}
-							setListPath={setListPath}
-						/>
-					</Link>
+					<SingleList
+						key={list.name}
+						name={list.name}
+						path={list.path}
+						setListPath={setListPath}
+					/>
 				))}
 			</ul>
 		</div>
