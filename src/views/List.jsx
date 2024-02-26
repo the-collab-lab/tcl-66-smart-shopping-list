@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ListItem } from '../components/ListItem';
 
-export function List({ data }) {
+export function List({ data, listPath }) {
 	const [search, setSearch] = useState('');
 
 	const handleSubmit = (e) => {
@@ -19,7 +19,7 @@ export function List({ data }) {
 	const filteredData = data.filter((item) =>
 		item.name.includes(search.toLowerCase()),
 	);
-
+	console.log(filteredData, 'filteredData');
 	return (
 		<>
 			<p>
@@ -40,7 +40,12 @@ export function List({ data }) {
 			</form>
 			<ul>
 				{filteredData.map((item) => (
-					<ListItem key={item.name} name={item.name} />
+					<ListItem
+						key={item.name}
+						name={item.name}
+						id={item.id}
+						listPath={listPath}
+					/>
 				))}
 			</ul>
 		</>

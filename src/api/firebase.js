@@ -6,6 +6,7 @@ import {
 	doc,
 	onSnapshot,
 	updateDoc,
+	increment,
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from './config';
@@ -178,12 +179,14 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 	});
 }
 
-export async function updateItem() {
-	/**
-	 * TODO: Fill this out so that it uses the correct Firestore function
-	 * to update an existing item. You'll need to figure out what arguments
-	 * this function must accept!
-	 */
+export async function updateItem(listPath, itemId, dateLastPurchased) {
+	const listCollectionRef = collection(db, listPath, 'items');
+
+	const itemDocRef = doc(listCollectionRef, itemId);
+	return updateDoc(itemDocRef, {
+		dateLastPurchased,
+		totalPurchases: increment(1),
+	});
 }
 
 export async function deleteItem() {
