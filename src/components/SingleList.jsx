@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './SingleList.css';
 
 export function SingleList({ name, path, setListPath }) {
+	const navigate = useNavigate();
+
 	function handleClick() {
 		setListPath(path);
+		navigate('/list');
 	}
 
 	return (
 		<li className="SingleList">
-			<Link to="/list">
-				<button onClick={handleClick}>{name}</button>
-			</Link>
+			<button onClick={() => handleClick()}>{name}</button>
 		</li>
 	);
 }

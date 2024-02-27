@@ -1,27 +1,11 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ListItem } from '../components/ListItem';
-import { Link } from 'react-router-dom';
 
 export function List({ data, listPath }) {
 	const [search, setSearch] = useState('');
-	const [listName, setListName] = useState('');
-
-	const extractAfterSlash = (listPath) => {
-		const regex = /\/([^/]+)$/; // Matches the last / and captures everything after it
-		const match = listPath.match(regex);
-
-		if (match && match[1]) {
-			return match[1];
-		} else {
-			// If no match is found or the captured group is undefined, return an empty string or handle it as needed.
-			return '';
-		}
-	};
-
-	useEffect(() => {
-		if (!listPath) return;
-		setListName(extractAfterSlash(listPath));
-	}, [listPath]);
+	const [listName] = useState(listPath.split('/')[1]);
+	const [loadingStatus, setLoadingStatus] = useState(true);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -39,9 +23,15 @@ export function List({ data, listPath }) {
 		item.name.includes(search.toLowerCase()),
 	);
 
+	useEffect(() => {
+		setTimeout(() => {
+			setLoadingStatus(false);
+		}, 2000);
+	}, []);
+
 	return (
 		<>
-			{!data.length < 1 ? (
+			{data.length > 1 ? (
 				<>
 					<p>
 						Hello from the <code>{listName}</code> page!
@@ -59,6 +49,15 @@ export function List({ data, listPath }) {
 							x
 						</button>
 					</form>
+					{loadingStatus ? (
+						'loading . . .'
+					) : (
+						<ul>
+							{filteredData.map((item) => (
+								<ListItem key={item.name} name={item.name} />
+							))}
+						</ul>
+					)}
 				</>
 			) : (
 				<>
@@ -70,11 +69,6 @@ export function List({ data, listPath }) {
 					</button>
 				</>
 			)}
-			<ul>
-				{filteredData.map((item) => (
-					<ListItem key={item.name} name={item.name} />
-				))}
-			</ul>
 		</>
 	);
 }
