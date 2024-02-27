@@ -22,7 +22,10 @@ function convertTimestamp(timestamp) {
 }
 
 export function subtractDates(todaysDate, dateLastPurchased) {
-	const dateForCompare = convertTimestamp(dateLastPurchased);
+	if (dateLastPurchased) {
+		const dateForCompare = convertTimestamp(dateLastPurchased);
 
-	return todaysDate.getTime() - dateForCompare < ONE_DAY_IN_MILLISECONDS;
+		return todaysDate.getTime() - dateForCompare < ONE_DAY_IN_MILLISECONDS;
+	}
+	return false;
 }

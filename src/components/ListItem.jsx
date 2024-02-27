@@ -21,11 +21,7 @@ export function ListItem({ name, listPath, id, dateLastPurchased }) {
 					type="checkbox"
 					name={name}
 					onChange={handleChecked}
-					checked={
-						dateLastPurchased && subtractDates(todaysDate, dateLastPurchased)
-							? true
-							: false
-					}
+					checked={subtractDates(todaysDate, dateLastPurchased)}
 				></input>
 			</label>
 		</li>
