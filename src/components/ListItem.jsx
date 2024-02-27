@@ -19,6 +19,7 @@ export function ListItem({ name, listPath, id, dateLastPurchased }) {
 				{name}
 				<input
 					type="checkbox"
+					id={`checkbox-${id}`} // Unique identifier
 					name={name}
 					onChange={handleChecked}
 					checked={subtractDates(todaysDate, dateLastPurchased)}
