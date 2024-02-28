@@ -41,7 +41,7 @@ export function List({ data, listPath }) {
 			<ul>
 				{filteredData.map((item) => (
 					<ListItem
-						key={item.name}
+						key={item.id}
 						name={item.name}
 						id={item.id}
 						dateLastPurchased={item.dateLastPurchased}

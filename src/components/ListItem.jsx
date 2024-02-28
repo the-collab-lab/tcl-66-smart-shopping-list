@@ -1,9 +1,10 @@
 import { updateItem } from '../api';
 import { subtractDates } from '../utils';
+import { Timestamp } from 'firebase/firestore';
 import './ListItem.css';
 
 export function ListItem({ name, listPath, id, dateLastPurchased }) {
-	const todaysDate = new Date();
+	const todaysDate = Timestamp.now();
 
 	const handleChecked = async () => {
 		try {
