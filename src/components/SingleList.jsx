@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import './SingleList.css';
 
-export function SingleList({ name, path, setListPath }) {
+export function SingleList({ name, path, setListPath, setLoading }) {
 	const navigate = useNavigate();
 
-	function handleClick() {
+	async function handleClick() {
+		setLoading(true);
+		await setListPath('');
 		setListPath(path);
 		navigate('/list');
 	}
