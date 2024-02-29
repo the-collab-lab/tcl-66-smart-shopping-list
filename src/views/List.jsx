@@ -46,7 +46,13 @@ export function List({ data, listPath, loading }) {
 					</form>
 					<ul>
 						{filteredData.map((item) => (
-							<ListItem key={item.name} name={item.name} />
+							<ListItem
+								key={item.id}
+								name={item.name}
+								id={item.id}
+								dateLastPurchased={item.dateLastPurchased}
+								listPath={listPath}
+							/>
 						))}
 					</ul>
 				</>
