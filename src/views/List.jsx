@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ListItem } from '../components/ListItem';
 
-
 export function List({ data, listPath, loading }) {
 	const [search, setSearch] = useState('');
 	const [listName] = useState(listPath.split('/')[1]);
@@ -47,13 +46,13 @@ export function List({ data, listPath, loading }) {
 					</form>
 					<ul>
 						{filteredData.map((item) => (
-						  <ListItem
-						    key={item.id}
-						    name={item.name}
-						    id={item.id}
-						    dateLastPurchased={item.dateLastPurchased}
-						    listPath={listPath}
-					    />
+							<ListItem
+								key={item.id}
+								name={item.name}
+								id={item.id}
+								dateLastPurchased={item.dateLastPurchased}
+								listPath={listPath}
+							/>
 						))}
 					</ul>
 				</>
@@ -66,7 +65,7 @@ export function List({ data, listPath, loading }) {
 						<Link to="/manage-list">Add your first item</Link>
 					</button>
 				</>
-			)
+			)}
 		</>
 	);
 }
