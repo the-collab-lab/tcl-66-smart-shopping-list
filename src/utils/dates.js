@@ -10,3 +10,11 @@ const ONE_DAY_IN_MILLISECONDS = 86400000;
 export function getFutureDate(offset) {
 	return new Date(Date.now() + offset * ONE_DAY_IN_MILLISECONDS);
 }
+
+export function subtractDates(todaysDate, dateLastPurchased) {
+	if (dateLastPurchased) {
+		return (todaysDate - dateLastPurchased) * 1000 < ONE_DAY_IN_MILLISECONDS;
+	}
+
+	return false;
+}
