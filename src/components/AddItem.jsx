@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { addItem } from '../api/firebase';
 
 export default function AddItem({ listPath }) {
-	const [itemValue, setItemValue] = useState({
+	const initialState = {
 		itemName: '',
 		daysUntilNextPurchase: 0,
-	});
+	};
+
+	const [itemValue, setItemValue] = useState(initialState);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -13,6 +15,7 @@ export default function AddItem({ listPath }) {
 		try {
 			await addItem(listPath, itemValue);
 			alert('Item added!');
+			setItemValue(initialState);
 		} catch (err) {
 			alert('Error adding item to database');
 		}
