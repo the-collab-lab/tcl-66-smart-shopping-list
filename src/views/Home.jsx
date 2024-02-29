@@ -2,7 +2,7 @@ import './Home.css';
 import { SingleList } from '../components/SingleList';
 import AddList from '../components/AddList.jsx';
 
-export function Home({ data, setListPath }) {
+export function Home({ data, setListPath, setLoading }) {
 	return (
 		<div className="Home">
 			<p>
@@ -16,6 +16,7 @@ export function Home({ data, setListPath }) {
 						name={list.name}
 						path={list.path}
 						setListPath={setListPath}
+						setLoading={setLoading}
 					/>
 				))}
 			</ul>
