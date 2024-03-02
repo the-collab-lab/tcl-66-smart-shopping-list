@@ -9,11 +9,12 @@ export default function AddList({ setListPath }) {
 	const navigate = useNavigate();
 	const { user } = useAuth();
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 		try {
-			const newList = createList(user.uid, user.email, listName);
+			const newList = await createList(user.uid, user.email, listName);
 			const listPath = user.uid + '/' + listName;
+			// if list is created newList will be true else newList will be false
 			if (newList) {
 				setListName('');
 				setMessage(`Your list, ${listName}, was successfully created.`);
