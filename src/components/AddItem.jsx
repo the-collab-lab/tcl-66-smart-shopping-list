@@ -10,7 +10,7 @@ export default function AddItem({ listPath, data }) {
 	const [itemValue, setItemValue] = useState(initialState);
 
 	const normalizedItemName = (str) => {
-		str
+		return str
 			.toLowerCase()
 			.replace(/[^\w\s]|(\s+)/g, '')
 			.trim();
@@ -18,24 +18,27 @@ export default function AddItem({ listPath, data }) {
 
 	const existingItem = (itemName) => {
 		return data.some(
-			(item) =>
-				normalizedItemName(item.name) ===
-				normalizedItemName(itemValue.itemName),
+			(item) => normalizedItemName(item.name) === normalizedItemName(itemName),
 		);
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		//check if the itemName is empty
-		if (itemValue.itemName.trim() === '') {
+
+		const newItemName = itemValue.itemName.trim();
+
+		// Check if the itemName is empty
+		if (newItemName === '') {
 			alert(`Error: please name your item. Empty spaces don't count!`);
 			return;
 		}
-		//check if the itemName already exists in the list
-		if (existingItem) {
+
+		// Check if the itemName already exists in the list
+		if (existingItem(newItemName)) {
 			alert('Error: This item is already in your list!');
 			return;
 		}
+
 		try {
 			await addItem(listPath, itemValue);
 			alert('Item added!');
