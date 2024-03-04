@@ -3,7 +3,7 @@ import AddItem from '../components/AddItem';
 import InviteForm from '../components/InviteForm';
 import Modal from '../components/Modal';
 
-export function ManageList({ listPath }) {
+export function ManageList({ listPath, data }) {
 	const [openInviteModal, setOpenInviteModal] = useState(false);
 
 	const openModal = () => {
@@ -24,7 +24,7 @@ export function ManageList({ listPath }) {
 			<Modal isOpen={openInviteModal} onClose={closeModal}>
 				<InviteForm listPath={listPath} closeModal={closeModal} />
 			</Modal>
-			<AddItem listPath={listPath} />
+			<AddItem listPath={listPath} data={data} />
 		</>
 	);
 }

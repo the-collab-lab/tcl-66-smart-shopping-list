@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { addItem } from '../api/firebase';
 
-export default function AddItem({ listPath }) {
+export default function AddItem({ listPath, data }) {
 	const initialState = {
 		itemName: '',
 		daysUntilNextPurchase: 0,
@@ -9,10 +9,31 @@ export default function AddItem({ listPath }) {
 
 	const [itemValue, setItemValue] = useState(initialState);
 
+	const normalizedItemName = (str) => {
+		str
+			.toLowerCase()
+			.replace(/[^\w\s]|(\s+)/g, '')
+			.trim();
+	};
+
+	const existingItem = (itemName) => {
+		return data.some(
+			(item) =>
+				normalizedItemName(item.name) ===
+				normalizedItemName(itemValue.itemName),
+		);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		//check if the itemName is empty
 		if (itemValue.itemName.trim() === '') {
 			alert(`Error: please name your item. Empty spaces don't count!`);
+			return;
+		}
+		//check if the itemName already exists in the list
+		if (existingItem) {
+			alert('Error: This item is already in your list!');
 			return;
 		}
 		try {
