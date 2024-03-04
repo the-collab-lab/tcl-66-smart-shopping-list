@@ -11,7 +11,10 @@ export default function AddItem({ listPath }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+		if (itemValue.itemName.trim() === '') {
+			alert(`Error: please name your item. Empty spaces don't count!`);
+			return;
+		}
 		try {
 			await addItem(listPath, itemValue);
 			alert('Item added!');
