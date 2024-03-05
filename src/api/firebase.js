@@ -189,6 +189,10 @@ export async function updateItem(listPath, itemId, dateLastPurchased) {
 	const listCollectionRef = collection(db, listPath, 'items');
 
 	const itemDocRef = doc(listCollectionRef, itemId);
+
+	// const docSnap = await getDoc(itemDocRef);
+	// const item = docSnap.data();
+
 	return updateDoc(itemDocRef, {
 		dateLastPurchased,
 		totalPurchases: increment(1),
