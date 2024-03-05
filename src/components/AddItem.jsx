@@ -10,7 +10,10 @@ export default function AddItem({ listPath, data }) {
 	const [itemValue, setItemValue] = useState(initialState);
 
 	const normalizedItemName = (str) => {
-		return str.toLowerCase().replace(/[^\w\s]|(\s+)/g, '');
+		return str
+			.toLowerCase()
+			.replace(/[^\w\s]|(\s+)/g, '')
+			.trim();
 	};
 
 	const existingItem = (newItemName) => {
