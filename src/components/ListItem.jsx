@@ -1,5 +1,5 @@
 import { updateItem } from '../api';
-import { subtractDates, getFutureDate } from '../utils';
+import { subtractDates } from '../utils';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -34,8 +34,6 @@ export function ListItem({
 		daysSinceLastTransaction,
 		totalPurchases,
 	);
-
-	// const dateOfNextPurchase = Timestamp.fromDate(getFutureDate(nextPurchase));
 
 	const handleChecked = async () => {
 		try {
