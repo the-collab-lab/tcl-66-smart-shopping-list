@@ -120,16 +120,20 @@ export async function addUserToDatabase(user) {
  */
 export async function createList(userId, userEmail, listName) {
 	const listDocRef = doc(db, userId, listName);
+	// check to see if listDocRef was created if yes, send the front end true, if no send false
+	if (listDocRef) {
+		await setDoc(listDocRef, {
+			owner: userId,
+		});
 
-	await setDoc(listDocRef, {
-		owner: userId,
-	});
+		const userDocumentRef = doc(db, 'users', userEmail);
 
-	const userDocumentRef = doc(db, 'users', userEmail);
-
-	updateDoc(userDocumentRef, {
-		sharedLists: arrayUnion(listDocRef),
-	});
+		updateDoc(userDocumentRef, {
+			sharedLists: arrayUnion(listDocRef),
+		});
+		return true;
+	}
+	return false;
 }
 
 /**
@@ -176,7 +180,7 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 		// We'll use updateItem to put a Date here when the item is purchased!
 		dateLastPurchased: null,
 		dateNextPurchased: getFutureDate(daysUntilNextPurchase),
-		name: itemName.toLowerCase(),
+		name: itemName,
 		totalPurchases: 0,
 	});
 }

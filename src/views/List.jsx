@@ -19,7 +19,7 @@ export function List({ data, listPath, loading }) {
 	};
 
 	const filteredData = data.filter((item) =>
-		item.name.includes(search.toLowerCase()),
+		item.name.toLowerCase().includes(search.toLowerCase()),
 	);
 
 	return (
