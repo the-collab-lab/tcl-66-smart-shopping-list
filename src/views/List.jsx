@@ -51,6 +51,9 @@ export function List({ data, listPath, loading }) {
 								name={item.name}
 								id={item.id}
 								dateLastPurchased={item.dateLastPurchased}
+								dateNextPurchased={item.dateNextPurchased}
+								totalPurchases={item.totalPurchases}
+								dateCreated={item.dateCreated}
 								listPath={listPath}
 							/>
 						))}
