@@ -184,25 +184,6 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 }
 
 /**
- * Updates an item document with the new purchase information and increments the total purchase count.
- * @param {DocumentReference} itemDocRef - Reference to the item document in Firestore.
- * @param {Timestamp} dateLastPurchased - Timestamp of the last purchase date.
- * @param {number} nextPurchaseEstimate - Estimated number of days until the next purchase.
- * @returns {Promise} A promise that resolves when the item document is successfully updated.
- */
-async function updateItemHelper(
-	itemDocRef,
-	dateLastPurchased,
-	nextPurchaseEstimate,
-) {
-	return updateDoc(itemDocRef, {
-		dateLastPurchased,
-		dateNextPurchased: getFutureDate(nextPurchaseEstimate),
-		totalPurchases: increment(1),
-	});
-}
-
-/**
  * Updates the specified item in the shopping list with the new purchase information.
  * @param {string} listPath - Path of the shopping list in Firestore.
  * @param {string} itemId - ID of the item to be updated.
@@ -220,8 +201,11 @@ export async function updateItem(
 	const listCollectionRef = collection(db, listPath, 'items');
 	const itemDocRef = doc(listCollectionRef, itemId);
 
-	// Call the helper function to update the item document
-	return updateItemHelper(itemDocRef, dateLastPurchased, nextPurchaseEstimate);
+	return updateDoc(itemDocRef, {
+		dateLastPurchased,
+		dateNextPurchased: getFutureDate(nextPurchaseEstimate),
+		totalPurchases: increment(1),
+	});
 }
 
 /**
