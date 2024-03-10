@@ -45,7 +45,7 @@ export function ListItem({
 		try {
 			if (isChecked) {
 				// Uncheck item
-				await uncheckItem(listPath, id, nextPurchaseEstimate);
+				await uncheckItem(listPath, id);
 			} else {
 				// Check item
 				await updateItem(listPath, id, todaysDate, nextPurchaseEstimate);
