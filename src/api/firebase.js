@@ -202,6 +202,27 @@ export async function updateItem(
 	});
 }
 
+export async function uncheckItem(listPath, itemId) {
+	const listCollectionRef = collection(db, listPath, 'items');
+	const itemDocRef = doc(listCollectionRef, itemId);
+
+	// Get the current item data
+	const itemDoc = await getDoc(itemDocRef);
+	const itemData = itemDoc.data();
+
+	if (itemData.dateLastPurchased) {
+		// If the item was checked before, remove the last purchase data
+		return updateDoc(itemDocRef, {
+			dateLastPurchased: null,
+			dateNextPurchased: null,
+			totalPurchases: increment(-1),
+		});
+	} else {
+		// Item was already unchecked, nothing to do
+		return Promise.resolve();
+	}
+}
+
 export async function deleteItem() {
 	/**
 	 * TODO: Fill this out so that it uses the correct Firestore function
