@@ -169,15 +169,13 @@ export async function shareList(listPath, currentUserId, recipientEmail) {
  * @param {string} itemData.itemName The name of the item.
  * @param {number} itemData.daysUntilNextPurchase The number of days until the user thinks they'll need to buy the item again.
  */
+
 export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 	const listCollectionRef = collection(db, listPath, 'items');
-
 	const newDocRef = doc(listCollectionRef);
 
 	return setDoc(newDocRef, {
 		dateCreated: new Date(),
-		// NOTE: This is null because the item has just been created.
-		// We'll use updateItem to put a Date here when the item is purchased!
 		dateLastPurchased: null,
 		dateNextPurchased: getFutureDate(daysUntilNextPurchase),
 		name: itemName,
@@ -185,16 +183,18 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 	});
 }
 
-export async function updateItem(
-	listPath,
-	itemId,
+/**
+ * Updates an item document with the new purchase information and increments the total purchase count.
+ * @param {DocumentReference} itemDocRef - Reference to the item document in Firestore.
+ * @param {Timestamp} dateLastPurchased - Timestamp of the last purchase date.
+ * @param {number} nextPurchaseEstimate - Estimated number of days until the next purchase.
+ * @returns {Promise} A promise that resolves when the item document is successfully updated.
+ */
+async function updateItemHelper(
+	itemDocRef,
 	dateLastPurchased,
 	nextPurchaseEstimate,
 ) {
-	const listCollectionRef = collection(db, listPath, 'items');
-
-	const itemDocRef = doc(listCollectionRef, itemId);
-
 	return updateDoc(itemDocRef, {
 		dateLastPurchased,
 		dateNextPurchased: getFutureDate(nextPurchaseEstimate),
@@ -202,23 +202,60 @@ export async function updateItem(
 	});
 }
 
-export async function uncheckItem(listPath, itemId) {
+/**
+ * Updates the specified item in the shopping list with the new purchase information.
+ * @param {string} listPath - Path of the shopping list in Firestore.
+ * @param {string} itemId - ID of the item to be updated.
+ * @param {Timestamp} dateLastPurchased - Timestamp of the last purchase date.
+ * @param {number} nextPurchaseEstimate - Estimated number of days until the next purchase.
+ * @returns {Promise} A promise that resolves when the item is successfully updated.
+ */
+export async function updateItem(
+	listPath,
+	itemId,
+	dateLastPurchased,
+	nextPurchaseEstimate,
+) {
+	// Create a reference to the item document in the specified shopping list
 	const listCollectionRef = collection(db, listPath, 'items');
 	const itemDocRef = doc(listCollectionRef, itemId);
 
-	// Get the current item data
+	// Call the helper function to update the item document
+	return updateItemHelper(itemDocRef, dateLastPurchased, nextPurchaseEstimate);
+}
+
+/**
+ * Removes the last purchase information from the specified item in the shopping list.
+ * If the item has no previous purchases, the function resolves without making any changes.
+ * @param {string} listPath - Path of the shopping list in Firestore.
+ * @param {string} itemId - ID of the item to be unchecked.
+ * @returns {Promise} A promise that resolves when the item is successfully unchecked or if there are no changes needed.
+ */
+
+export async function uncheckItem(listPath, itemId) {
+	// Create a reference to the item document in the specified shopping list
+	const listCollectionRef = collection(db, listPath, 'items');
+	const itemDocRef = doc(listCollectionRef, itemId);
+
+	// Retrieve the item document data
 	const itemDoc = await getDoc(itemDocRef);
 	const itemData = itemDoc.data();
 
+	// Check if the item has a previous purchase
 	if (itemData.dateLastPurchased) {
-		// If the item was checked before, remove the last purchase data
-		return updateDoc(itemDocRef, {
-			dateLastPurchased: null,
-			dateNextPurchased: null,
-			totalPurchases: increment(-1),
-		});
+		// Calculate the new total purchases count
+		const newTotalPurchases = itemData.totalPurchases - 1;
+
+		// Define the update object based on the new total purchases count
+		const updateObject =
+			newTotalPurchases > 0
+				? { dateLastPurchased: null, totalPurchases: newTotalPurchases }
+				: { dateLastPurchased: null, totalPurchases: 0 };
+
+		// Update the item document with the new information
+		return updateDoc(itemDocRef, updateObject);
 	} else {
-		// Item was already unchecked, nothing to do
+		// If the item has no previous purchases, resolve the promise without making any changes
 		return Promise.resolve();
 	}
 }
