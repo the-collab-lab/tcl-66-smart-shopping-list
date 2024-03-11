@@ -19,14 +19,14 @@ export function ListItem({
 	const [showUndoButton, setShowUndoButton] = useState(false);
 	const todaysDate = Timestamp.now();
 
-	// if dateLastPurchased is true subtract it from dateNextPurchased, else subtract dateCreated from dateNextPurchased to get the estimated number of days till next purchase
+	// Calculate the previous estimate based on the last purchase date or creation date
 	const previousEstimate = Math.ceil(
 		(dateNextPurchased.toDate() -
 			(dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate())) /
 			(24 * 60 * 60 * 1000),
 	);
 
-	// if dateLastPurchased is true subtract it from todaysDate, else subtract dateCreated from todaysDate to get the number of days since the last transaction
+	// Calculate the number of days since the last transaction
 	const daysSinceLastTransaction = Math.floor(
 		(todaysDate.toDate() -
 			(dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate())) /
