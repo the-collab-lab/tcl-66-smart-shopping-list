@@ -223,7 +223,7 @@ export async function updateItem(
 export async function uncheckItem(
 	listPath,
 	itemId,
-	dateLastPurchased,
+	previousLastPurchased,
 	previousNextPurchased,
 ) {
 	// Create a reference to the item document in the specified shopping list
@@ -240,7 +240,7 @@ export async function uncheckItem(
 	if (itemData.dateLastPurchased) {
 		// Update the item document with the new information
 		updateDoc(itemDocRef, {
-			dateLastPurchased,
+			dateLastPurchased: previousLastPurchased,
 			dateNextPurchased: previousNextPurchased,
 			totalPurchases: newTotalPurchases,
 		});
