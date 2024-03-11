@@ -188,7 +188,9 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 export async function updateItem(
 	listPath,
 	itemId,
+	todaysDate,
 	dateLastPurchased,
+	dateNextPurchased,
 	nextPurchaseEstimate,
 ) {
 	const listCollectionRef = collection(db, listPath, 'items');
@@ -196,9 +198,28 @@ export async function updateItem(
 	const itemDocRef = doc(listCollectionRef, itemId);
 
 	return updateDoc(itemDocRef, {
-		dateLastPurchased,
+		previousNextPurchased: dateNextPurchased,
+		previousLastPurchased: dateLastPurchased,
+		dateLastPurchased: todaysDate,
 		dateNextPurchased: getFutureDate(nextPurchaseEstimate),
 		totalPurchases: increment(1),
+	});
+}
+
+export async function undoItem(
+	listPath,
+	itemId,
+	dateLastPurchased,
+	previousNextPurchased,
+) {
+	const listCollectionRef = collection(db, listPath, 'items');
+
+	const itemDocRef = doc(listCollectionRef, itemId);
+
+	return updateDoc(itemDocRef, {
+		dateLastPurchased,
+		dateNextPurchased: previousNextPurchased,
+		totalPurchases: increment(-1),
 	});
 }
 
