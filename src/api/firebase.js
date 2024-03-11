@@ -194,15 +194,19 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 export async function updateItem(
 	listPath,
 	itemId,
+	todaysDate,
 	dateLastPurchased,
+	dateNextPurchased,
 	nextPurchaseEstimate,
 ) {
-	// Create a reference to the item document in the specified shopping list
 	const listCollectionRef = collection(db, listPath, 'items');
+
 	const itemDocRef = doc(listCollectionRef, itemId);
 
 	return updateDoc(itemDocRef, {
-		dateLastPurchased,
+		previousNextPurchased: dateNextPurchased,
+		previousLastPurchased: dateLastPurchased,
+		dateLastPurchased: todaysDate,
 		dateNextPurchased: getFutureDate(nextPurchaseEstimate),
 		totalPurchases: increment(1),
 	});
@@ -216,7 +220,12 @@ export async function updateItem(
  * @returns {Promise} A promise that resolves when the item is successfully unchecked or if there are no changes needed.
  */
 
-export async function uncheckItem(listPath, itemId) {
+export async function uncheckItem(
+	listPath,
+	itemId,
+	dateLastPurchased,
+	previousNextPurchased,
+) {
 	// Create a reference to the item document in the specified shopping list
 	const listCollectionRef = collection(db, listPath, 'items');
 	const itemDocRef = doc(listCollectionRef, itemId);
@@ -225,19 +234,16 @@ export async function uncheckItem(listPath, itemId) {
 	const itemDoc = await getDoc(itemDocRef);
 	const itemData = itemDoc.data();
 
+	const newTotalPurchases = itemData.totalPurchases - 1;
+
 	// Check if the item has a previous purchase
 	if (itemData.dateLastPurchased) {
-		// Calculate the new total purchases count
-		const newTotalPurchases = itemData.totalPurchases - 1;
-
-		// Define the update object based on the new total purchases count
-		const updateObject =
-			newTotalPurchases > 0
-				? { dateLastPurchased: null, totalPurchases: newTotalPurchases }
-				: { dateLastPurchased: null, totalPurchases: 0 };
-
 		// Update the item document with the new information
-		return updateDoc(itemDocRef, updateObject);
+		updateDoc(itemDocRef, {
+			dateLastPurchased,
+			dateNextPurchased: previousNextPurchased,
+			totalPurchases: newTotalPurchases,
+		});
 	} else {
 		// If the item has no previous purchases, resolve the promise without making any changes
 		return Promise.resolve();

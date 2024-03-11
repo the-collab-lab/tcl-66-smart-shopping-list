@@ -10,6 +10,8 @@ export function ListItem({
 	id,
 	dateLastPurchased,
 	dateNextPurchased,
+	previousLastPurchased,
+	previousNextPurchased,
 	totalPurchases,
 	dateCreated,
 }) {
@@ -45,10 +47,22 @@ export function ListItem({
 		try {
 			if (isChecked) {
 				// Uncheck item
-				await uncheckItem(listPath, id);
+				await uncheckItem(
+					listPath,
+					id,
+					previousLastPurchased,
+					previousNextPurchased,
+				);
 			} else {
 				// Check item
-				await updateItem(listPath, id, todaysDate, nextPurchaseEstimate);
+				await updateItem(
+					listPath,
+					id,
+					todaysDate,
+					dateLastPurchased,
+					dateNextPurchased,
+					nextPurchaseEstimate,
+				);
 			}
 		} catch (err) {
 			console.error(err);
