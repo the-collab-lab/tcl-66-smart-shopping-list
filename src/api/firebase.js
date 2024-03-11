@@ -2,6 +2,7 @@ import {
 	arrayUnion,
 	getDoc,
 	setDoc,
+	deleteDoc,
 	collection,
 	doc,
 	onSnapshot,
@@ -202,10 +203,8 @@ export async function updateItem(
 	});
 }
 
-export async function deleteItem() {
-	/**
-	 * TODO: Fill this out so that it uses the correct Firestore function
-	 * to delete an existing item. You'll need to figure out what arguments
-	 * this function must accept!
-	 */
+export async function deleteItem(listPath, itemId) {
+	const listCollectionRef = collection(db, listPath, 'items');
+	const itemDocRef = doc(listCollectionRef, itemId);
+	return deleteDoc(itemDocRef);
 }
