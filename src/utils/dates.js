@@ -14,3 +14,5 @@ export function getFutureDate(offset) {
 export function getDifferenceBetweenDates(date1, date2) {
 	return (date1 - date2) / (24 * 60 * 60 * 1000);
 }
+
+export const todaysDate = new Date();

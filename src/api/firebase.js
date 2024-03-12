@@ -10,7 +10,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from './config';
-import { getFutureDate } from '../utils';
+import { getFutureDate, getDifferenceBetweenDates, todaysDate } from '../utils';
 
 /**
  * A custom hook that subscribes to the user's shopping lists in our Firestore
@@ -210,4 +210,57 @@ export async function deleteItem() {
 	 */
 }
 
-export function comparePurchaseUrgency(array) {}
+export function comparePurchaseUrgency(array) {
+	const sorted = array.sort((a, b) => {
+		const dateA = Math.floor(
+			getDifferenceBetweenDates(a.dateNextPurchased.toDate(), todaysDate),
+		);
+		const dateB = Math.floor(
+			getDifferenceBetweenDates(b.dateNextPurchased.toDate(), todaysDate),
+		);
+
+		const itemA = a.name.toLowerCase();
+
+		const itemB = b.name.toLowerCase();
+
+		const daysSinceLastPurchaseA = Math.floor(
+			getDifferenceBetweenDates(
+				todaysDate,
+				a.dateLastPurchased
+					? a.dateLastPurchased.toDate()
+					: a.dateCreated.toDate(),
+			),
+		);
+
+		const daysSinceLastPurchaseB = Math.floor(
+			getDifferenceBetweenDates(
+				todaysDate,
+				b.dateLastPurchased
+					? b.dateLastPurchased.toDate()
+					: b.dateCreated.toDate(),
+			),
+		);
+
+		// sort by value of days since last purchased
+		if (daysSinceLastPurchaseA >= 60 && daysSinceLastPurchaseB < 60) {
+			return 1;
+		} else if (daysSinceLastPurchaseA < 60 && daysSinceLastPurchaseB >= 60) {
+			return -1;
+		}
+
+		// if dates are not equal sort by difference of dates
+		if (dateA !== dateB) {
+			return dateA - dateB;
+		}
+
+		// if dates are equal sort by character value
+		if (itemA < itemB) {
+			return -1;
+		} else if (itemA > itemB) {
+			return 1;
+		}
+
+		return 0;
+	});
+	return sorted;
+}

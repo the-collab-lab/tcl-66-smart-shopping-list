@@ -1,5 +1,5 @@
 import { updateItem } from '../api';
-import { getDifferenceBetweenDates } from '../utils';
+import { getDifferenceBetweenDates, todaysDate } from '../utils';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -13,8 +13,6 @@ export function ListItem({
 	totalPurchases,
 	dateCreated,
 }) {
-	const todaysDate = Timestamp.now();
-
 	// if dateLastPurchased is true subtract it from dateNextPurchased, else subtract dateCreated from dateNextPurchased to get the estimated number of days till next purchase
 	const previousEstimate = Math.ceil(
 		getDifferenceBetweenDates(
@@ -24,29 +22,27 @@ export function ListItem({
 	);
 
 	// if dateLastPurchased is true subtract it from todaysDate, else subtract dateCreated from todaysDate to get the number of days since the last transaction
-	const daysSinceLastTransaction = Math.floor(
+	const daysSinceLastPurchase = Math.floor(
 		getDifferenceBetweenDates(
-			todaysDate.toDate(),
+			todaysDate,
 			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
 		),
 	);
 
 	const daysTillNextPurchase = Math.floor(
 		Math.floor(
-			getDifferenceBetweenDates(
-				dateNextPurchased.toDate(),
-				todaysDate.toDate(),
-			),
+			getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
 		),
 	);
 
 	const nextPurchaseEstimate = calculateEstimate(
 		previousEstimate,
-		daysSinceLastTransaction,
+		daysSinceLastPurchase,
 		totalPurchases,
 	);
 
 	const handleChecked = async () => {
+		const todaysDate = Timestamp.now();
 		try {
 			await updateItem(listPath, id, todaysDate, nextPurchaseEstimate);
 		} catch (err) {
@@ -57,10 +53,7 @@ export function ListItem({
 	const isChecked = () => {
 		if (dateLastPurchased) {
 			return (
-				getDifferenceBetweenDates(
-					todaysDate.toDate(),
-					dateLastPurchased.toDate(),
-				) < 1
+				getDifferenceBetweenDates(todaysDate, dateLastPurchased.toDate()) < 1
 			);
 		}
 
@@ -68,18 +61,42 @@ export function ListItem({
 	};
 
 	let urgency;
-	if (daysTillNextPurchase < 0) {
+	if (
+		daysTillNextPurchase < 0 &&
+		daysSinceLastPurchase > daysTillNextPurchase
+	) {
 		urgency = 'overdue';
 	} else if (daysTillNextPurchase <= 7) {
 		urgency = 'soon';
-	} else if (daysTillNextPurchase <= 30) {
+	} else if (daysTillNextPurchase < 30) {
 		urgency = 'kind of soon';
-	} else {
+	} else if (daysTillNextPurchase >= 30) {
 		urgency = 'not so soon';
 	}
 
-	if (daysSinceLastTransaction >= 60) {
+	if (daysSinceLastPurchase >= 60) {
 		urgency = 'inactive';
+	}
+
+	let textColor = '';
+	switch (urgency) {
+		case 'overdue':
+			textColor = 'red';
+			break;
+		case 'soon':
+			textColor = 'orange';
+			break;
+		case 'kind of soon':
+			textColor = 'yellow';
+			break;
+		case 'not so soon':
+			textColor = 'green';
+			break;
+		case 'inactive':
+			textColor = 'grey';
+			break;
+		default:
+			textColor = 'black';
 	}
 
 	return (
@@ -87,12 +104,9 @@ export function ListItem({
 			<label>
 				{name}{' '}
 				{Math.floor(
-					getDifferenceBetweenDates(
-						dateNextPurchased.toDate(),
-						todaysDate.toDate(),
-					),
-				)}{' '}
-				<span style={{ color: 'grey' }}>{urgency}</span>
+					getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
+				)}
+				<span style={{ color: textColor }}>{urgency}</span>
 				<input
 					type="checkbox"
 					id={`checkbox-${id}`} // Unique identifier
