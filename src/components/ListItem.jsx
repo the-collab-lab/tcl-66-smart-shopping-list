@@ -1,5 +1,5 @@
 import { updateItem } from '../api';
-import { subtractDates } from '../utils';
+import { getDifferenceBetweenDates } from '../utils';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -17,16 +17,27 @@ export function ListItem({
 
 	// if dateLastPurchased is true subtract it from dateNextPurchased, else subtract dateCreated from dateNextPurchased to get the estimated number of days till next purchase
 	const previousEstimate = Math.ceil(
-		(dateNextPurchased.toDate() -
-			(dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate())) /
-			(24 * 60 * 60 * 1000),
+		getDifferenceBetweenDates(
+			dateNextPurchased.toDate(),
+			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
+		),
 	);
 
 	// if dateLastPurchased is true subtract it from todaysDate, else subtract dateCreated from todaysDate to get the number of days since the last transaction
 	const daysSinceLastTransaction = Math.floor(
-		(todaysDate.toDate() -
-			(dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate())) /
-			(24 * 60 * 60 * 1000),
+		getDifferenceBetweenDates(
+			todaysDate.toDate(),
+			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
+		),
+	);
+
+	const daysTillNextPurchase = Math.floor(
+		Math.floor(
+			getDifferenceBetweenDates(
+				dateNextPurchased.toDate(),
+				todaysDate.toDate(),
+			),
+		),
 	);
 
 	const nextPurchaseEstimate = calculateEstimate(
@@ -43,16 +54,51 @@ export function ListItem({
 		}
 	};
 
+	const isChecked = () => {
+		if (dateLastPurchased) {
+			return (
+				getDifferenceBetweenDates(
+					todaysDate.toDate(),
+					dateLastPurchased.toDate(),
+				) < 1
+			);
+		}
+
+		return false;
+	};
+
+	let urgency;
+	if (daysTillNextPurchase < 0) {
+		urgency = 'overdue';
+	} else if (daysTillNextPurchase <= 7) {
+		urgency = 'soon';
+	} else if (daysTillNextPurchase <= 30) {
+		urgency = 'kind of soon';
+	} else {
+		urgency = 'not so soon';
+	}
+
+	if (daysSinceLastTransaction >= 60) {
+		urgency = 'inactive';
+	}
+
 	return (
 		<li className="ListItem">
 			<label>
-				{name}
+				{name}{' '}
+				{Math.floor(
+					getDifferenceBetweenDates(
+						dateNextPurchased.toDate(),
+						todaysDate.toDate(),
+					),
+				)}{' '}
+				<span style={{ color: 'grey' }}>{urgency}</span>
 				<input
 					type="checkbox"
 					id={`checkbox-${id}`} // Unique identifier
 					name={name}
 					onChange={handleChecked}
-					checked={subtractDates(todaysDate, dateLastPurchased)}
+					checked={isChecked()}
 				></input>
 			</label>
 		</li>
