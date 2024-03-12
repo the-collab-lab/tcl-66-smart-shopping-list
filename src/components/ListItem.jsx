@@ -102,11 +102,7 @@ export function ListItem({
 	return (
 		<li className="ListItem">
 			<label>
-				{name}{' '}
-				{Math.floor(
-					getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
-				)}
-				<span style={{ color: textColor }}>{urgency}</span>
+				{name} <span style={{ color: textColor }}>{urgency}</span>
 				<input
 					type="checkbox"
 					id={`checkbox-${id}`} // Unique identifier
