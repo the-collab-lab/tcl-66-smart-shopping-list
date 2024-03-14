@@ -4,6 +4,9 @@ export function colorPicker(text) {
 		case 'overdue':
 			color = 'red';
 			break;
+		case 'today':
+			color = 'pink';
+			break;
 		case 'soon':
 			color = 'orange';
 			break;
@@ -25,7 +28,9 @@ export function colorPicker(text) {
 export function calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase) {
 	let urgency;
 
-	if (
+	if (daysTillNextPurchase === 0) {
+		urgency = 'today';
+	} else if (
 		daysTillNextPurchase < 0 &&
 		daysSinceLastPurchase > daysTillNextPurchase
 	) {

@@ -302,7 +302,6 @@ export function comparePurchaseUrgency(array) {
 		if (dateA !== dateB) {
 			return dateA - dateB;
 		}
-
 		// if dates are equal sort by character value
 		return itemA.localeCompare(itemB);
 	});

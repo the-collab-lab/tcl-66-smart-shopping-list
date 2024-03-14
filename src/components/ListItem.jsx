@@ -1,6 +1,10 @@
-import { getDifferenceBetweenDates, todaysDate } from '../utils';
+import { updateItem, uncheckItem, deleteItem } from '../api';
+import {
+	getDifferenceBetweenDates,
+	subtractDatesForAutoUncheck,
+	todaysDate,
+} from '../utils';
 import { colorPicker, calculateUrgency } from '../utils/helpers';
-import { updateItem, deleteItem, uncheckItem } from '../api';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -16,6 +20,12 @@ export function ListItem({
 	totalPurchases,
 	dateCreated,
 }) {
+	const todaysDateTimestamp = Timestamp.now();
+	const isChecked = subtractDatesForAutoUncheck(
+		todaysDateTimestamp,
+		dateLastPurchased,
+	);
+
 	// Calculate the previous estimate based on the last purchase date or creation date
 	const previousEstimate = Math.ceil(
 		getDifferenceBetweenDates(
@@ -29,13 +39,12 @@ export function ListItem({
 		getDifferenceBetweenDates(
 			todaysDate,
 			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
-		),
+		) /
+			(24 * 60 * 60 * 1000),
 	);
 
 	const daysTillNextPurchase = Math.floor(
-		Math.floor(
-			getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
-		),
+		getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
 	);
 
 	const nextPurchaseEstimate = calculateEstimate(
@@ -45,7 +54,6 @@ export function ListItem({
 	);
 
 	const handleChecked = async () => {
-		const todaysDateTimestamp = Timestamp.now();
 		try {
 			if (isChecked) {
 				// Uncheck item
@@ -62,22 +70,14 @@ export function ListItem({
 					listPath,
 					id,
 					todaysDateTimestamp,
+					dateLastPurchased,
+					dateNextPurchased,
 					nextPurchaseEstimate,
 				);
 			}
 		} catch (err) {
 			console.error(err);
 		}
-	};
-
-	const isChecked = () => {
-		if (dateLastPurchased) {
-			return (
-				getDifferenceBetweenDates(todaysDate, dateLastPurchased.toDate()) < 1
-			);
-		}
-
-		return false;
 	};
 
 	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
@@ -104,7 +104,7 @@ export function ListItem({
 					id={`checkbox-${id}`} // Unique identifier
 					name={name}
 					onChange={handleChecked}
-					checked={isChecked()}
+					checked={isChecked}
 				></input>
 			</label>
 			<button onClick={handleDelete} className="delete-button">
