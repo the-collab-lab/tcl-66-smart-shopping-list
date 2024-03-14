@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ListItem } from '../components/ListItem';
+import { comparePurchaseUrgency } from '../api/firebase';
 
 export function List({ data, listPath, loading }) {
 	const [search, setSearch] = useState('');
@@ -21,6 +22,8 @@ export function List({ data, listPath, loading }) {
 	const filteredData = data.filter((item) =>
 		item.name.toLowerCase().includes(search.toLowerCase()),
 	);
+
+	const sortedItems = comparePurchaseUrgency(filteredData);
 
 	return (
 		<>
@@ -45,7 +48,7 @@ export function List({ data, listPath, loading }) {
 						</button>
 					</form>
 					<ul>
-						{filteredData.map((item) => (
+						{sortedItems.map((item) => (
 							<ListItem
 								key={item.id}
 								name={item.name}
