@@ -210,8 +210,12 @@ export async function deleteItem() {
 	 */
 }
 
+//passing in filteredData from List
 export function comparePurchaseUrgency(array) {
+	//this sort method is compares and sorts the shopping items in the list by
+	//first grouping them by urgency and then by alphabetical order
 	const sorted = array.sort((a, b) => {
+		//we use the getDifferenceBetweenDates function (from dates.js) to get the average number of days between the next purchase date and today's date for each shopping item
 		const dateA = Math.floor(
 			getDifferenceBetweenDates(a.dateNextPurchased.toDate(), todaysDate),
 		);
@@ -224,6 +228,8 @@ export function comparePurchaseUrgency(array) {
 		const itemB = b.name.toLowerCase();
 
 		const daysSinceLastPurchaseA = Math.floor(
+			//we get the average number of days between today's date and the date last purchased if this date exists for the first item,
+			//otherwise, we get the average between today's date and the date that the item was created
 			getDifferenceBetweenDates(
 				todaysDate,
 				a.dateLastPurchased
@@ -233,6 +239,7 @@ export function comparePurchaseUrgency(array) {
 		);
 
 		const daysSinceLastPurchaseB = Math.floor(
+			//this constant/assignment statement is similar to the one on line 231. The getDifferenceBetweenDates function here is used to calculate the average number of days on the next shopping item that is being compared in our sort method from line 217.
 			getDifferenceBetweenDates(
 				todaysDate,
 				b.dateLastPurchased
