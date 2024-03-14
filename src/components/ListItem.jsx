@@ -1,5 +1,6 @@
 import { updateItem } from '../api';
 import { getDifferenceBetweenDates, todaysDate } from '../utils';
+import { colorPicker, calculateUrgency } from '../utils/helpers';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -60,44 +61,8 @@ export function ListItem({
 		return false;
 	};
 
-	let urgency;
-	if (
-		daysTillNextPurchase < 0 &&
-		daysSinceLastPurchase > daysTillNextPurchase
-	) {
-		urgency = 'overdue';
-	} else if (daysTillNextPurchase <= 7) {
-		urgency = 'soon';
-	} else if (daysTillNextPurchase < 30) {
-		urgency = 'kind of soon';
-	} else if (daysTillNextPurchase >= 30) {
-		urgency = 'not so soon';
-	}
-
-	if (daysSinceLastPurchase >= 60) {
-		urgency = 'inactive';
-	}
-
-	let textColor = '';
-	switch (urgency) {
-		case 'overdue':
-			textColor = 'red';
-			break;
-		case 'soon':
-			textColor = 'orange';
-			break;
-		case 'kind of soon':
-			textColor = 'yellow';
-			break;
-		case 'not so soon':
-			textColor = 'green';
-			break;
-		case 'inactive':
-			textColor = 'grey';
-			break;
-		default:
-			textColor = 'black';
-	}
+	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
+	let textColor = colorPicker(urgency);
 
 	return (
 		<li className="ListItem">
