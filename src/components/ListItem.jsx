@@ -42,9 +42,9 @@ export function ListItem({
 	);
 
 	const handleChecked = async () => {
-		const todaysDate = Timestamp.now();
+		const todaysDateTimestamp = Timestamp.now();
 		try {
-			await updateItem(listPath, id, todaysDate, nextPurchaseEstimate);
+			await updateItem(listPath, id, todaysDateTimestamp, nextPurchaseEstimate);
 		} catch (err) {
 			console.error(err);
 		}
