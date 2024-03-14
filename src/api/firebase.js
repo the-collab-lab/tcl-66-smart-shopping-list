@@ -2,6 +2,7 @@ import {
 	arrayUnion,
 	getDoc,
 	setDoc,
+	deleteDoc,
 	collection,
 	doc,
 	onSnapshot,
@@ -10,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from './config';
-import { getFutureDate } from '../utils';
+import { getFutureDate, getDifferenceBetweenDates, todaysDate } from '../utils';
 
 /**
  * A custom hook that subscribes to the user's shopping lists in our Firestore
@@ -246,10 +247,63 @@ export async function uncheckItem(
 	}
 }
 
-export async function deleteItem() {
-	/**
-	 * TODO: Fill this out so that it uses the correct Firestore function
-	 * to delete an existing item. You'll need to figure out what arguments
-	 * this function must accept!
-	 */
+export async function deleteItem(listPath, itemId) {
+	const listCollectionRef = collection(db, listPath, 'items');
+	const itemDocRef = doc(listCollectionRef, itemId);
+	return deleteDoc(itemDocRef);
+}
+
+/**
+ * Compare and sort list items by time urgency and alphabetical order
+ * @param {array} array The list of items to sort
+ */
+export function comparePurchaseUrgency(array) {
+	return array.sort((a, b) => {
+		// getDifferenceBetweenDates gets the average number of days between the next purchase date and today's date for each shopping item
+		const dateA = Math.floor(
+			getDifferenceBetweenDates(a.dateNextPurchased.toDate(), todaysDate),
+		);
+		const dateB = Math.floor(
+			getDifferenceBetweenDates(b.dateNextPurchased.toDate(), todaysDate),
+		);
+
+		const itemA = a.name.toLowerCase();
+
+		const itemB = b.name.toLowerCase();
+
+		// get the average number of days between today's date and the date last purchased or the date created if
+		// dateLastPurchased does not exist yet
+		const daysSinceLastPurchaseA = Math.floor(
+			getDifferenceBetweenDates(
+				todaysDate,
+				a.dateLastPurchased
+					? a.dateLastPurchased.toDate()
+					: a.dateCreated.toDate(),
+			),
+		);
+
+		const daysSinceLastPurchaseB = Math.floor(
+			getDifferenceBetweenDates(
+				todaysDate,
+				b.dateLastPurchased
+					? b.dateLastPurchased.toDate()
+					: b.dateCreated.toDate(),
+			),
+		);
+
+		// sort by value of days since last purchased
+		if (daysSinceLastPurchaseA >= 60 && daysSinceLastPurchaseB < 60) {
+			return 1;
+		} else if (daysSinceLastPurchaseA < 60 && daysSinceLastPurchaseB >= 60) {
+			return -1;
+		}
+
+		// if dates are not equal sort by difference of dates
+		if (dateA !== dateB) {
+			return dateA - dateB;
+		}
+
+		// if dates are equal sort by character value
+		return itemA.localeCompare(itemB);
+	});
 }

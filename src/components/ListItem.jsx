@@ -1,5 +1,6 @@
-import { updateItem, uncheckItem } from '../api';
-import { getDifferenceBetweenDates } from '../utils';
+import { getDifferenceBetweenDates, todaysDate } from '../utils';
+import { colorPicker, calculateUrgency } from '../utils/helpers';
+import { updateItem, deleteItem, uncheckItem } from '../api';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -15,15 +16,6 @@ export function ListItem({
 	totalPurchases,
 	dateCreated,
 }) {
-	const todaysDate = Timestamp.now();
-	const isChecked = () => {
-		if (dateLastPurchased) {
-			return (
-				getDifferenceBetweenDates(todaysDate, dateLastPurchased.toDate()) < 1
-			);
-		}
-	};
-
 	// Calculate the previous estimate based on the last purchase date or creation date
 	const previousEstimate = Math.ceil(
 		getDifferenceBetweenDates(
@@ -40,6 +32,12 @@ export function ListItem({
 		),
 	);
 
+	const daysTillNextPurchase = Math.floor(
+		Math.floor(
+			getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
+		),
+	);
+
 	const nextPurchaseEstimate = calculateEstimate(
 		previousEstimate,
 		daysSinceLastPurchase,
@@ -47,6 +45,7 @@ export function ListItem({
 	);
 
 	const handleChecked = async () => {
+		const todaysDateTimestamp = Timestamp.now();
 		try {
 			if (isChecked) {
 				// Uncheck item
@@ -62,9 +61,7 @@ export function ListItem({
 				await updateItem(
 					listPath,
 					id,
-					todaysDate,
-					dateLastPurchased,
-					dateNextPurchased,
+					todaysDateTimestamp,
 					nextPurchaseEstimate,
 				);
 			}
@@ -73,10 +70,35 @@ export function ListItem({
 		}
 	};
 
+	const isChecked = () => {
+		if (dateLastPurchased) {
+			return (
+				getDifferenceBetweenDates(todaysDate, dateLastPurchased.toDate()) < 1
+			);
+		}
+
+		return false;
+	};
+
+	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
+	let textColor = colorPicker(urgency);
+
+	const handleDelete = async () => {
+		try {
+			if (window.confirm('Are you sure you want to delete this item?')) {
+				await deleteItem(listPath, id);
+			} else {
+				return;
+			}
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
 	return (
 		<li className="ListItem">
 			<label>
-				{name}
+				{name} <span style={{ color: textColor }}>{urgency}</span>
 				<input
 					type="checkbox"
 					id={`checkbox-${id}`} // Unique identifier
@@ -85,6 +107,9 @@ export function ListItem({
 					checked={isChecked()}
 				></input>
 			</label>
+			<button onClick={handleDelete} className="delete-button">
+				Delete
+			</button>
 		</li>
 	);
 }
