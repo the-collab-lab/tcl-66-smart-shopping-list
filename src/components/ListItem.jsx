@@ -1,6 +1,6 @@
-import { updateItem } from '../api';
-import { getDifferenceBetweenDates, todaysDate } from '../utils';
+import { getDifferenceBetweenDates, todaysDate, subtractDates } from '../utils';
 import { colorPicker, calculateUrgency } from '../utils/helpers';
+import { updateItem, deleteItem } from '../api';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -64,6 +64,18 @@ export function ListItem({
 	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
 	let textColor = colorPicker(urgency);
 
+	const handleDelete = async () => {
+		try {
+			if (window.confirm('Are you sure you want to delete this item?')) {
+				await deleteItem(listPath, id);
+			} else {
+				return;
+			}
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
 	return (
 		<li className="ListItem">
 			<label>
@@ -76,6 +88,9 @@ export function ListItem({
 					checked={isChecked()}
 				></input>
 			</label>
+			<button onClick={handleDelete} className="delete-button">
+				Delete
+			</button>
 		</li>
 	);
 }
