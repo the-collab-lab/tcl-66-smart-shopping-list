@@ -15,13 +15,4 @@ export function getDifferenceBetweenDates(date1, date2) {
 	return (date1 - date2) / ONE_DAY_IN_MILLISECONDS;
 }
 
-// Function for unchecking item after a day has passed
-export function subtractDatesForAutoUncheck(todaysDate, dateLastPurchased) {
-	if (dateLastPurchased) {
-		return (todaysDate - dateLastPurchased) * 1000 < ONE_DAY_IN_MILLISECONDS;
-	}
-
-	return false;
-}
-
 export const todaysDate = new Date();

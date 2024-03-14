@@ -1,8 +1,5 @@
 import { updateItem, uncheckItem } from '../api';
-import {
-	getDifferenceBetweenDates,
-	subtractDatesForAutoUncheck,
-} from '../utils';
+import { getDifferenceBetweenDates } from '../utils';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -19,7 +16,13 @@ export function ListItem({
 	dateCreated,
 }) {
 	const todaysDate = Timestamp.now();
-	const isChecked = subtractDatesForAutoUncheck(todaysDate, dateLastPurchased);
+	const isChecked = () => {
+		if (dateLastPurchased) {
+			return (
+				getDifferenceBetweenDates(todaysDate, dateLastPurchased.toDate()) < 1
+			);
+		}
+	};
 
 	// Calculate the previous estimate based on the last purchase date or creation date
 	const previousEstimate = Math.ceil(
@@ -79,7 +82,7 @@ export function ListItem({
 					id={`checkbox-${id}`} // Unique identifier
 					name={name}
 					onChange={handleChecked}
-					checked={isChecked}
+					checked={isChecked()}
 				></input>
 			</label>
 		</li>
