@@ -1,4 +1,4 @@
-import { updateItem } from '../api';
+import { updateItem, deleteItem } from '../api';
 import { subtractDates } from '../utils';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
@@ -43,6 +43,18 @@ export function ListItem({
 		}
 	};
 
+	const handleDelete = async () => {
+		try {
+			if (window.confirm('Are you sure you want to delete this item?')) {
+				await deleteItem(listPath, id);
+			} else {
+				return;
+			}
+		} catch (err) {
+			console.error(err.message);
+		}
+	};
+
 	return (
 		<li className="ListItem">
 			<label>
@@ -55,6 +67,9 @@ export function ListItem({
 					checked={subtractDates(todaysDate, dateLastPurchased)}
 				></input>
 			</label>
+			<button onClick={handleDelete} className="delete-button">
+				Delete
+			</button>
 		</li>
 	);
 }
