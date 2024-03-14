@@ -23,7 +23,7 @@ export function List({ data, listPath, loading }) {
 		item.name.toLowerCase().includes(search.toLowerCase()),
 	);
 
-	const sortedData = comparePurchaseUrgency(filteredData);
+	const sortedItems = comparePurchaseUrgency(filteredData);
 
 	return (
 		<>
@@ -48,7 +48,7 @@ export function List({ data, listPath, loading }) {
 						</button>
 					</form>
 					<ul>
-						{sortedData.map((item) => (
+						{sortedItems.map((item) => (
 							<ListItem
 								key={item.id}
 								name={item.name}
