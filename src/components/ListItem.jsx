@@ -1,5 +1,8 @@
 import { updateItem, uncheckItem } from '../api';
-import { subtractDates } from '../utils';
+import {
+	getDifferenceBetweenDates,
+	subtractDatesForAutoUncheck,
+} from '../utils';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -16,30 +19,27 @@ export function ListItem({
 	dateCreated,
 }) {
 	const todaysDate = Timestamp.now();
-	const isChecked = subtractDates(todaysDate, dateLastPurchased);
+	const isChecked = subtractDatesForAutoUncheck(todaysDate, dateLastPurchased);
 
 	// Calculate the previous estimate based on the last purchase date or creation date
 	const previousEstimate = Math.ceil(
-		(dateNextPurchased instanceof Timestamp && dateLastPurchased
-			? dateNextPurchased.toDate() - dateLastPurchased.toDate()
-			: dateNextPurchased instanceof Timestamp && dateCreated
-				? dateNextPurchased.toDate() - dateCreated.toDate()
-				: 0) /
-			(24 * 60 * 60 * 1000),
+		getDifferenceBetweenDates(
+			dateNextPurchased.toDate(),
+			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
+		),
 	);
 
 	// Calculate the number of days since the last transaction
-	const daysSinceLastTransaction = Math.floor(
-		(todaysDate.toDate() -
-			(dateLastPurchased instanceof Timestamp
-				? dateLastPurchased.toDate()
-				: dateCreated.toDate())) /
-			(24 * 60 * 60 * 1000),
+	const daysSinceLastPurchase = Math.floor(
+		getDifferenceBetweenDates(
+			todaysDate,
+			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
+		),
 	);
 
 	const nextPurchaseEstimate = calculateEstimate(
 		previousEstimate,
-		daysSinceLastTransaction,
+		daysSinceLastPurchase,
 		totalPurchases,
 	);
 
@@ -52,6 +52,7 @@ export function ListItem({
 					id,
 					previousLastPurchased,
 					previousNextPurchased,
+					totalPurchases,
 				);
 			} else {
 				// Check item

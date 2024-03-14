@@ -225,6 +225,7 @@ export async function uncheckItem(
 	itemId,
 	previousLastPurchased,
 	previousNextPurchased,
+	totalPurchases,
 ) {
 	// Create a reference to the item document in the specified shopping list
 	const listCollectionRef = collection(db, listPath, 'items');
@@ -234,19 +235,14 @@ export async function uncheckItem(
 	const itemDoc = await getDoc(itemDocRef);
 	const itemData = itemDoc.data();
 
-	const newTotalPurchases = itemData.totalPurchases - 1;
-
 	// Check if the item has a previous purchase
 	if (itemData.dateLastPurchased) {
 		// Update the item document with the new information
 		updateDoc(itemDocRef, {
 			dateLastPurchased: previousLastPurchased,
 			dateNextPurchased: previousNextPurchased,
-			totalPurchases: newTotalPurchases,
+			totalPurchases: totalPurchases > 0 ? increment(-1) : 0,
 		});
-	} else {
-		// If the item has no previous purchases, resolve the promise without making any changes
-		return Promise.resolve();
 	}
 }
 
