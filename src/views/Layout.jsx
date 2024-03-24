@@ -4,12 +4,19 @@ import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 export function Layout() {
 	const { user } = useAuth();
 
+	const sidebarWidth = 'xsm:min-w-24 sm:min-w-36 md:w-48 lg:w-64';
+	const sidebarPadding = 'xsm:pt-4 sm:pt-4 md:p-4';
+	const signInOutContainer = 'absolute xsm:pb-4 sm:pb-4 md:p-4 bottom-0 w-full';
+	const mainContentMargin = 'xsm:ml-24 sm:ml-36 md:ml-48 lg:ml-64';
+
 	return (
 		<>
-			<div className="flex">
+			<div className={`flex xsm:text-sm sm:text-md md:text-lg`}>
 				{/* Sidebar */}
-				<nav className="w-64 min-w-64 bg-white border-b-1 border-r-1 border-gray-200 h-screen">
-					<div className="p-4">
+				<nav
+					className={`fixed ${sidebarWidth} bg-white border-b-1 border-r-1 border-gray-200 min-h-screen`}
+				>
+					<div className={sidebarPadding}>
 						<NavLink
 							to="/"
 							className="block px-4 py-1 rounded-md hover:bg-gray-100"
@@ -22,19 +29,15 @@ export function Layout() {
 						>
 							List
 						</NavLink>
-						<NavLink
-							to="/manage-list"
-							className="block px-4 py-1 mt-2 rounded-md hover:bg-gray-100"
-						>
-							Manage List
-						</NavLink>
 					</div>
-					<div className="absolute p-4 bottom-0 w-full">
+					<div className={signInOutContainer}>
 						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
 				</nav>
 				{/* Main content */}
-				<main className="flex-grow bg-gray-50 p-6 pb-0">
+				<main
+					className={`min-h-screen flex-grow bg-gray-50 p-2 md:p-6 ${mainContentMargin} pb-12`}
+				>
 					<Outlet />
 				</main>
 			</div>

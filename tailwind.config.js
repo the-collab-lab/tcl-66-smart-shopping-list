@@ -5,7 +5,7 @@ export default {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
 		screens: {
-			xsm: '275',
+			xsm: '275px',
 			sm: '480px',
 			md: '768px',
 			lg: '976px',
