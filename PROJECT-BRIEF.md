@@ -138,7 +138,7 @@ This document serves as your comprehensive guide to all available resources nece
 | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Weekly Sync                        | - Demo <br> - Planning                                                                                                            |
 | Pair Programming / Design planning | During this week, you should aim to collaborate as a full team to create a plan for implementing an engaging design for your app. |
-| Pair Interview Practice            | Get together with some fellow Collabies to practice some common interview questions.                                              |
+
 
 | 🤝 Developer pairings | 🖥 Assigned Github issue                                                                |
 | --------------------- | --------------------------------------------------------------------------------------- |
