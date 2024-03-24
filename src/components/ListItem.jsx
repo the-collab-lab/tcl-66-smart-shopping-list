@@ -1,9 +1,11 @@
-import { getDifferenceBetweenDates, todaysDate, subtractDates } from '../utils';
+import { getDifferenceBetweenDates, todaysDate } from '../utils';
 import { colorPicker, calculateUrgency } from '../utils/helpers';
 import { updateItem, deleteItem } from '../api';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
-import './ListItem.css';
+import { IoTrashOutline as TrashIcon } from 'react-icons/io5';
+
+// import './ListItem.css';
 
 export function ListItem({
 	name,
@@ -77,19 +79,21 @@ export function ListItem({
 	};
 
 	return (
-		<li className="ListItem">
-			<label>
-				{name} <span style={{ color: textColor }}>{urgency}</span>
-				<input
-					type="checkbox"
-					id={`checkbox-${id}`} // Unique identifier
-					name={name}
-					onChange={handleChecked}
-					checked={isChecked()}
-				></input>
-			</label>
+		<li className="flex flex-grow items-center justify-between px-6 h-12 bg-white rounded-lg shadow-sm mt-4">
+			<input
+				type="checkbox"
+				className="rounded-sm border-none bg-gray-400"
+				id={`checkbox-${id}`} // Unique identifier
+				name={name}
+				onChange={handleChecked}
+				checked={isChecked()}
+			></input>
+			<label className="flex px-2 items-center w-full h-full">{name}</label>
+			<span className={`px-2 py-1 mx-2 rounded-lg min-w-fit bg-${textColor}`}>
+				{urgency}
+			</span>
 			<button onClick={handleDelete} className="delete-button">
-				Delete
+				<TrashIcon />
 			</button>
 		</li>
 	);

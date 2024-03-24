@@ -1,10 +1,9 @@
-import './Home.css';
 import { SingleList } from '../components/SingleList';
 import AddList from '../components/AddList.jsx';
 
 export function Home({ data, setListPath, setLoading }) {
 	return (
-		<div className="Home">
+		<div className="">
 			<p>
 				Hello from the home (<code>/</code>) page!
 			</p>

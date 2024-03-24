@@ -47,7 +47,7 @@ export function List({ data, listPath, loading }) {
 							x
 						</button>
 					</form>
-					<ul>
+					<ul className="">
 						{sortedItems.map((item) => (
 							<ListItem
 								key={item.id}

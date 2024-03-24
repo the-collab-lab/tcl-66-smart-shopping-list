@@ -2,19 +2,19 @@ export function colorPicker(text) {
 	let color;
 	switch (text) {
 		case 'overdue':
-			color = 'red';
+			color = 'red-400';
 			break;
 		case 'soon':
-			color = 'orange';
+			color = 'orange-300';
 			break;
 		case 'kind of soon':
-			color = 'yellow';
+			color = 'yellow-200';
 			break;
 		case 'not so soon':
-			color = 'green';
+			color = 'green-300';
 			break;
 		case 'inactive':
-			color = 'grey';
+			color = 'gray-200';
 			break;
 		default:
 			color = 'black';
