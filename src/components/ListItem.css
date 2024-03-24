@@ -12,3 +12,7 @@
 .ListItem-label {
 	margin-left: 0.2em;
 }
+
+.strikethrough {
+	text-decoration: line-through;
+}

@@ -98,7 +98,8 @@ export function ListItem({
 	return (
 		<li className="ListItem">
 			<label>
-				{name} <span style={{ color: textColor }}>{urgency}</span>
+				<span className={isChecked ? 'strikethrough' : ''}>{name}</span>
+				<span style={{ color: textColor }}>{urgency}</span>
 				<input
 					type="checkbox"
 					id={`checkbox-${id}`} // Unique identifier
