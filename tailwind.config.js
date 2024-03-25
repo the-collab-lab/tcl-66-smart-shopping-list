@@ -1,5 +1,3 @@
-const colors = require('tailwindcss/colors');
-
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -20,9 +18,6 @@ export default {
 			spacing: {
 				128: '32rem',
 				144: '36rem',
-			},
-			borderRadius: {
-				'4xl': '2rem',
 			},
 			borderWidth: {
 				1: '1px',
