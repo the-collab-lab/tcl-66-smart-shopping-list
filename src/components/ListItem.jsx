@@ -87,9 +87,11 @@ export function ListItem({
 	let textColor = colorPicker(urgency);
 
 	const checkedItemStyle =
-		'strikethrough flex px-2 items-center w-full h-full text-lg xsm:text-xs sm:text-sm';
+		'flex flex-grow items-center justify-between px-6 h-14 bg-gray-200 rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
 	const uncheckedItemStyle =
-		'flex px-2 items-center w-full h-full text-lg xsm:text-xs sm:text-sm';
+		'flex flex-grow items-center justify-between px-6 h-14 bg-white rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
+
+	const tagColor = !isChecked ? textColor : '#9CA3AF';
 
 	const capitalizeFirstLetterOfEachWord = (str) => {
 		// Split the string into words
@@ -117,7 +119,7 @@ export function ListItem({
 	};
 
 	return (
-		<li className="flex flex-grow items-center justify-between px-6 h-14 bg-white rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85">
+		<li className={isChecked ? checkedItemStyle : uncheckedItemStyle}>
 			<input
 				type="checkbox"
 				id={`checkbox-${id}`} // Unique identifier
@@ -125,14 +127,14 @@ export function ListItem({
 				onChange={handleChecked}
 				checked={isChecked}
 			></input>
-			<label className={isChecked ? checkedItemStyle : uncheckedItemStyle}>
+			<label className="flex px-2 items-center w-full h-full text-lg xsm:text-xs sm:text-sm">
 				{capitalizeFirstLetterOfEachWord(name)}
 			</label>
 			<span
 				className={`px-2 py-1 mx-2 rounded-lg min-w-fit`}
-				style={{ backgroundColor: textColor }}
+				style={{ backgroundColor: tagColor }}
 			>
-				{urgency}
+				{!isChecked ? urgency : 'checked off'}
 			</span>
 			<button onClick={handleDelete} className="delete-button">
 				<TrashIcon />
