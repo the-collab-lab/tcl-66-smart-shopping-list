@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../api/useAuth.jsx';
 import { deleteList, deleteSharedList } from '../api';
+import { IoTrashOutline as TrashIcon } from 'react-icons/io5';
 
 export function SingleList({ name, path, setListPath, setLoading }) {
 	const navigate = useNavigate();
@@ -45,10 +47,18 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 	};
 
 	return (
-		<li className="SingleList">
-			{name}
-			<button onClick={() => handleClick()}>view</button>
-			<button onClick={() => handleDelete()}>delete</button>
+		<li className="flex flex-grow justify-between px-6 h-12 bg-list rounded-lg shadow-sm mt-4 hover:bg-hover hover:bg-opacity-85">
+			{/* Using Link instead of button */}
+			<Link
+				to="/list"
+				onClick={() => handleClick()}
+				className="flex items-center w-full h-full"
+			>
+				{name}
+			</Link>
+			<button onClick={() => handleDelete()}>
+				<TrashIcon />
+			</button>
 		</li>
 	);
 }

@@ -1,35 +1,45 @@
 import { Outlet, NavLink } from 'react-router-dom';
-
-import './Layout.css';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
-import { auth } from '../api/config.js';
 
 export function Layout() {
 	const { user } = useAuth();
 
+	const sidebarWidth = 'xsm:min-w-24 sm:min-w-36 md:w-48 lg:w-64';
+	const sidebarPadding = 'xsm:pt-4 sm:pt-4 md:p-4';
+	const signInOutContainer = 'absolute xsm:pb-4 sm:pb-4 md:p-4 bottom-0 w-full';
+	const mainContentMargin = 'xsm:ml-24 sm:ml-36 md:ml-48 lg:ml-64';
+
 	return (
 		<>
-			<div className="Layout">
-				<header className="Layout-header">
-					<h1>Smart shopping list</h1>
-				</header>
-				<main className="Layout-main">
-					<Outlet />
-				</main>
-				<nav className="Nav">
-					<div className="Nav-container">
-						<NavLink to="/" className="Nav-link">
+			<div className={`flex xsm:text-sm sm:text-md md:text-lg`}>
+				{/* Sidebar */}
+				<nav
+					className={`fixed ${sidebarWidth} bg-navBg border-b-1 border-r-1 border-navBorder min-h-screen`}
+				>
+					<div className={sidebarPadding}>
+						<NavLink
+							to="/"
+							className="block px-4 py-1 rounded-md hover:bg-hover"
+						>
 							Home
 						</NavLink>
-						<NavLink to="/list" className="Nav-link">
+						<NavLink
+							to="/list"
+							className="block px-4 py-1 mt-2 rounded-md hover:bg-hover"
+						>
 							List
 						</NavLink>
-						<NavLink to="/manage-list" className="Nav-link">
-							Manage List
-						</NavLink>
+					</div>
+					<div className={signInOutContainer}>
 						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
 				</nav>
+				{/* Main content */}
+				<main
+					className={`min-h-screen flex-grow bg-appBg p-2 md:p-6 ${mainContentMargin} pb-12`}
+				>
+					<Outlet />
+				</main>
 			</div>
 		</>
 	);
