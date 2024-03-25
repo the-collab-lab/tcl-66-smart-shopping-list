@@ -117,7 +117,7 @@ export function ListItem({
 	};
 
 	return (
-		<li className="flex flex-grow items-center justify-between px-6 h-14 bg-white rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm">
+		<li className="flex flex-grow items-center justify-between px-6 h-14 bg-white rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85">
 			<input
 				type="checkbox"
 				id={`checkbox-${id}`} // Unique identifier
