@@ -1,5 +1,5 @@
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import './SingleList.css';
 
 export function SingleList({ name, path, setListPath, setLoading }) {
 	const navigate = useNavigate();
@@ -12,8 +12,15 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 	}
 
 	return (
-		<li className="SingleList">
-			<button onClick={() => handleClick()}>{name}</button>
+		<li className="flex-grow justify-between px-6 h-12 bg-list rounded-lg shadow-sm mt-4 hover:bg-gray-100 hover:bg-opacity-85">
+			{/* Using Link instead of button */}
+			<Link
+				to="/list"
+				onClick={() => handleClick()}
+				className="flex items-center w-full h-full"
+			>
+				{name}
+			</Link>
 		</li>
 	);
 }

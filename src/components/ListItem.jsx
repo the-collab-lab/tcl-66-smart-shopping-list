@@ -7,7 +7,7 @@ import {
 import { colorPicker, calculateUrgency } from '../utils/helpers';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
-import './ListItem.css';
+import { IoTrashOutline as TrashIcon } from 'react-icons/io5';
 
 export function ListItem({
 	name,
@@ -83,9 +83,33 @@ export function ListItem({
 	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
 	let textColor = colorPicker(urgency);
 
+	const checkedItemStyle =
+		'flex flex-grow items-center justify-between px-6 h-14 bg-checkedItem rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
+	const uncheckedItemStyle =
+		'flex flex-grow items-center justify-between px-6 h-14 bg-item rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
+
+	const tagColor = !isChecked ? textColor : '#9CA3AF';
+
+	const capitalizeFirstLetterOfEachWord = (str) => {
+		// Split the string into words
+		const words = str.toLowerCase().split(' ');
+
+		// Capitalize the first letter of each word
+		const capitalizedWords = words.map((word) => {
+			return word.charAt(0).toUpperCase() + word.slice(1);
+		});
+
+		// Join the words back into a single string
+		return capitalizedWords.join(' ');
+	};
+
 	const handleDelete = async () => {
 		try {
-			if (window.confirm('Are you sure you want to delete this item?')) {
+			if (
+				window.confirm(
+					`Are you sure you want to delete ${capitalizeFirstLetterOfEachWord(name)} ?`,
+				)
+			) {
 				await deleteItem(listPath, id);
 			} else {
 				return;
@@ -96,20 +120,25 @@ export function ListItem({
 	};
 
 	return (
-		<li className="ListItem">
-			<label>
-				<span className={isChecked ? 'strikethrough' : ''}>{name}</span>
-				<span style={{ color: textColor }}>{urgency}</span>
-				<input
-					type="checkbox"
-					id={`checkbox-${id}`} // Unique identifier
-					name={name}
-					onChange={handleChecked}
-					checked={isChecked}
-				></input>
+		<li className={isChecked ? checkedItemStyle : uncheckedItemStyle}>
+			<input
+				type="checkbox"
+				id={`checkbox-${id}`} // Unique identifier
+				name={name}
+				onChange={handleChecked}
+				checked={isChecked}
+			></input>
+			<label className="flex px-2 items-center w-full h-full text-lg xsm:text-xs sm:text-sm">
+				{capitalizeFirstLetterOfEachWord(name)}
 			</label>
+			<span
+				className={`px-2 py-1 mx-2 rounded-lg min-w-fit`}
+				style={{ backgroundColor: tagColor }}
+			>
+				{!isChecked ? urgency : 'checked'}
+			</span>
 			<button onClick={handleDelete} className="delete-button">
-				Delete
+				<TrashIcon />
 			</button>
 		</li>
 	);
