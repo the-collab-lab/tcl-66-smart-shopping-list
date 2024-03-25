@@ -12,7 +12,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 	}
 
 	return (
-		<li className="flex-grow justify-between px-6 h-12 bg-white rounded-lg shadow-sm mt-4 hover:bg-gray-100 hover:bg-opacity-85">
+		<li className="flex-grow justify-between px-6 h-12 bg-list rounded-lg shadow-sm mt-4 hover:bg-gray-100 hover:bg-opacity-85">
 			{/* Using Link instead of button */}
 			<Link
 				to="/list"

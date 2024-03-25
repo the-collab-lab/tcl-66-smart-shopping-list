@@ -42,7 +42,7 @@ export default function AddList({ setListPath }) {
 					id="newList"
 					placeholder={`e.g. Groceries, Clothes`}
 					onChange={(e) => setListName(e.target.value)}
-					className="border border-gray-500 px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-2 lg:w-56 h-8 mx-2"
+					className="border border-inputBorder px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-2 lg:w-56 h-8 mx-2"
 				></input>
 				<button type="submit">Create List</button>
 			</form>

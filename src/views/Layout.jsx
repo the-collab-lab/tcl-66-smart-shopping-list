@@ -14,18 +14,18 @@ export function Layout() {
 			<div className={`flex xsm:text-sm sm:text-md md:text-lg`}>
 				{/* Sidebar */}
 				<nav
-					className={`fixed ${sidebarWidth} bg-white border-b-1 border-r-1 border-gray-200 min-h-screen`}
+					className={`fixed ${sidebarWidth} bg-navBg border-b-1 border-r-1 border-navBorder min-h-screen`}
 				>
 					<div className={sidebarPadding}>
 						<NavLink
 							to="/"
-							className="block px-4 py-1 rounded-md hover:bg-gray-100"
+							className="block px-4 py-1 rounded-md hover:bg-hover"
 						>
 							Home
 						</NavLink>
 						<NavLink
 							to="/list"
-							className="block px-4 py-1 mt-2 rounded-md hover:bg-gray-100"
+							className="block px-4 py-1 mt-2 rounded-md hover:bg-hover"
 						>
 							List
 						</NavLink>
@@ -36,7 +36,7 @@ export function Layout() {
 				</nav>
 				{/* Main content */}
 				<main
-					className={`min-h-screen flex-grow bg-gray-50 p-2 md:p-6 ${mainContentMargin} pb-12`}
+					className={`min-h-screen flex-grow bg-appBg p-2 md:p-6 ${mainContentMargin} pb-12`}
 				>
 					<Outlet />
 				</main>

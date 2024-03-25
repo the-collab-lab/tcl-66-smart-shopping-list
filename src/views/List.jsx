@@ -36,7 +36,7 @@ export function List({ data, listPath, loading }) {
 			) : data.length > 0 ? (
 				<>
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
-						{listName ? `Hello from the ${listName} page!` : 'Hello!'}
+						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
 					<span className="flex justify-between items-center flex-wrap">
 						{/* AddItem component */}
@@ -54,7 +54,7 @@ export function List({ data, listPath, loading }) {
 								type="text"
 								id="search"
 								name="search"
-								className="border border-gray-500 pl-2 mx-2 rounded-lg xsm:flex-grow xsm:h-6 sm:w-full sm:h-6 md:w-36 md:h-8"
+								className="border border-inputBorder pl-2 mx-2 rounded-lg xsm:flex-grow xsm:h-6 sm:w-full sm:h-6 md:w-36 md:h-8"
 								onChange={handleChange}
 								value={search}
 							/>
@@ -85,7 +85,9 @@ export function List({ data, listPath, loading }) {
 				<p>loading . . .</p>
 			) : data.length < 1 ? (
 				<>
-					<p>Please add an item to the {listName} list to get started</p>
+					<p className="py-2">
+						Please add an item to your {listName} list to get started
+					</p>
 					<AddItem listPath={listPath} data={data} />
 				</>
 			) : null}

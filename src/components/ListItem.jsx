@@ -84,9 +84,9 @@ export function ListItem({
 	let textColor = colorPicker(urgency);
 
 	const checkedItemStyle =
-		'flex flex-grow items-center justify-between px-6 h-14 bg-gray-200 rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
+		'flex flex-grow items-center justify-between px-6 h-14 bg-checkedItem rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
 	const uncheckedItemStyle =
-		'flex flex-grow items-center justify-between px-6 h-14 bg-white rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
+		'flex flex-grow items-center justify-between px-6 h-14 bg-item rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
 
 	const tagColor = !isChecked ? textColor : '#9CA3AF';
 
@@ -105,7 +105,11 @@ export function ListItem({
 
 	const handleDelete = async () => {
 		try {
-			if (window.confirm('Are you sure you want to delete this item?')) {
+			if (
+				window.confirm(
+					`Are you sure you want to delete ${capitalizeFirstLetterOfEachWord(name)} ?`,
+				)
+			) {
 				await deleteItem(listPath, id);
 			} else {
 				return;
@@ -131,7 +135,7 @@ export function ListItem({
 				className={`px-2 py-1 mx-2 rounded-lg min-w-fit`}
 				style={{ backgroundColor: tagColor }}
 			>
-				{!isChecked ? urgency : 'checked off'}
+				{!isChecked ? urgency : 'checked'}
 			</span>
 			<button onClick={handleDelete} className="delete-button">
 				<TrashIcon />
