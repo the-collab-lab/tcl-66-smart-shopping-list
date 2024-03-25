@@ -9,8 +9,6 @@ import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import { IoTrashOutline as TrashIcon } from 'react-icons/io5';
 
-// import './ListItem.css';
-
 export function ListItem({
 	name,
 	listPath,
