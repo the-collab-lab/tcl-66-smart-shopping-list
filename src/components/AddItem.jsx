@@ -80,7 +80,7 @@ export default function AddItem({ listPath, data }) {
 				<select
 					name="daysUntilNextPurchase"
 					onChange={handleInputChange}
-					defaultValue={''}
+					value={itemValue.daysUntilNextPurchase}
 					className="border border-gray-500 px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8"
 				>
 					<option value="" disabled>
