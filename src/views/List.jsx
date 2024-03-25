@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
 import { comparePurchaseUrgency } from '../api/firebase';
 
 export function List({ data, listPath, loading }) {
 	const [search, setSearch] = useState('');
-	const [listName] = useState(listPath.split('/')[1]);
+	const [listName, setListName] = useState('');
+
+	useEffect(() => {
+		setListName(listPath.split('/')[1]);
+	}, [listPath]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -32,7 +36,7 @@ export function List({ data, listPath, loading }) {
 			) : data.length > 0 ? (
 				<>
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
-						Hello from the {listName} page!
+						{listName ? `Hello from the ${listName} page!` : 'Hello!'}
 					</h2>
 					<span className="flex justify-between items-center flex-wrap">
 						{/* AddItem component */}
@@ -66,6 +70,8 @@ export function List({ data, listPath, loading }) {
 								key={item.id}
 								name={item.name}
 								id={item.id}
+								previousNextPurchased={item.previousNextPurchased}
+								previousLastPurchased={item.previousLastPurchased}
 								dateLastPurchased={item.dateLastPurchased}
 								dateNextPurchased={item.dateNextPurchased}
 								totalPurchases={item.totalPurchases}

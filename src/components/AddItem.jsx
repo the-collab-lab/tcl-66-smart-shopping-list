@@ -4,7 +4,7 @@ import { addItem } from '../api/firebase';
 export default function AddItem({ listPath, data }) {
 	const initialState = {
 		itemName: '',
-		daysUntilNextPurchase: 0,
+		daysUntilNextPurchase: '',
 	};
 
 	const [itemValue, setItemValue] = useState(initialState);
@@ -25,21 +25,25 @@ export default function AddItem({ listPath, data }) {
 
 		const newItemName = itemValue.itemName.trim();
 
+		if (itemValue.daysUntilNextPurchase === '') {
+			alert('Please select a timeframe to add item to list!');
+			return;
+		}
 		// Check if the itemName is empty
 		if (newItemName === '') {
-			alert(`Error: please name your item. Empty spaces don't count!`);
+			alert(`Please name your item. Empty spaces don't count!`);
 			return;
 		}
 
 		// Check if the itemName already exists in the list
 		if (existingItem(newItemName)) {
-			alert('Error: This item is already in your list!');
+			alert('Uh oh, this item is already in your list!');
 			return;
 		}
 
 		try {
 			await addItem(listPath, itemValue);
-			alert('Item added!');
+			alert(`${newItemName} added to list!`);
 			setItemValue(initialState);
 		} catch (err) {
 			alert('Error adding item to database');
@@ -76,10 +80,10 @@ export default function AddItem({ listPath, data }) {
 				<select
 					name="daysUntilNextPurchase"
 					onChange={handleInputChange}
-					value={itemValue.daysUntilNextPurchase}
+					defaultValue={''}
 					className="border border-gray-500 px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8"
 				>
-					<option value="" default>
+					<option value="" disabled>
 						Select an option
 					</option>
 					<option value="7">Soon</option>
