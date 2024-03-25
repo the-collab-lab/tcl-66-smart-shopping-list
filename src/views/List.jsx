@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
 import { comparePurchaseUrgency } from '../api/firebase';
+import { useTheme } from '../context/ThemeProvider';
 
 export function List({ data, listPath, loading }) {
+	const { theme } = useTheme();
 	const [search, setSearch] = useState('');
 	const [listName, setListName] = useState('');
 
@@ -54,7 +56,7 @@ export function List({ data, listPath, loading }) {
 								type="text"
 								id="search"
 								name="search"
-								className="border border-inputBorder pl-2 mx-2 rounded-lg xsm:flex-grow xsm:h-6 sm:w-full sm:h-6 md:w-36 md:h-8"
+								className={`border ${theme === 'light' ? 'border-inputBorder' : 'border-inputBorderDark bg-appBgDark'} pl-2 mx-2 rounded-lg xsm:min-w-48 xsm:h-6 sm:w-min-w-56 sm:h-6 md:w-36 md:h-8`}
 								onChange={handleChange}
 								value={search}
 							/>

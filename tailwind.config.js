@@ -20,7 +20,7 @@ export default {
 				1: '1px',
 			},
 			colors: {
-				// Custom colors for theming //
+				// Custom colors for Light Mode theming //
 				appBg: '#F9FAFB',
 				navBg: '#ffffff',
 				item: '#ffffff',
@@ -29,7 +29,17 @@ export default {
 				hover: '#F3F4F6',
 				inputBorder: '#6B7280',
 				navBorder: '#E5E7EB',
-				baseFont: '#000000',
+				baseFont: '#121212',
+				// Custom colors for Dark Mode theming //
+				appBgDark: '#121212',
+				navBgDark: '#282828',
+				itemDark: '#3f3f3f',
+				checkedItemDark: '#282828',
+				listDark: '#3f3f3f',
+				hoverDark: '#575757',
+				inputBorderDark: '#575757',
+				navBorderDark: '#000000',
+				baseFontDark: '#b4b4b4',
 			},
 		},
 	},

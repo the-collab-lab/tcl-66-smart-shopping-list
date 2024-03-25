@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { addItem } from '../api/firebase';
+import { useTheme } from '../context/ThemeProvider';
 
 export default function AddItem({ listPath, data }) {
+	const { theme } = useTheme();
 	const initialState = {
 		itemName: '',
 		daysUntilNextPurchase: '',
@@ -69,7 +71,7 @@ export default function AddItem({ listPath, data }) {
 					type="text"
 					name="itemName"
 					placeholder={`e.g. coffee`}
-					className="border border-inputBorder p-2 rounded-lg ml-2 mb-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-56 md:h-8 "
+					className={`border ${theme === 'light' ? 'border-inputBorder' : 'border-inputBorderDark bg-appBgDark text-baseFontDark'} p-2 rounded-lg ml-2 mb-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-56 md:h-8`}
 					onChange={handleInputChange}
 					value={itemValue.itemName}
 				/>
@@ -81,7 +83,7 @@ export default function AddItem({ listPath, data }) {
 					name="daysUntilNextPurchase"
 					onChange={handleInputChange}
 					value={itemValue.daysUntilNextPurchase}
-					className="border border-inputBorder px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8"
+					className={`border ${theme === 'light' ? 'border-inputBorder' : 'border-inputBorderDark bg-appBgDark text-baseFontDark'} px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8`}
 				>
 					<option value="" disabled>
 						Select an option

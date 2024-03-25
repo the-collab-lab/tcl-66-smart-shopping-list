@@ -2,12 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { createList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
+import { useTheme } from '../context/ThemeProvider.jsx';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');
 	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 	const { user } = useAuth();
+	const { theme } = useTheme();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -42,7 +44,7 @@ export default function AddList({ setListPath }) {
 					id="newList"
 					placeholder={`e.g. Groceries, Clothes`}
 					onChange={(e) => setListName(e.target.value)}
-					className="border border-inputBorder px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-2 lg:w-56 h-8 mx-2"
+					className={`border ${theme === 'light' ? 'border-inputBorder' : 'border-inputBorderDark bg-appBgDark'} px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-2 lg:w-56 h-8 mx-2`}
 				></input>
 				<button type="submit">Create List</button>
 			</form>
