@@ -28,13 +28,13 @@ export function List({ data, listPath, loading }) {
 
 	return (
 		<>
-			<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
-				Hello from the {listName} page!
-			</h2>
 			{loading ? (
 				<p>loading . . .</p>
 			) : data.length > 0 ? (
 				<>
+					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
+						Hello from the {listName} page!
+					</h2>
 					<span className="flex justify-between items-center flex-wrap">
 						{/* AddItem component */}
 						<div className="md:flex md:flex-col md:items-start">
@@ -76,16 +76,14 @@ export function List({ data, listPath, loading }) {
 						))}
 					</ul>
 				</>
-			) : (
+			) : loading ? (
+				<p>loading . . .</p>
+			) : data.length < 1 ? (
 				<>
-					<p>
-						Please add to the <code>{listName}</code> list to get started.
-					</p>
-					<button>
-						<Link to="/manage-list">Add your first item</Link>
-					</button>
+					<p>Please add an item to the {listName} list to get started</p>
+					<AddItem listPath={listPath} data={data} />
 				</>
-			)}
+			) : null}
 		</>
 	);
 }
