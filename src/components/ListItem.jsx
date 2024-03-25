@@ -4,7 +4,6 @@ import {
 	subtractDatesForAutoUncheck,
 	todaysDate,
 } from '../utils';
-import './ListItem.css';
 import { colorPicker, calculateUrgency } from '../utils/helpers';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
