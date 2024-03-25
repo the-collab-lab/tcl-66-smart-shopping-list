@@ -4,7 +4,6 @@ import { useAuth } from '../api/useAuth.jsx';
 
 export function Home({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
-	console.log(user);
 	return (
 		<div>
 			<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-xl lg:text-3xl mt-6 mb-10">
