@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
