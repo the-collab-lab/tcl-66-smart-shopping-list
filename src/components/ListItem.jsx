@@ -1,6 +1,10 @@
-import { getDifferenceBetweenDates, todaysDate, subtractDates } from '../utils';
+import { updateItem, uncheckItem, deleteItem } from '../api';
+import {
+	getDifferenceBetweenDates,
+	subtractDatesForAutoUncheck,
+	todaysDate,
+} from '../utils';
 import { colorPicker, calculateUrgency } from '../utils/helpers';
-import { updateItem, deleteItem } from '../api';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import './ListItem.css';
@@ -11,10 +15,18 @@ export function ListItem({
 	id,
 	dateLastPurchased,
 	dateNextPurchased,
+	previousLastPurchased,
+	previousNextPurchased,
 	totalPurchases,
 	dateCreated,
 }) {
-	// if dateLastPurchased is true subtract it from dateNextPurchased, else subtract dateCreated from dateNextPurchased to get the estimated number of days till next purchase
+	const todaysDateTimestamp = Timestamp.now();
+	const isChecked = subtractDatesForAutoUncheck(
+		todaysDateTimestamp,
+		dateLastPurchased,
+	);
+
+	// Calculate the previous estimate based on the last purchase date or creation date
 	const previousEstimate = Math.ceil(
 		getDifferenceBetweenDates(
 			dateNextPurchased.toDate(),
@@ -22,18 +34,17 @@ export function ListItem({
 		),
 	);
 
-	// if dateLastPurchased is true subtract it from todaysDate, else subtract dateCreated from todaysDate to get the number of days since the last transaction
+	// Calculate the number of days since the last transaction
 	const daysSinceLastPurchase = Math.floor(
 		getDifferenceBetweenDates(
 			todaysDate,
 			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
-		),
+		) /
+			(24 * 60 * 60 * 1000),
 	);
 
 	const daysTillNextPurchase = Math.floor(
-		Math.floor(
-			getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
-		),
+		getDifferenceBetweenDates(dateNextPurchased.toDate(), todaysDate),
 	);
 
 	const nextPurchaseEstimate = calculateEstimate(
@@ -43,22 +54,30 @@ export function ListItem({
 	);
 
 	const handleChecked = async () => {
-		const todaysDateTimestamp = Timestamp.now();
 		try {
-			await updateItem(listPath, id, todaysDateTimestamp, nextPurchaseEstimate);
+			if (isChecked) {
+				// Uncheck item
+				await uncheckItem(
+					listPath,
+					id,
+					previousLastPurchased,
+					previousNextPurchased,
+					totalPurchases,
+				);
+			} else {
+				// Check item
+				await updateItem(
+					listPath,
+					id,
+					todaysDateTimestamp,
+					dateLastPurchased,
+					dateNextPurchased,
+					nextPurchaseEstimate,
+				);
+			}
 		} catch (err) {
 			console.error(err);
 		}
-	};
-
-	const isChecked = () => {
-		if (dateLastPurchased) {
-			return (
-				getDifferenceBetweenDates(todaysDate, dateLastPurchased.toDate()) < 1
-			);
-		}
-
-		return false;
 	};
 
 	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
@@ -79,13 +98,14 @@ export function ListItem({
 	return (
 		<li className="ListItem">
 			<label>
-				{name} <span style={{ color: textColor }}>{urgency}</span>
+				<span className={isChecked ? 'strikethrough' : ''}>{name}</span>
+				<span style={{ color: textColor }}>{urgency}</span>
 				<input
 					type="checkbox"
 					id={`checkbox-${id}`} // Unique identifier
 					name={name}
 					onChange={handleChecked}
-					checked={isChecked()}
+					checked={isChecked}
 				></input>
 			</label>
 			<button onClick={handleDelete} className="delete-button">
