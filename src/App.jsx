@@ -41,14 +41,17 @@ export function App() {
 	 */
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
+	if (loading) {
+		return <Spinner />;
+	}
 	return (
 		<Router>
 			<Routes>
 				<Route element={<PublicRoute />}>
-					<Route path="/login" element={loading ? <Spinner /> : <Landing />} />
+					<Route path="/login" element={<Landing />} />
 				</Route>
 				<Route element={<PrivateRoute />}>
-					<Route path="/" element={loading ? <Spinner /> : <Layout />}>
+					<Route path="/" element={<Layout />}>
 						<Route
 							index
 							element={
