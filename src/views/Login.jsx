@@ -1,5 +1,5 @@
 import { SignInButton } from '../api/useAuth';
-import Logo from '../assets/logo';
+import Logo from '../assets/Logo.jsx';
 
 export function Login() {
 	return (
