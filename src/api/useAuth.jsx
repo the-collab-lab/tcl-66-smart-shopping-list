@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { auth } from './config.js';
 import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { addUserToDatabase } from './firebase.js';
+import GoogleIcon from '../assets/GoogleIcon.jsx';
 
 /**
  * A button that signs the user in using Google OAuth. When clicked,
@@ -11,10 +12,10 @@ import { addUserToDatabase } from './firebase.js';
 export const SignInButton = () => (
 	<button
 		type="button"
-		className="block px-4 py-2 rounded-md hover:bg-gray-100"
+		className="flex items-center px-24 h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 xsm:px-24 sm:px-36 md:px-48"
 		onClick={() => signInWithRedirect(auth, new GoogleAuthProvider())}
 	>
-		Sign In
+		<GoogleIcon /> Log in with Google
 	</button>
 );
 
