@@ -21,7 +21,7 @@ export default {
 			},
 			colors: {
 				// Custom colors for Light Mode theming //
-				appBg: '#F9FAFB',
+				appBg: '#FCFCFC',
 				navBg: '#ffffff',
 				item: '#ffffff',
 				checkedItem: '#E5E7EB',

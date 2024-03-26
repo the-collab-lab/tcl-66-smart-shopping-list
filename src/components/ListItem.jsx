@@ -85,8 +85,8 @@ export function ListItem({
 	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
 	let urgencyColor = colorPicker(urgency);
 
-	const checkedItemStyle = `flex flex-grow items-center justify-between px-6 h-14 ${theme === 'light' ? 'bg-checkedItem hover:bg-hover' : 'bg-checkedItemDark hover:bg-hoverDark'} rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85`;
-	const uncheckedItemStyle = `flex flex-grow items-center justify-between px-6 h-14 ${theme === 'light' ? 'bg-item hover:bg-hover' : 'bg-itemDark hover:bg-hoverDark'} rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85`;
+	const checkedItemStyle = `flex flex-grow items-center justify-between px-6 h-14 ${theme === 'light' ? 'bg-checkedItem hover:bg-hover' : 'bg-checkedItemDark hover:bg-hoverDark'} rounded-md shadow-lg mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100`;
+	const uncheckedItemStyle = `flex flex-grow items-center justify-between px-6 h-14 ${theme === 'light' ? 'bg-item hover:bg-hover' : 'bg-itemDark hover:bg-hoverDark'} rounded-lg shadow-md mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100`;
 
 	const badgeColor = !isChecked ? urgencyColor : '#9CA3AF';
 

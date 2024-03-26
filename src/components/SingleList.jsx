@@ -15,7 +15,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 
 	return (
 		<li
-			className={`flex-grow justify-between px-6 h-12 ${theme === 'light' ? 'bg-list hover:bg-hover' : 'bg-listDark hover:bg-hoverDark'} rounded-lg shadow-sm mt-4 hover:bg-opacity-85`}
+			className={`flex-grow justify-between px-6 h-12 ${theme === 'light' ? 'bg-list hover:bg-hover' : 'bg-listDark hover:bg-hoverDark'} rounded-lg shadow-md mt-4 hover:bg-opacity-85`}
 		>
 			{/* Using Link instead of button */}
 			<Link

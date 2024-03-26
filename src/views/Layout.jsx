@@ -40,7 +40,7 @@ export function Layout() {
 				</nav>
 				{/* Main content */}
 				<main
-					className={`min-h-screen flex-grow ${theme === 'light' ? 'bg-appBg text-baseFont' : 'bg-appBgDark text-baseFontDark'} p-2 md:p-6 ${mainContentMargin} pb-12`}
+					className={`min-h-screen bg-cover flex-grow ${theme === 'light' ? `bg-appBg text-baseFont bg-[url('assets/lightGraph.png')]` : `bg-appBgDark bg-blend-overlay bg-[url('assets/graph.png')] text-baseFontDark bg-blend-overlay'}`} p-2 md:p-6 ${mainContentMargin} pb-12`}
 				>
 					<Outlet />
 				</main>
