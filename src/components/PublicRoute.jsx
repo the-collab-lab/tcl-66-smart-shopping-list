@@ -1,9 +1,10 @@
+import { Outlet } from 'react-router-dom';
 import { useAuth } from '../api';
-import { Navigate } from 'react-router-dom';
+import { Landing } from '../views';
 
-const PublicRoute = ({ children }) => {
-	const user = useAuth(); //This custom hook holds info about the current signed in user. Check ./api/useAuth.jsx for its implementation.
-	return !user ? children : <Navigate to="/Home" replace />;
-};
+export function PublicRoute() {
+	const { user } = useAuth();
+	console.log(user);
 
-export default PublicRoute;
+	return !user ? <Landing /> : <Outlet />;
+}

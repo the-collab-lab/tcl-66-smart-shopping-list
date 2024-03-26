@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Home, Layout, List, ManageList } from './views';
+import { Home, Layout, List, ManageList, Err, Landing } from './views';
+
+import { PublicRoute, PrivateRoute, Spinner } from './components';
 
 import { useAuth } from './api';
 
@@ -13,9 +15,6 @@ export function App() {
 	 * This custom hook takes the path of a shopping list
 	 * in our database and syncs it with localStorage for later use.
 	 * Check ./utils/hooks.js for its implementation.
-	 *
-	 * We'll later use `setListPath` when we allow a user
-	 * to create and switch between lists.
 	 */
 	const [listPath, setListPath] = useStateWithStorage(
 		'tcl-shopping-list-path',
@@ -45,33 +44,39 @@ export function App() {
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route
-						index
-						element={
-							<Home
-								data={lists}
-								setListPath={setListPath}
-								setLoading={setLoading}
-							/>
-						}
-					/>
-					<Route
-						path="/list"
-						element={
-							<List
-								data={data}
-								listPath={listPath}
-								loading={loading}
-								setLoading={setLoading}
-							/>
-						}
-					/>
-					<Route
-						path="/manage-list"
-						element={<ManageList listPath={listPath} data={data} />}
-					/>
+				<Route element={<PublicRoute />}>
+					<Route path="/login" element={loading ? <Spinner /> : <Landing />} />
 				</Route>
+				<Route element={<PrivateRoute />}>
+					<Route path="/" element={loading ? <Spinner /> : <Layout />}>
+						<Route
+							index
+							element={
+								<Home
+									data={lists}
+									setListPath={setListPath}
+									setLoading={setLoading}
+								/>
+							}
+						/>
+						<Route
+							path="/list"
+							element={
+								<List
+									data={data}
+									listPath={listPath}
+									loading={loading}
+									setLoading={setLoading}
+								/>
+							}
+						/>
+						<Route
+							path="/manage-list"
+							element={<ManageList listPath={listPath} data={data} />}
+						/>
+					</Route>
+				</Route>
+				<Route path="*" element={<Err />} />
 			</Routes>
 		</Router>
 	);
