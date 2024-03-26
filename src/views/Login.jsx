@@ -1,9 +1,9 @@
 import { SignInButton } from '../api/useAuth';
 
-export function Landing() {
+export function Login() {
 	return (
 		<>
-			<p>this is the landing page</p>
+			<h1>Shopping list app</h1>
 			<SignInButton />
 		</>
 	);

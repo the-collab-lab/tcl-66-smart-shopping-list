@@ -1,10 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { useAuth } from '../api';
-import { Landing } from '../views';
+import { Login } from '../views';
 
-// PrivateRoute component
 export function PrivateRoute() {
 	const { user } = useAuth();
-	console.log(user);
-	return user ? <Outlet /> : <Landing />;
+	return user ? <Outlet /> : <Login />;
 }

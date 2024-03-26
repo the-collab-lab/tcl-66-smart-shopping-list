@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Home, Layout, List, ManageList, Err, Landing } from './views';
+import { Home, Layout, List, ManageList, Err, Login } from './views';
 
 import { PublicRoute, PrivateRoute, Spinner } from './components';
 
@@ -48,7 +48,7 @@ export function App() {
 		<Router>
 			<Routes>
 				<Route element={<PublicRoute />}>
-					<Route path="/login" element={<Landing />} />
+					<Route path="/login" element={<Login />} />
 				</Route>
 				<Route element={<PrivateRoute />}>
 					<Route path="/" element={<Layout />}>
