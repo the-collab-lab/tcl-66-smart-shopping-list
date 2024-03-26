@@ -12,7 +12,7 @@ import GoogleIcon from '../assets/GoogleIcon.jsx';
 export const SignInButton = () => (
 	<button
 		type="button"
-		className="flex items-center px-24 h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 xsm:px-24 sm:px-36 md:px-48"
+		className="flex items-center h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 justify-center sm:px-[120px] md:px-48"
 		onClick={() => signInWithRedirect(auth, new GoogleAuthProvider())}
 	>
 		<GoogleIcon /> Log in with Google
