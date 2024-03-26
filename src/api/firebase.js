@@ -2,6 +2,7 @@ import {
 	arrayUnion,
 	getDoc,
 	setDoc,
+	deleteDoc,
 	collection,
 	doc,
 	onSnapshot,
@@ -10,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from './config';
-import { getFutureDate } from '../utils';
+import { getFutureDate, getDifferenceBetweenDates, todaysDate } from '../utils';
 
 /**
  * A custom hook that subscribes to the user's shopping lists in our Firestore
@@ -169,15 +170,13 @@ export async function shareList(listPath, currentUserId, recipientEmail) {
  * @param {string} itemData.itemName The name of the item.
  * @param {number} itemData.daysUntilNextPurchase The number of days until the user thinks they'll need to buy the item again.
  */
+
 export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 	const listCollectionRef = collection(db, listPath, 'items');
-
 	const newDocRef = doc(listCollectionRef);
 
 	return setDoc(newDocRef, {
 		dateCreated: new Date(),
-		// NOTE: This is null because the item has just been created.
-		// We'll use updateItem to put a Date here when the item is purchased!
 		dateLastPurchased: null,
 		dateNextPurchased: getFutureDate(daysUntilNextPurchase),
 		name: itemName,
@@ -185,10 +184,20 @@ export async function addItem(listPath, { itemName, daysUntilNextPurchase }) {
 	});
 }
 
+/**
+ * Updates the specified item in the shopping list with the new purchase information.
+ * @param {string} listPath - Path of the shopping list in Firestore.
+ * @param {string} itemId - ID of the item to be updated.
+ * @param {Timestamp} dateLastPurchased - Timestamp of the last purchase date.
+ * @param {number} nextPurchaseEstimate - Estimated number of days until the next purchase.
+ * @returns {Promise} A promise that resolves when the item is successfully updated.
+ */
 export async function updateItem(
 	listPath,
 	itemId,
+	todaysDate,
 	dateLastPurchased,
+	dateNextPurchased,
 	nextPurchaseEstimate,
 ) {
 	const listCollectionRef = collection(db, listPath, 'items');
@@ -196,16 +205,104 @@ export async function updateItem(
 	const itemDocRef = doc(listCollectionRef, itemId);
 
 	return updateDoc(itemDocRef, {
-		dateLastPurchased,
+		previousNextPurchased: dateNextPurchased,
+		previousLastPurchased: dateLastPurchased,
+		dateLastPurchased: todaysDate,
 		dateNextPurchased: getFutureDate(nextPurchaseEstimate),
 		totalPurchases: increment(1),
 	});
 }
 
-export async function deleteItem() {
-	/**
-	 * TODO: Fill this out so that it uses the correct Firestore function
-	 * to delete an existing item. You'll need to figure out what arguments
-	 * this function must accept!
-	 */
+/**
+ * Removes the last purchase information from the specified item in the shopping list.
+ * If the item has no previous purchases, the function resolves without making any changes.
+ * @param {string} listPath - Path of the shopping list in Firestore.
+ * @param {string} itemId - ID of the item to be unchecked.
+ * @returns {Promise} A promise that resolves when the item is successfully unchecked or if there are no changes needed.
+ */
+
+export async function uncheckItem(
+	listPath,
+	itemId,
+	previousLastPurchased,
+	previousNextPurchased,
+	totalPurchases,
+) {
+	// Create a reference to the item document in the specified shopping list
+	const listCollectionRef = collection(db, listPath, 'items');
+	const itemDocRef = doc(listCollectionRef, itemId);
+
+	// Retrieve the item document data
+	const itemDoc = await getDoc(itemDocRef);
+	const itemData = itemDoc.data();
+
+	// Check if the item has a previous purchase
+	if (itemData.dateLastPurchased) {
+		// Update the item document with the new information
+		updateDoc(itemDocRef, {
+			dateLastPurchased: previousLastPurchased,
+			dateNextPurchased: previousNextPurchased,
+			totalPurchases: totalPurchases > 0 ? increment(-1) : 0,
+		});
+	}
+}
+
+export async function deleteItem(listPath, itemId) {
+	const listCollectionRef = collection(db, listPath, 'items');
+	const itemDocRef = doc(listCollectionRef, itemId);
+	return deleteDoc(itemDocRef);
+}
+
+/**
+ * Compare and sort list items by time urgency and alphabetical order
+ * @param {array} array The list of items to sort
+ */
+export function comparePurchaseUrgency(array) {
+	return array.sort((a, b) => {
+		// getDifferenceBetweenDates gets the average number of days between the next purchase date and today's date for each shopping item
+		const dateA = Math.floor(
+			getDifferenceBetweenDates(a.dateNextPurchased.toDate(), todaysDate),
+		);
+		const dateB = Math.floor(
+			getDifferenceBetweenDates(b.dateNextPurchased.toDate(), todaysDate),
+		);
+
+		const itemA = a.name.toLowerCase();
+
+		const itemB = b.name.toLowerCase();
+
+		// get the average number of days between today's date and the date last purchased or the date created if
+		// dateLastPurchased does not exist yet
+		const daysSinceLastPurchaseA = Math.floor(
+			getDifferenceBetweenDates(
+				todaysDate,
+				a.dateLastPurchased
+					? a.dateLastPurchased.toDate()
+					: a.dateCreated.toDate(),
+			),
+		);
+
+		const daysSinceLastPurchaseB = Math.floor(
+			getDifferenceBetweenDates(
+				todaysDate,
+				b.dateLastPurchased
+					? b.dateLastPurchased.toDate()
+					: b.dateCreated.toDate(),
+			),
+		);
+
+		// sort by value of days since last purchased
+		if (daysSinceLastPurchaseA >= 60 && daysSinceLastPurchaseB < 60) {
+			return 1;
+		} else if (daysSinceLastPurchaseA < 60 && daysSinceLastPurchaseB >= 60) {
+			return -1;
+		}
+
+		// if dates are not equal sort by difference of dates
+		if (dateA !== dateB) {
+			return dateA - dateB;
+		}
+		// if dates are equal sort by character value
+		return itemA.localeCompare(itemB);
+	});
 }
