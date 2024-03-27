@@ -30,7 +30,7 @@ export default {
 				inputBorder: '#6B7280',
 				navBorder: '#E5E7EB',
 				baseFont: '#000000',
-				loginLine: '#1A56DB',
+				loginLine: '#D9D9D9',
 			},
 		},
 	},
