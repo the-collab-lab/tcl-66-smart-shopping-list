@@ -4,10 +4,12 @@ import {
 	subtractDatesForAutoUncheck,
 	todaysDate,
 } from '../utils';
-import { colorPicker, calculateUrgency } from '../utils/helpers';
+import { calculateUrgency } from '../utils/helpers';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
-import { IoTrashOutline as TrashIcon } from 'react-icons/io5';
+import { IoIosCheckmark } from 'react-icons/io';
+import { VscTrash } from 'react-icons/vsc';
+import Urgency from './Urgency';
 
 export function ListItem({
 	name,
@@ -39,8 +41,7 @@ export function ListItem({
 		getDifferenceBetweenDates(
 			todaysDate,
 			dateLastPurchased ? dateLastPurchased.toDate() : dateCreated.toDate(),
-		) /
-			(24 * 60 * 60 * 1000),
+		),
 	);
 
 	const daysTillNextPurchase = Math.floor(
@@ -81,14 +82,12 @@ export function ListItem({
 	};
 
 	let urgency = calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase);
-	let textColor = colorPicker(urgency);
 
-	const checkedItemStyle =
-		'flex flex-grow items-center justify-between px-6 h-14 bg-checkedItem rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
-	const uncheckedItemStyle =
-		'flex flex-grow items-center justify-between px-6 h-14 bg-item rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
-
-	const tagColor = !isChecked ? textColor : '#9CA3AF';
+	const handleKeyPress = (e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleChecked();
+		}
+	};
 
 	const capitalizeFirstLetterOfEachWord = (str) => {
 		// Split the string into words
@@ -120,26 +119,47 @@ export function ListItem({
 	};
 
 	return (
-		<li className={isChecked ? checkedItemStyle : uncheckedItemStyle}>
-			<input
-				type="checkbox"
-				id={`checkbox-${id}`} // Unique identifier
-				name={name}
-				onChange={handleChecked}
-				checked={isChecked}
-			></input>
-			<label className="flex px-2 items-center w-full h-full text-lg xsm:text-xs sm:text-sm">
-				{capitalizeFirstLetterOfEachWord(name)}
-			</label>
-			<span
-				className={`px-2 py-1 mx-2 rounded-lg min-w-fit`}
-				style={{ backgroundColor: tagColor }}
+		<li>
+			<div
+				htmlFor={`checkbox-${id}`}
+				onClick={handleChecked}
+				className={`cursor-pointer bg-white shadow hover:shadow-md h-[72px] flex items-center justify-between rounded-lg p-6 transition-shadow duration-300 ease-in-out`}
+				onKeyPress={handleKeyPress}
+				role="button"
+				tabIndex="0"
 			>
-				{!isChecked ? urgency : 'checked'}
-			</span>
-			<button onClick={handleDelete} className="delete-button">
-				<TrashIcon />
-			</button>
+				<div className="flex gap-4 text-base">
+					<div className="relative flex items-center">
+						<input
+							type="checkbox"
+							id={`checkbox-${id}`}
+							name={name}
+							onChange={handleChecked}
+							checked={isChecked}
+							className="h-4 w-4 checked:bg-tcl-blue checked:border-0 outline-none bg-gray-50 cursor-pointer appearance-none border border-gray-300 rounded-[4px]"
+							tabIndex={-1}
+						/>
+						<div className="absolute top-[12px] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+							<IoIosCheckmark className="text-white" size={22} />
+						</div>
+					</div>
+					<span
+						className={`cursor-pointer ${urgency === 'inactive' ? 'text-gray-400' : 'text-gray-900'}`}
+					>
+						{capitalizeFirstLetterOfEachWord(name)}
+						{daysTillNextPurchase}
+					</span>
+				</div>
+				<div className="flex items-center gap-4">
+					<Urgency isChecked={isChecked} urgency={urgency} />
+					<button
+						onClick={handleDelete}
+						className="border border-white hover:border-gray-600 rounded-sm p-[1px] pt-[2px] hover:bg-gray-100 transition-colors duration-100 ease-in-out"
+					>
+						<VscTrash size={20} className="text-gray-600" />
+					</button>
+				</div>
+			</div>
 		</li>
 	);
 }
