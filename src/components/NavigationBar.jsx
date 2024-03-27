@@ -2,9 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton } from '../api/useAuth.jsx';
 import { useAuth } from '../api/useAuth.jsx';
+import { SingleList } from './SingleList.jsx';
 import Logo from '../assets/Logo.jsx';
 
-export default function NavigationBar() {
+export default function NavigationBar({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
 
 	const sidebarWidth = 'xsm:min-w-24 sm:min-w-36 md:w-48 lg:w-64';
@@ -27,6 +28,19 @@ export default function NavigationBar() {
 				>
 					My Lists
 				</NavLink>
+				<ul>
+					{' '}
+					Shared with me
+					{data.map((list) => (
+						<SingleList
+							key={list.name}
+							name={list.name}
+							path={list.path}
+							setListPath={setListPath}
+							setLoading={setLoading}
+						/>
+					))}
+				</ul>
 			</div>
 			<div className={signInOutContainer}>
 				{user ? <SignOutButton /> : <SignInButton />}

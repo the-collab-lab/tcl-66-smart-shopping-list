@@ -2,7 +2,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Home, Layout, List, ManageList, Err, Login } from './views';
 
-import { PublicRoute, PrivateRoute, Spinner } from './components';
+import {
+	PublicRoute,
+	PrivateRoute,
+	Spinner,
+	NavigationBar,
+} from './components';
 
 import { useAuth } from './api';
 
@@ -46,6 +51,11 @@ export function App() {
 	}
 	return (
 		<Router>
+			<NavigationBar
+				data={lists}
+				setListPath={setListPath}
+				setLoading={setLoading}
+			/>
 			<Routes>
 				<Route element={<PublicRoute />}>
 					<Route path="/login" element={<Login />} />
