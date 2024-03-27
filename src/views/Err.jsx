@@ -5,21 +5,19 @@ export function Err() {
 	return (
 		<div className="flex my-auto h-screen bg-[url('assets/contrastGraph.png')] bg-cover xsm:p-4">
 			<div className="m-auto">
-				<div className="flex flex-1 pb-14 sm:justify-center xsm:justify-between items-center">
+				<div className="flex flex-1 pb-14 justify-center items-center">
 					<Logo />
-					<div className="inline-block h-[26px] min-h-[1em] w-[3px] self-stretch bg-loginLine/50"></div>
-					<h1 className="sm:ps-6 xsm:pl-2 xsm:text-[14px] sm:text-lg ">
-						Error Page
+					<div className="inline-block h-[26px] min-h-[1em] w-[3px] self-stretch bg-loginLine/50 xsm:ml-2 sm:ml-0"></div>
+					<h1 className="sm:ps-6 xsm:ps-3 xsm:pl-2 xsm:text-[14px] sm:text-lg ">
+						Navigation error
 					</h1>
 				</div>
-				<div className="flex justify-between flex-col w-max-w-xl p-7 gap-5 h-[174px] rounded-lg shadow-lg bg-white">
+				<div className="w-full max-w-xl p-7 lg:p-10 gap-5 rounded-lg shadow-lg bg-white">
 					<h2 className="leading-6 font-semibold text-lg">
-						Sorry, the page you're looking for doesn't exist.
+						Eeep, it seems the page you're looking for doesn't exist.
 					</h2>
 					<div className="inline-block border-t-1 self-stretch border-loginLine/50"></div>
 					<div className="px-4">
-						{' '}
-						{/* Add padding to the container */}
 						<h3>
 							Please navigate back to the{' '}
 							<NavLink
@@ -29,9 +27,8 @@ export function Err() {
 							>
 								Login
 							</NavLink>{' '}
-							page.
-						</h3>{' '}
-						{/* Style NavLink using Tailwind CSS */}
+							page to return to your lists.
+						</h3>
 					</div>
 				</div>
 			</div>
