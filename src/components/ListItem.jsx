@@ -147,7 +147,6 @@ export function ListItem({
 						className={`cursor-pointer ${urgency === 'inactive' ? 'text-gray-400' : 'text-gray-900'}`}
 					>
 						{capitalizeFirstLetterOfEachWord(name)}
-						{daysTillNextPurchase}
 					</span>
 				</div>
 				<div className="flex items-center gap-4">
