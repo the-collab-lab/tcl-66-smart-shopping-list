@@ -1,28 +1,25 @@
-export function colorPicker(text) {
-	let color;
-	switch (text) {
+export function colorPicker(urgency) {
+	let colors;
+	switch (urgency) {
 		case 'overdue':
-			color = '#ffadad';
-			break;
-		case 'today':
-			color = '#ffc6ff';
+			colors = { text: 'text-red-800', bg: 'bg-red-100' };
 			break;
 		case 'soon':
-			color = '#ffd6a5';
+			colors = { text: 'text-orange-800', bg: 'bg-orange-100' };
 			break;
 		case 'kind of soon':
-			color = '#fdffb6';
+			colors = { text: 'text-yellow-800', bg: 'bg-yellow-100' };
 			break;
 		case 'not so soon':
-			color = '#caffbf';
+			colors = { text: 'text-green-800', bg: 'bg-green-100' };
 			break;
 		case 'inactive':
-			color = '#e5e7eb';
+			colors = { text: 'text-gray-800', bg: 'bg-gray-100' };
 			break;
 		default:
-			color = 'black';
+			colors = { text: 'text-pink-800', bg: 'bg-pink-100' };
 	}
-	return color;
+	return colors;
 }
 
 export function calculateUrgency(daysTillNextPurchase, daysSinceLastPurchase) {
