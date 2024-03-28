@@ -19,15 +19,15 @@ export function Err() {
 					<div className="inline-block border-t-1 self-stretch border-loginLine/50"></div>
 					<div className="px-4">
 						<h3>
-							Please navigate back to the{' '}
+							Click{' '}
 							<NavLink
 								to="/"
 								aria-current="page"
 								className="text-blue-500 hover:text-red-300"
 							>
-								Login
+								here
 							</NavLink>{' '}
-							page to return to your lists.
+							to return to your lists.
 						</h3>
 					</div>
 				</div>

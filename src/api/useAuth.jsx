@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { auth } from './config.js';
-import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import {
+	GoogleAuthProvider,
+	getRedirectResult,
+	signInWithPopup,
+} from 'firebase/auth';
 import { addUserToDatabase } from './firebase.js';
 import { useNavigate } from 'react-router-dom';
 import GoogleIcon from '../assets/GoogleIcon.jsx';
@@ -10,16 +14,40 @@ import GoogleIcon from '../assets/GoogleIcon.jsx';
  * the button redirects the user to the Google OAuth sign-in page.
  * After the user signs in, they are redirected back to the app.
  */
-export const SignInButton = () => (
-	<button
-		type="button"
-		className="flex items-center h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 justify-center sm:px-[120px] md:px-48"
-		onClick={() => signInWithRedirect(auth, new GoogleAuthProvider())}
-		aria-label="Sign up or Log in with google verification"
-	>
-		<GoogleIcon /> Verify with Google
-	</button>
-);
+
+export const SignInButton = () => {
+	const handleSignIn = async () => {
+		try {
+			// Attempt sign-in with a popup
+			await signInWithPopup(auth, new GoogleAuthProvider());
+		} catch (error) {
+			// If popup is blocked, fall back to redirect
+			if (error.code === 'auth/popup-blocked') {
+				try {
+					// Trigger sign-in with redirect
+					await getRedirectResult(auth);
+				} catch (redirectError) {
+					console.error('Error during redirect sign-in:', redirectError);
+					// TODO ADD TOAST ONCE COMPONENT COMMITTED
+				}
+			} else {
+				console.error('Error during popup sign-in:', error);
+				// TODO ADD TOAST ONCE COMPONENT COMMITTED
+			}
+		}
+	};
+
+	return (
+		<button
+			type="button"
+			className="flex items-center h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 justify-center sm:px-[120px] md:px-48"
+			aria-label="Sign up or Log in with google verification"
+			onClick={handleSignIn}
+		>
+			<GoogleIcon /> Verify with Google
+		</button>
+	);
+};
 
 /**
  * A button that signs the user out of the app using Firebase Auth.
