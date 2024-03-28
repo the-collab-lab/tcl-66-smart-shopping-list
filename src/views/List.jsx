@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
 import { comparePurchaseUrgency } from '../api/firebase';
+import { Spinner } from '../components/Spinner';
 
 export function List({ data, listPath, loading }) {
 	const [search, setSearch] = useState('');
@@ -32,7 +33,7 @@ export function List({ data, listPath, loading }) {
 	return (
 		<>
 			{loading ? (
-				<p>loading . . .</p>
+				<Spinner />
 			) : data.length > 0 ? (
 				<>
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
@@ -82,7 +83,7 @@ export function List({ data, listPath, loading }) {
 					</ul>
 				</>
 			) : loading ? (
-				<p>loading . . .</p>
+				<Spinner />
 			) : data.length < 1 ? (
 				<>
 					<p className="py-2">

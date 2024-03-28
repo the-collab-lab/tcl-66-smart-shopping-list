@@ -1,35 +1,82 @@
 import { useEffect, useState } from 'react';
 import { auth } from './config.js';
-import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import {
+	GoogleAuthProvider,
+	getRedirectResult,
+	signInWithPopup,
+} from 'firebase/auth';
 import { addUserToDatabase } from './firebase.js';
+import { useNavigate } from 'react-router-dom';
+import GoogleIcon from '../assets/GoogleIcon.jsx';
 
 /**
  * A button that signs the user in using Google OAuth. When clicked,
  * the button redirects the user to the Google OAuth sign-in page.
  * After the user signs in, they are redirected back to the app.
  */
-export const SignInButton = () => (
-	<button
-		type="button"
-		className="block px-4 py-2 rounded-md hover:bg-gray-100"
-		onClick={() => signInWithRedirect(auth, new GoogleAuthProvider())}
-	>
-		Sign In
-	</button>
-);
+
+export const SignInButton = () => {
+	const handleSignIn = async () => {
+		try {
+			// Attempt sign-in with a popup
+			await signInWithPopup(auth, new GoogleAuthProvider());
+		} catch (error) {
+			// If popup is blocked, fall back to redirect
+			if (error.code === 'auth/popup-blocked') {
+				try {
+					// Trigger sign-in with redirect
+					await getRedirectResult(auth);
+				} catch (redirectError) {
+					console.error('Error during redirect sign-in:', redirectError);
+					// TODO ADD TOAST ONCE COMPONENT COMMITTED
+				}
+			} else {
+				console.error('Error during popup sign-in:', error);
+				// TODO ADD TOAST ONCE COMPONENT COMMITTED
+			}
+		}
+	};
+
+	return (
+		<button
+			type="button"
+			className="flex items-center h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 justify-center sm:px-[120px] md:px-48"
+			aria-label="Sign up or Log in with google verification"
+			onClick={handleSignIn}
+		>
+			<GoogleIcon /> Verify with Google
+		</button>
+	);
+};
 
 /**
  * A button that signs the user out of the app using Firebase Auth.
  */
-export const SignOutButton = () => (
-	<button
-		type="button"
-		className="block px-4 py-2 rounded-md hover:bg-gray-100"
-		onClick={() => auth.signOut()}
-	>
-		Sign Out
-	</button>
-);
+export const SignOutButton = () => {
+	const navigate = useNavigate();
+
+	const handleSignOut = async () => {
+		try {
+			await auth.signOut();
+			navigate('/');
+		} catch (error) {
+			console.error('Error signing out:', error);
+			window.alert('Error signing out. Please try again.');
+			// TODO ADD TOAST ONCE COMPONENT IS COMPLETE
+		}
+	};
+
+	return (
+		<button
+			type="button"
+			className="block px-4 py-2 rounded-md hover:bg-gray-100"
+			onClick={handleSignOut}
+			aria-label="Sign Out"
+		>
+			Sign Out
+		</button>
+	);
+};
 
 /**
  * A custom hook that listens for changes to the user's auth state.
