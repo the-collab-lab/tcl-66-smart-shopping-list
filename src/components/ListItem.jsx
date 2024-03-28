@@ -139,9 +139,11 @@ export function ListItem({
 							className="h-4 w-4 checked:bg-tcl-blue checked:border-0 outline-none bg-gray-50 cursor-pointer appearance-none border border-gray-300 rounded-[4px]"
 							tabIndex={-1}
 						/>
-						<div className="absolute top-[12px] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-							<IoIosCheckmark className="text-white" size={22} />
-						</div>
+						{isChecked && (
+							<div className="absolute top-[12px] left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+								<IoIosCheckmark className="text-white" size={22} />
+							</div>
+						)}
 					</div>
 					<span
 						className={`cursor-pointer ${urgency === 'inactive' ? 'text-gray-400' : 'text-gray-900'}`}
