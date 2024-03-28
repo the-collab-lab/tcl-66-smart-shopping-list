@@ -20,28 +20,28 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 					to="/"
 					className="block pr-4 pt-1 pb-6 rounded-md hover:bg-hover"
 				>
-					<div className="invert-[85%] w-[144.17px] h-[16.98px]">
+					<div className="invert-[85%] w-36 h-4">
 						<Logo />
 					</div>
 				</NavLink>
-				<div className="w-[224px] h-[132px] gap-6">
-					<div className="h-[34px] w-[224px] pl-2 grid grid-cols-2 gap-6 flex items-center">
+				<div className="w-56 h-[132px] gap-6">
+					<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-6 flex items-center">
 						{/* <div> */}
 						{/* <div> */}
 						<NavLink
 							to="/list"
-							className="w-[126px] h-[14px] leading-[14px] text-sm text-[#6B7280]"
+							className="w-32 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]"
 						>
 							My Lists
 						</NavLink>
 						{/* </div> */}
 						{/* <div> */}
 						<Button
-							className="w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
+							className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
 							color="light"
 						>
 							{/* <div className="flex justify-around"> */}
-							<div className="flex gap-2 items-center">
+							<div className="max-w-fit flex gap-2 items-center">
 								{/* <div className="grid grid-cols-2 items-center"> */}
 								<div>
 									<svg
@@ -56,7 +56,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 										/>
 									</svg>
 								</div>
-								<p className="w-[46px] h-[18px] font-medium font-family: 'Inter' text-xs leading-[18px] text-[#111928] ">
+								<p className="w-[46px] h-[18px] font-medium font-family: 'Inter' text-xs leading-[14px] text-[#111928]">
 									<span className="whitespace-nowrap">New list</span>
 								</p>
 							</div>
@@ -64,8 +64,8 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						</Button>
 						{/* </div> */}
 					</div>
-					<div className="grid w-[224px] h-[295px] gap-6">
-						<ul className="w-[224px] h-[82px]">
+					<div className="flex-col w-56 h-[295px] gap-6">
+						<ul className="w-56 h-[82px] gap-6">
 							{' '}
 							{data.map((list) => (
 								<SingleList
@@ -77,9 +77,12 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 								/>
 							))}
 						</ul>
-						<ul className="w-[224px] h-[82px]">
-							{' '}
+						{/* <div className='gap-6'> */}
+						<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pt-16 pl-2 pb-6">
 							Shared with me
+						</p>
+						<ul className="w-56 h-[82px] gap-6">
+							{' '}
 							{data.map((list) => (
 								<SingleList
 									key={list.name}
@@ -90,6 +93,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 								/>
 							))}
 						</ul>
+						{/* </div> */}
 					</div>
 				</div>
 			</div>
