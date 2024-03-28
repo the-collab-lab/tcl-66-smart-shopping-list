@@ -3,7 +3,7 @@ import Logo from '../assets/Logo.jsx';
 
 export function Login() {
 	return (
-		<div className="flex my-auto h-screen bg-[url('assets/contrastGraph.png')] bg-cover xsm:p-4">
+		<div className="flex my-auto h-screen bg-[url('assets/lightestContrastGraph.png')] bg-cover xsm:p-4">
 			<div className="m-auto">
 				<div className="flex flex-1 pb-14 sm:justify-center xsm:justify-between items-center">
 					<Logo />
