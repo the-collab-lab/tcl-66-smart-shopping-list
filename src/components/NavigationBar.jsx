@@ -26,22 +26,17 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 				</NavLink>
 				<div className="w-56 h-[132px] gap-6">
 					<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-6 flex items-center">
-						{/* <div> */}
-						{/* <div> */}
 						<NavLink
 							to="/list"
 							className="w-32 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]"
 						>
 							My Lists
 						</NavLink>
-						{/* </div> */}
-						{/* <div> */}
 						<Button
 							className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
 							color="light"
 						>
-							{/* <div className="flex justify-around"> */}
-							<div className="max-w-fit flex gap-2 items-center">
+							<div className="max-w-fit flex gap-x-2 items-center">
 								{/* <div className="grid grid-cols-2 items-center"> */}
 								<div>
 									<svg
@@ -56,13 +51,11 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 										/>
 									</svg>
 								</div>
-								<p className="w-[46px] h-[18px] font-medium font-family: 'Inter' text-xs leading-[14px] text-[#111928]">
+								<p className="w-[46px] h-[18px] font-medium font-family: 'Inter' text-xs leading-[18px] text-[#111928]">
 									<span className="whitespace-nowrap">New list</span>
 								</p>
 							</div>
-							{/* </div> */}
 						</Button>
-						{/* </div> */}
 					</div>
 					<div className="flex-col w-56 h-[295px] gap-6">
 						<ul className="w-56 h-[82px] gap-6">
@@ -77,7 +70,6 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 								/>
 							))}
 						</ul>
-						{/* <div className='gap-6'> */}
 						<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pt-16 pl-2 pb-6">
 							Shared with me
 						</p>
@@ -93,7 +85,6 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 								/>
 							))}
 						</ul>
-						{/* </div> */}
 					</div>
 				</div>
 			</div>
