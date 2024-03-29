@@ -46,34 +46,40 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							</div>
 						</Button>
 					</div>
-					<div className="flex-col w-56 h-[295px] gap-6">
-						<ul className="w-56 h-[82px] gap-6 text-sm font-family: Inter font-medium leading-4 text-left">
-							{' '}
-							{data.map((list) => (
-								<SingleList
-									key={list.name}
-									name={list.name}
-									path={list.path}
-									setListPath={setListPath}
-									setLoading={setLoading}
-								/>
-							))}
-						</ul>
-						<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pt-16 pl-2 pb-6">
-							Shared with me
-						</p>
-						<ul className="w-56 h-[82px] gap-6 text-sm">
-							{' '}
-							{data.map((list) => (
-								<SingleList
-									key={list.name}
-									name={list.name}
-									path={list.path}
-									setListPath={setListPath}
-									setLoading={setLoading}
-								/>
-							))}
-						</ul>
+					<div className="flex-col w-56 h-[295px]">
+						<div className="flex grow min-h-12">
+							<ul className="w-56 gap-6 text-sm font-family: Inter font-medium leading-4 text-left">
+								{' '}
+								{data.map((list) => (
+									<SingleList
+										key={list.name}
+										name={list.name}
+										path={list.path}
+										setListPath={setListPath}
+										setLoading={setLoading}
+									/>
+								))}
+							</ul>
+						</div>
+						<hr className="h-px bg-[#D9D9D9] border mt-12 mb-4"></hr>
+
+						<div className="flex flex-col grow min-h-12">
+							<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4">
+								Shared with me
+							</p>
+							<ul className="w-56 gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12">
+								{' '}
+								{data.map((list) => (
+									<SingleList
+										key={list.name}
+										name={list.name}
+										path={list.path}
+										setListPath={setListPath}
+										setLoading={setLoading}
+									/>
+								))}
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
