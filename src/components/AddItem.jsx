@@ -74,7 +74,13 @@ export default function AddItem({ listPath, data }) {
 				onChange={handleInputChange}
 				value={itemValue.itemName}
 			/>
-			<SelectInput label="Timeframe" id="timeframe" />
+			<SelectInput
+				label="Timeframe"
+				id="timeframe"
+				name="daysUntilNextPurchase"
+				value={itemValue.daysUntilNextPurchase}
+				onChange={handleInputChange}
+			/>
 			<Button
 				type="submit"
 				text="Add item"
