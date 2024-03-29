@@ -47,7 +47,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						</Button>
 					</div>
 					<div className="flex-col w-56 h-[295px] gap-6">
-						<ul className="w-56 h-[82px] gap-6">
+						<ul className="w-56 h-[82px] gap-6 text-sm font-family: Inter font-medium leading-4 text-left">
 							{' '}
 							{data.map((list) => (
 								<SingleList
@@ -62,7 +62,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pt-16 pl-2 pb-6">
 							Shared with me
 						</p>
-						<ul className="w-56 h-[82px] gap-6">
+						<ul className="w-56 h-[82px] gap-6 text-sm">
 							{' '}
 							{data.map((list) => (
 								<SingleList
