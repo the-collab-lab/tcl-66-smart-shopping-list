@@ -9,9 +9,8 @@ const SelectInput = ({ id, label }) => {
 			<select
 				id={id}
 				className="cursor-pointer appearance-none bg-white shadow hover:shadow-md text-gray-900 text-sm rounded-lg focus:tcl-blue focus:tcl-blue block p-2.5 h-[42px] w-[300px]"
-				defaultValue="disabled"
 			>
-				<option value="disabled" disabled>
+				<option value="disabled" disabled selected>
 					Select an option
 				</option>
 				<option value="7">Soon</option>
