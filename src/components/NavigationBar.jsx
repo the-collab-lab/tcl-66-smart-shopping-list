@@ -57,15 +57,11 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 										path={list.path}
 										setListPath={setListPath}
 										setLoading={setLoading}
-										className="hover:!bg-[#f44336]"
-										// className="hover:!bg-[#f44336]"
-										// bg-[EBF5FF]
 									/>
 								))}
 							</ul>
 						</div>
 						<hr className="h-px bg-[#D9D9D9] border mt-12 mb-4"></hr>
-
 						<div className="flex flex-col grow min-h-12">
 							<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4">
 								Shared with me

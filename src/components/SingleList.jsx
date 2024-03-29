@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import BulletPointListName from '../assets/BulletPointListName';
 
 export function SingleList({ name, path, setListPath, setLoading }) {
 	const navigate = useNavigate();
@@ -17,9 +18,10 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 			<Link
 				to="/list"
 				onClick={() => handleClick()}
-				className="flex items-center w-full h-full"
+				className="flex items-center w-full h-full gap-2.5"
 			>
-				{name}
+				<BulletPointListName />
+				<p>{name}</p>
 			</Link>
 		</li>
 	);
