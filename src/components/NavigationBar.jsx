@@ -57,6 +57,9 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 										path={list.path}
 										setListPath={setListPath}
 										setLoading={setLoading}
+										className="hover:!bg-[#f44336]"
+										// className="hover:!bg-[#f44336]"
+										// bg-[EBF5FF]
 									/>
 								))}
 							</ul>
