@@ -88,7 +88,7 @@ export function List({ data, listPath, lists, loading }) {
 							</div>
 						</div>
 					) : null}
-					<span className="flex justify-between items-center flex-wrap">
+					<span className="flex justify-between items-center gap-4 flex-wrap mb-6">
 						{/* AddItem component */}
 						<div className="md:flex md:flex-col md:items-start">
 							<AddItem listPath={listPath} data={data} />
