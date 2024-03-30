@@ -3,13 +3,7 @@ import { shareList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
 import Select from 'react-select';
 
-const InviteForm = ({
-	listName,
-	lists,
-	closeModal,
-	setUsersSharedWith,
-	sharedWith,
-}) => {
+const InviteForm = ({ lists, closeModal, setUsersSharedWith, sharedWith }) => {
 	const { user } = useAuth();
 	const [input, setInput] = useState({
 		recipientName: '',
@@ -28,6 +22,11 @@ const InviteForm = ({
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (!input.recipientName || !input.recipientEmail) {
+			alert('Please fill in all fields');
+			return;
+		}
+
 		try {
 			const message = await shareList(input, selectedLists);
 			if (message) {
@@ -37,6 +36,7 @@ const InviteForm = ({
 				const updatedSharedWith = [...sharedWith, input];
 				setUsersSharedWith(updatedSharedWith);
 				closeModal();
+				window.location.reload();
 				return;
 			}
 		} catch (err) {
@@ -63,7 +63,6 @@ const InviteForm = ({
 						isMulti
 						backspaceRemovesValue
 						name="selectedLists"
-						defaultInputValue={listName}
 						options={options}
 						onChange={(options) => setSelectedLists(options)}
 						className="mb-[20px]"
