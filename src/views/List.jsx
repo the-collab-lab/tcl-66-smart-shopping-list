@@ -5,6 +5,7 @@ import { comparePurchaseUrgency, useSharedWithData } from '../api/firebase';
 import Modal from '../components/Modal';
 import InviteForm from '../components/InviteForm';
 import SharedWithList from '../components/SharedWithList';
+import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
@@ -14,6 +15,7 @@ export function List({ data, listPath, lists, loading }) {
 	const [toggleModal, setToggleModal] = useState(false);
 	const [modalContent, setModalContent] = useState('');
 	const { sharedWith } = useSharedWithData(listPath);
+	const { user } = useAuth();
 	const [usersSharedWith, setUsersSharedWith] = useState(sharedWith);
 
 	useEffect(() => {
@@ -60,28 +62,30 @@ export function List({ data, listPath, lists, loading }) {
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-4">
 						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
-					<div className="flex justify-center items-center gap-4 mb-6">
-						<div>
-							<button
-								onClick={() => openModal('inviteForm')}
-								className="flex items-center px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
-							>
-								<IoMailOutline className="mr-2" />
-								Share list
-							</button>
-						</div>
-						<div>
-							{usersSharedWith.length > 0 ? (
+					{listPath.includes(user.uid) ? (
+						<div className="flex justify-center items-center gap-4 mb-6">
+							<div>
 								<button
-									onClick={() => openModal('sharedWithList')}
-									className="flex items-center gap-1"
+									onClick={() => openModal('inviteForm')}
+									className="flex items-center px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
 								>
-									<FaRegCircleUser />
-									{` ${usersSharedWith.length}`}
+									<IoMailOutline className="mr-2" />
+									Share list
 								</button>
-							) : null}
+							</div>
+							<div>
+								{usersSharedWith.length > 0 ? (
+									<button
+										onClick={() => openModal('sharedWithList')}
+										className="flex items-center gap-1"
+									>
+										<FaRegCircleUser />
+										{` ${usersSharedWith.length}`}
+									</button>
+								) : null}
+							</div>
 						</div>
-					</div>
+					) : null}
 					<span className="flex justify-between items-center flex-wrap">
 						{/* AddItem component */}
 						<div className="md:flex md:flex-col md:items-start">
