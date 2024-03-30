@@ -3,6 +3,7 @@ import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
 import { comparePurchaseUrgency, useSharedWithData } from '../api/firebase';
 import { Spinner } from '../components/Spinner';
+import TextInput from '../components/TextInput';
 import Modal from '../components/Modal';
 import InviteForm from '../components/InviteForm';
 import SharedWithList from '../components/SharedWithList';
@@ -98,22 +99,18 @@ export function List({ data, listPath, lists, loading }) {
 							onSubmit={handleSubmit}
 							className="xsm:text-xs sm:text-sm md:text-md"
 						>
-							<label htmlFor="search">Search:</label>
-							<input
-								type="text"
-								id="search"
+							<TextInput
 								name="search"
-								className="border border-inputBorder pl-2 mx-2 rounded-lg xsm:flex-grow xsm:h-6 sm:w-full sm:h-6 md:w-36 md:h-8"
 								onChange={handleChange}
 								value={search}
+								handleClear={handleClear}
+								isSearch={true}
+								placeholder="Search list"
 							/>
-							<button type="button" onClick={handleClear}>
-								x
-							</button>
 						</form>
 					</span>
 
-					<ul>
+					<ul className="flex flex-col gap-2">
 						{sortedItems.map((item) => (
 							<ListItem
 								key={item.id}
