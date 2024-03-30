@@ -3,6 +3,7 @@ import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
 import { comparePurchaseUrgency } from '../api/firebase';
 import { Spinner } from '../components/Spinner';
+import TextInput from '../components/TextInput';
 
 export function List({ data, listPath, loading }) {
 	const [search, setSearch] = useState('');
@@ -39,8 +40,7 @@ export function List({ data, listPath, loading }) {
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
 						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
-					<span className="flex justify-between items-center flex-wrap">
-						{/* AddItem component */}
+					<div className="flex justify-between items-end flex-wrap gap-2 mb-6">
 						<div className="md:flex md:flex-col md:items-start">
 							<AddItem listPath={listPath} data={data} />
 						</div>
@@ -50,22 +50,18 @@ export function List({ data, listPath, loading }) {
 							onSubmit={handleSubmit}
 							className="xsm:text-xs sm:text-sm md:text-md"
 						>
-							<label htmlFor="search">Search:</label>
-							<input
-								type="text"
-								id="search"
+							<TextInput
 								name="search"
-								className="border border-inputBorder pl-2 mx-2 rounded-lg xsm:flex-grow xsm:h-6 sm:w-full sm:h-6 md:w-36 md:h-8"
 								onChange={handleChange}
 								value={search}
+								handleClear={handleClear}
+								isSearch={true}
+								placeholder="Search list"
 							/>
-							<button type="button" onClick={handleClear}>
-								x
-							</button>
 						</form>
-					</span>
+					</div>
 
-					<ul>
+					<ul className="flex flex-col gap-2">
 						{sortedItems.map((item) => (
 							<ListItem
 								key={item.id}
