@@ -14,7 +14,7 @@ export function Login() {
 				</div>
 				<div className="flex justify-between flex-col w-max-w-xl p-5 gap-5 h-[174px] rounded-lg shadow-lg bg-white">
 					<h2 className="leading-6 font-semibold text-lg">Log in or Sign up</h2>
-					<div className="inline-block border-t-1 self-stretch border-loginLine/50"></div>
+					<div className="inline-block border-t-1 self-stretch border-tcl-blue/50"></div>
 					<SignInButton />
 				</div>
 			</div>
