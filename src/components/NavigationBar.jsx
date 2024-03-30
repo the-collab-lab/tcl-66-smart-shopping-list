@@ -2,10 +2,11 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton } from '../api/useAuth.jsx';
 import { useAuth } from '../api/useAuth.jsx';
-import { SingleList } from './SingleList.jsx';
+import { SingleListNavigationBar } from './SingleListNavigationBar.jsx';
 import Logo from '../assets/Logo.jsx';
 import PlusSign from '../assets/PlusSign.jsx';
 import { Button } from 'flowbite-react';
+// import firebase from '@firebase/app'
 
 export default function NavigationBar({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
@@ -25,7 +26,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						<Logo />
 					</div>
 				</NavLink>
-				<div className="w-56 h-[132px] gap-6">
+				<div className="w-56 h-[125px] gap-6">
 					<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-6 flex items-center">
 						<NavLink
 							to="/list"
@@ -46,43 +47,82 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							</div>
 						</Button>
 					</div>
-					<div className="flex-col w-56 h-[295px]">
-						<div className="flex grow min-h-12">
-							<ul className="w-56 gap-6 text-sm font-family: Inter font-medium leading-4 text-left">
-								{' '}
-								{data.map((list) => (
-									<SingleList
-										key={list.name}
-										name={list.name}
-										path={list.path}
-										setListPath={setListPath}
-										setLoading={setLoading}
-									/>
-								))}
-							</ul>
+					<div className="flex-col w-56 ">
+						<div className="flex grow min-h-12 h-[40vh]">
+							{data.length > 0 ? (
+								<ul className="w-56 mt-3 gap-6 text-sm font-family: Inter font-medium leading-4 text-left overflow-auto">
+									{' '}
+									{data.map((list) => (
+										<div key={list.name}>
+											{list.path.substring(0, list.path.lastIndexOf('/')) ===
+											user?.uid ? (
+												<SingleListNavigationBar
+													key={list.name}
+													name={list.name}
+													path={list.path}
+													setListPath={setListPath}
+													setLoading={setLoading}
+												/>
+											) : null}
+										</div>
+									))}
+								</ul>
+							) : (
+								<p className="pl-2 text-center place-self-center w-56 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
+									No Lists
+								</p>
+							)}
 						</div>
-						<hr className="h-px bg-[#D9D9D9] border mt-12 mb-4"></hr>
-						<div className="flex flex-col grow min-h-12">
+						<hr className="h-px bg-[#D9D9D9] border mb-4"></hr>
+
+						<div className="flex flex-col min-h-12 overflow-auto">
 							<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4">
 								Shared with me
 							</p>
-							<ul className="w-56 gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12">
-								{' '}
-								{data.map((list) => (
-									<SingleList
-										key={list.name}
-										name={list.name}
-										path={list.path}
-										setListPath={setListPath}
-										setLoading={setLoading}
-									/>
-								))}
-							</ul>
+							<div className="flex grow min-h-12 h-[40vh] pb-4">
+								{data.length > 0 ? (
+									data.find(
+										(list) =>
+											list.path.substring(0, list.path.lastIndexOf('/')) !==
+											user?.uid,
+									) ? (
+										<ul className="w-56 gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12 overflow-auto">
+											{' '}
+											{
+												//data.find(list => list.path.substring(0, list.path.lastIndexOf('/')) !== user?.uid) ?
+												data.map((list) => (
+													<div key={list.name}>
+														{list.path.substring(
+															0,
+															list.path.lastIndexOf('/'),
+														) !== user?.uid ? (
+															<SingleListNavigationBar
+																key={list.name}
+																name={list.name}
+																path={list.path}
+																setListPath={setListPath}
+																setLoading={setLoading}
+															/>
+														) : null}
+													</div>
+												))
+											}
+										</ul>
+									) : (
+										<p className="pl-2 text-center place-self-center w-56 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
+											No Lists
+										</p>
+									)
+								) : (
+									<p className="pl-2 text-center place-self-center w-56 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
+										No Lists
+									</p>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<div className="absolute xsm:pb-4 sm:pb-4 md:p-4 bottom-0 w-full">
 				{user ? <SignOutButton /> : <SignInButton />}
 			</div>
