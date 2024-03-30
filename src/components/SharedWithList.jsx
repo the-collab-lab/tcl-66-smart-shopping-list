@@ -45,7 +45,7 @@ const SharedWithList = ({
 								key={index}
 								className="flex items-center gap-24 justify-between px-2 mb-4 h-12 bg-gray-50 rounded-lg shadow-md hover:bg-gray-100"
 							>
-								<span className="flex">
+								<span className="flex items-center">
 									<FaRegCircleUser className="text-xl  mr-2" />
 									{`${capitalizeFirstLetterOfEachWord(shared?.name)} (${shared?.email})`}
 								</span>
