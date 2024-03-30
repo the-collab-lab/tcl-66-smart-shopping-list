@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
 import { comparePurchaseUrgency, useSharedWithData } from '../api/firebase';
+import { Spinner } from '../components/Spinner';
 import Modal from '../components/Modal';
 import InviteForm from '../components/InviteForm';
 import SharedWithList from '../components/SharedWithList';
@@ -56,7 +57,7 @@ export function List({ data, listPath, lists, loading }) {
 	return (
 		<>
 			{loading ? (
-				<p>loading . . .</p>
+				<Spinner />
 			) : data.length > 0 ? (
 				<>
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-4">
@@ -158,7 +159,7 @@ export function List({ data, listPath, lists, loading }) {
 					</div>
 				</>
 			) : loading ? (
-				<p>loading . . .</p>
+				<Spinner />
 			) : data.length < 1 ? (
 				<>
 					<p className="py-2">
