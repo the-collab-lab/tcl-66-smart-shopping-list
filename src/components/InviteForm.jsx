@@ -3,38 +3,45 @@ import { shareList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
 import Select from 'react-select';
 
-const InviteForm = ({ listPath, lists, closeModal }) => {
+const InviteForm = ({
+	listName,
+	lists,
+	closeModal,
+	setUsersSharedWith,
+	sharedWith,
+}) => {
 	const { user } = useAuth();
 	const [input, setInput] = useState({
 		recipientName: '',
 		recipientEmail: '',
 	});
-	const [selectedList, setSelectedList] = useState({
+	const [selectedLists, setSelectedLists] = useState({
 		listsToShare: [],
 	});
 
 	const options = lists
-		.filter((list) => user?.uid === list.value.split('/')[1])
-		.map((list) => ({ listPath: list.value, label: list.name }));
+		.filter((list) => list.path === user?.uid + '/' + list.name)
+		.map((list) => ({
+			value: list.path,
+			label: list.name,
+		}));
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(
-			input.recipientName,
-			input.recipientEmail,
-			selectedList.map((option) => option.value),
-		);
-		// try {
-		// 	const message = await shareList(listPath, user.uid, input);
-		// 	if (message) {
-		// 		alert(message);
-		// 		setInput('');
-		// 		closeModal();
-		// 		return;
-		// 	}
-		// } catch (err) {
-		// 	console.error(err);
-		// }
+		try {
+			const message = await shareList(input, selectedLists);
+			if (message) {
+				alert(message);
+				setInput('');
+				// Wait for the sharing operation to complete successfully
+				const updatedSharedWith = [...sharedWith, input];
+				setUsersSharedWith(updatedSharedWith);
+				closeModal();
+				return;
+			}
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	const handleInputChange = (e) => {
@@ -55,9 +62,11 @@ const InviteForm = ({ listPath, lists, closeModal }) => {
 					<Select
 						isMulti
 						backspaceRemovesValue
-						name="listsToShare"
+						name="selectedLists"
+						defaultInputValue={listName}
 						options={options}
-						onChange={(options) => setSelectedList(options)}
+						onChange={(options) => setSelectedLists(options)}
+						className="mb-[20px]"
 					/>
 					<label className="h-[21px] text-gray-500 text-[14px]" htmlFor="email">
 						Name

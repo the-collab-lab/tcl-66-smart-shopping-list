@@ -1,23 +1,8 @@
-import React, { useState } from 'react';
-import Select from 'react-select';
 import { Outlet, NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
-import Modal from '../components/Modal.jsx';
-import InviteForm from '../components/InviteForm.jsx';
 
-export function Layout({ listPath, lists }) {
+export function Layout() {
 	const { user } = useAuth();
-
-	const [openInviteModal, setOpenInviteModal] = useState(false);
-
-	const openModal = () => {
-		console.log(lists);
-		setOpenInviteModal(true);
-	};
-
-	const closeModal = () => {
-		setOpenInviteModal(false);
-	};
 
 	const sidebarWidth = 'xsm:min-w-24 sm:min-w-36 md:w-48 lg:w-64';
 	const sidebarPadding = 'xsm:pt-4 sm:pt-4 md:p-4';
@@ -46,14 +31,6 @@ export function Layout({ listPath, lists }) {
 								List
 							</NavLink>
 						</div>
-						<div data-modal-target="inviteForm" data-modal-toggle="inviteForm">
-							<button
-								onClick={openModal}
-								className="flex mb-16 px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
-							>
-								Invite Friends
-							</button>
-						</div>
 					</span>
 					<div className={signInOutContainer}>
 						{user ? <SignOutButton /> : <SignInButton />}
@@ -65,19 +42,6 @@ export function Layout({ listPath, lists }) {
 				>
 					<Outlet />
 					{/* Modal for inviting friends */}
-					<div className="">
-						<Modal
-							isOpen={openInviteModal}
-							onClose={closeModal}
-							id={'inviteForm'}
-						>
-							<InviteForm
-								listPath={listPath}
-								lists={lists}
-								closeModal={closeModal}
-							/>
-						</Modal>
-					</div>
 				</main>
 			</div>
 		</>

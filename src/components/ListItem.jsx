@@ -8,6 +8,7 @@ import { colorPicker, calculateUrgency } from '../utils/helpers';
 import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import { IoTrashOutline as TrashIcon } from 'react-icons/io5';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 export function ListItem({
 	name,
@@ -89,19 +90,6 @@ export function ListItem({
 		'flex flex-grow items-center justify-between px-6 h-14 bg-item rounded-lg shadow-sm mt-4 xsm:text-xs sm:text-sm hover:bg-gray-100 hover:bg-opacity-85';
 
 	const tagColor = !isChecked ? textColor : '#9CA3AF';
-
-	const capitalizeFirstLetterOfEachWord = (str) => {
-		// Split the string into words
-		const words = str.toLowerCase().split(' ');
-
-		// Capitalize the first letter of each word
-		const capitalizedWords = words.map((word) => {
-			return word.charAt(0).toUpperCase() + word.slice(1);
-		});
-
-		// Join the words back into a single string
-		return capitalizedWords.join(' ');
-	};
 
 	const handleDelete = async () => {
 		try {

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Home, Layout, List, ManageList } from './views';
 
-import { useAuth } from './api';
+import { useAuth, useSharedWithData } from './api';
 
 import { useShoppingListData, useShoppingLists } from './api';
 
@@ -42,10 +42,12 @@ export function App() {
 	 */
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
+	const { sharedWith } = useSharedWithData(listPath);
+
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<Layout listPath={listPath} lists={lists} />}>
+				<Route path="/" element={<Layout />}>
 					<Route
 						index
 						element={
@@ -62,6 +64,8 @@ export function App() {
 							<List
 								data={data}
 								listPath={listPath}
+								lists={lists}
+								sharedWith={sharedWith}
 								loading={loading}
 								setLoading={setLoading}
 							/>
