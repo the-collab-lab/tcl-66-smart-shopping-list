@@ -10,6 +10,7 @@ import SharedWithList from '../components/SharedWithList';
 import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
+import Button from '../components/Button';
 
 export function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
@@ -67,13 +68,14 @@ export function List({ data, listPath, lists, loading }) {
 					{listPath.includes(user?.uid) ? (
 						<div className="flex justify-center items-center gap-4 mb-6">
 							<div>
-								<button
+								<Button
+									type="submit"
+									text="Share list"
+									bgColor="bg-tcl-blue"
+									textColor="text-white"
+									icon={<IoMailOutline size={19} />}
 									onClick={() => openModal('inviteForm')}
-									className="flex items-center px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
-								>
-									<IoMailOutline className="mr-2" />
-									Share list
-								</button>
+								/>
 							</div>
 							<div>
 								{usersSharedWith.length > 0 ? (

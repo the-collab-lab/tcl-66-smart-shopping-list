@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { shareList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
 import Select from 'react-select';
+import Button from './Button.jsx';
 
 const InviteForm = ({ lists, closeModal, setUsersSharedWith, sharedWith }) => {
 	const { user } = useAuth();
