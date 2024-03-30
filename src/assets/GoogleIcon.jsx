@@ -7,6 +7,7 @@ const GoogleIcon = () => {
 			viewBox="0 0 20 20"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
+			aria-label="Blue Green Yellow Red Google/ capital 'G' logo"
 		>
 			<path
 				d="M19.1666 9.9C19.1666 9.26433 19.115 8.62521 19.0051 7.99984H10.1846V11.6009H15.2357C15.0261 12.7623 14.3526 13.7897 13.3664 14.4425V16.7791H16.3799C18.1495 15.1504 19.1666 12.7451 19.1666 9.9Z"

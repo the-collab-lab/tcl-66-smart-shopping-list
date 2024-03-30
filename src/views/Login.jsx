@@ -1,13 +1,13 @@
 import { SignInButton } from '../api/useAuth';
-import Logo from '../assets/Logo';
+import Logo from '../assets/Logo.jsx';
 
 export function Login() {
 	return (
-		<div className="flex my-auto h-screen bg-[url('assets/graph.png')] bg-cover xsm:p-4">
+		<div className="flex my-auto h-screen bg-[url('assets/lightestContrastGraph.png')] bg-cover xsm:p-4">
 			<div className="m-auto">
 				<div className="flex flex-1 pb-14 sm:justify-center xsm:justify-between items-center">
 					<Logo />
-					<div className="inline-block h-[26px] min-h-[1em] w-[1px] self-stretch bg-tcl-blue/50"></div>
+					<div className="inline-block h-[26px] min-h-[1em] w-[3px] self-stretch bg-loginLine/50"></div>
 					<h1 className="sm:ps-6 xsm:pl-2 xsm:text-[14px] sm:text-lg ">
 						Shopping List App
 					</h1>
