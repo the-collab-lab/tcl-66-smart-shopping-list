@@ -63,7 +63,7 @@ export function List({ data, listPath, lists, loading }) {
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-4">
 						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
-					{listPath.includes(user.uid) ? (
+					{listPath.includes(user?.uid) ? (
 						<div className="flex justify-center items-center gap-4 mb-6">
 							<div>
 								<button
