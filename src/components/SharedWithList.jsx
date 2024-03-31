@@ -1,7 +1,6 @@
 import { FaRegCircleUser } from 'react-icons/fa6';
 import { VscTrash } from 'react-icons/vsc';
 import { unshareList } from '../api';
-import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 const SharedWithList = ({
 	listPath,
@@ -13,7 +12,7 @@ const SharedWithList = ({
 		try {
 			if (
 				window.confirm(
-					`Are you sure you want to unshare this list with ${capitalizeFirstLetterOfEachWord(name)}?`,
+					`Are you sure you want to unshare this list with ${name}?`,
 				)
 			) {
 				await unshareList(listPath, email, name);
@@ -49,7 +48,7 @@ const SharedWithList = ({
 							>
 								<span className="flex items-center xsm:text-xs sm:text-md">
 									<FaRegCircleUser className="text-lg mr-2 text-gray-600" />
-									{`${capitalizeFirstLetterOfEachWord(shared.name)} (${shared.email})`}
+									{`${shared.name} (${shared.email})`}
 								</span>
 								<VscTrash
 									onClick={() => handleUnshare(shared.email, shared.name)}

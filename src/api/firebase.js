@@ -13,7 +13,6 @@ import {
 import { useEffect, useState } from 'react';
 import { db } from './config';
 import { getFutureDate, getDifferenceBetweenDates, todaysDate } from '../utils';
-import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 /**
  * A custom hook that subscribes to the user's shopping lists in our Firestore
@@ -217,7 +216,7 @@ export async function shareList(input, selectedLists) {
 
 	await Promise.all(sharePromises);
 
-	return `Yay, ${capitalizeFirstLetterOfEachWord(recipientName)} was invited to ${selectedLists.length === 1 ? 'your list' : 'your lists'}!`;
+	return `Yay, ${recipientName} was invited to ${selectedLists.length === 1 ? 'your list' : 'your lists'}!`;
 }
 
 /**
