@@ -26,7 +26,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 		>
 			<div className="xsm:pt-4 sm:pt-4 md:p-4 lg:px-4">
 				<NavLink to="/" className="block pr-4 pt-1 rounded-md">
-					<div className="invert-[85%] w-36 h-4 hover:bg-hover">
+					<div className="invert-[85%] w-36 h-4">
 						<Logo />
 					</div>
 				</NavLink>
