@@ -4,6 +4,8 @@ import {
 	getDoc,
 	setDoc,
 	deleteDoc,
+	getDocs,
+	writeBatch,
 	collection,
 	doc,
 	onSnapshot,
@@ -247,6 +249,50 @@ export async function unshareList(listPath, recipientEmail, recipientName) {
 	} catch (error) {
 		console.error('Error unsharing list:', error);
 		return 'An error occurred while unsharing the list. Please try again.';
+	}
+}
+
+export async function deleteList(listPath, userId, userEmail, listName) {
+	const listDocRef = doc(db, userId, listName);
+	const listCollectionRef = collection(db, listPath, 'items');
+	const userDocumentRef = doc(db, 'users', userEmail);
+
+	await deleteDoc(listDocRef);
+
+	// Delete all nested documents within the list collection
+	const snapshot = await getDocs(listCollectionRef);
+	const batch = writeBatch(db);
+	snapshot.forEach((doc) => {
+		batch.delete(doc.ref);
+	});
+	await batch.commit();
+
+	// Remove the list from sharedLists arrays in users' documents
+	const usersSnapshot = await getDocs(collection(db, 'users'));
+	const batchUpdateUsers = writeBatch(db);
+	usersSnapshot.forEach((userDoc) => {
+		const sharedLists = userDoc.data().sharedLists || [];
+		const updatedSharedLists = sharedLists.filter((sharedListRef) => {
+			return sharedListRef.path !== listDocRef.path;
+		});
+		batchUpdateUsers.update(userDoc.ref, { sharedLists: updatedSharedLists });
+	});
+	await batchUpdateUsers.commit();
+
+	updateDoc(userDocumentRef, {
+		sharedLists: arrayRemove(listDocRef),
+	});
+}
+
+export async function deleteSharedList(userEmail, sharedFromUserId, listName) {
+	const sharedListDocRef = doc(db, sharedFromUserId, listName);
+	const userDocumentRef = doc(db, 'users', userEmail);
+
+	if (sharedListDocRef) {
+		await deleteDoc(sharedListDocRef);
+		updateDoc(userDocumentRef, {
+			sharedLists: arrayRemove(sharedListDocRef),
+		});
 	}
 }
 
