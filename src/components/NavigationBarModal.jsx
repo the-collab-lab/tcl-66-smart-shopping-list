@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'flowbite-react';
-import AddList from '../components/AddList.jsx';
+import NavigationBarAddList from '../components/NavigationBarAddList.jsx';
 
 const NavigationBarModal = ({ isOpen, onClose, children, setListPath }) => {
 	return (
@@ -8,7 +8,7 @@ const NavigationBarModal = ({ isOpen, onClose, children, setListPath }) => {
 			{isOpen ? (
 				<div className="modal-overlay">
 					<div className="modal-content">
-						<AddList setListPath={setListPath} />
+						<NavigationBarAddList setListPath={setListPath} />
 						<Button
 							className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
 							color="light"

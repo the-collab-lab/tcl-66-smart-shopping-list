@@ -25,15 +25,12 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 			className={`fixed ${sidebarWidth} gap-6 bg-navBg border-b-1 border-r-1 border-navBorder min-h-screen`}
 		>
 			<div className="xsm:pt-4 sm:pt-4 md:p-4 lg:px-4">
-				<NavLink
-					to="/"
-					className="block pr-4 pt-1 pb-6 rounded-md hover:bg-hover"
-				>
-					<div className="invert-[85%] w-36 h-4">
+				<NavLink to="/" className="block pr-4 pt-1 rounded-md">
+					<div className="invert-[85%] w-36 h-4 hover:bg-hover">
 						<Logo />
 					</div>
 				</NavLink>
-				<div className="w-56 h-[125px] gap-6">
+				<div className="w-56 h-[125px] gap-6 pt-6">
 					{!openFormModal ? (
 						<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-6 flex items-center">
 							<div className="w-32 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
