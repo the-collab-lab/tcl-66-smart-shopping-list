@@ -41,6 +41,8 @@ export function App() {
 	 */
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
+	const { sharedWith } = useSharedWithData(listPath);
+
 	return (
 		<Router>
 			<Routes>
