@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import { Home, Layout, List, ManageList, Err, Login } from './views';
 
-import { PublicRoute, PrivateRoute, Spinner } from './components';
+import { PublicRoute, PrivateRoute } from './components';
 
 import { useAuth } from './api';
 
@@ -41,9 +41,6 @@ export function App() {
 	 */
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
-	if (loading) {
-		return <Spinner />;
-	}
 	return (
 		<Router>
 			<Routes>

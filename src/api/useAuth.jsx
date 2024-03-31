@@ -8,6 +8,7 @@ import {
 import { addUserToDatabase } from './firebase.js';
 import { useNavigate } from 'react-router-dom';
 import GoogleIcon from '../assets/GoogleIcon.jsx';
+import { Spinner } from '../components/Spinner.jsx';
 
 /**
  * A button that signs the user in using Google OAuth. When clicked,
@@ -16,8 +17,10 @@ import GoogleIcon from '../assets/GoogleIcon.jsx';
  */
 
 export const SignInButton = () => {
+	const [loading, setLoading] = useState(false);
 	const handleSignIn = async () => {
 		try {
+			setLoading(true);
 			// Attempt sign-in with a popup
 			await signInWithPopup(auth, new GoogleAuthProvider());
 		} catch (error) {
@@ -34,6 +37,8 @@ export const SignInButton = () => {
 				console.error('Error during popup sign-in:', error);
 				// TODO ADD TOAST ONCE COMPONENT COMMITTED
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -44,6 +49,7 @@ export const SignInButton = () => {
 			aria-label="Sign up or Log in with google verification"
 			onClick={handleSignIn}
 		>
+			{loading ? <Spinner /> : null}
 			<GoogleIcon /> Verify with Google
 		</button>
 	);
@@ -53,16 +59,20 @@ export const SignInButton = () => {
  * A button that signs the user out of the app using Firebase Auth.
  */
 export const SignOutButton = () => {
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 	const handleSignOut = async () => {
 		try {
+			setLoading(true);
 			await auth.signOut();
 			navigate('/');
 		} catch (error) {
 			console.error('Error signing out:', error);
 			window.alert('Error signing out. Please try again.');
 			// TODO ADD TOAST ONCE COMPONENT IS COMPLETE
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -73,6 +83,7 @@ export const SignOutButton = () => {
 			onClick={handleSignOut}
 			aria-label="Sign Out"
 		>
+			{loading ? <Spinner /> : null}
 			Sign Out
 		</button>
 	);
