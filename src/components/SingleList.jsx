@@ -20,7 +20,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 			if (!path.includes(user.uid)) {
 				if (
 					window.confirm(
-						`The ${name} list has been shared with you. Deleting it will remove it from your lists, and you won't be able to access it unless it's shared with you again. Are you sure you want to proceed with the deletion?`,
+						`The ${name} list has been shared with you. Deleting it will remove it from your lists. You will loose access unless it's shared with you again. Are you sure you want to proceed with the deletion?`,
 					)
 				) {
 					await deleteSharedList(user.email, path.split('/')[0], name);
