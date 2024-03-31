@@ -49,10 +49,10 @@ const SharedWithList = ({
 							>
 								<span className="flex items-center xsm:text-xs sm:text-md">
 									<FaRegCircleUser className="text-lg mr-2 text-gray-600" />
-									{`${capitalizeFirstLetterOfEachWord(shared?.name)} (${shared?.email})`}
+									{`${capitalizeFirstLetterOfEachWord(shared.name)} (${shared.email})`}
 								</span>
 								<VscTrash
-									onClick={() => handleUnshare(shared?.email, shared?.name)}
+									onClick={() => handleUnshare(shared.email, shared.name)}
 									className="text-xl ml-2 text-gray-600 cursor-pointer hover:text-gray-800 transition-colors duration-100 ease-in-out"
 								/>
 							</li>

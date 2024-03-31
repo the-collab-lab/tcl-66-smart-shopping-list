@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import { db } from './config';
 import { getFutureDate, getDifferenceBetweenDates, todaysDate } from '../utils';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 /**
  * A custom hook that subscribes to the user's shopping lists in our Firestore
@@ -151,7 +152,7 @@ export function useSharedWithData(listPath) {
 
 				if (listDocSnap.exists()) {
 					const listData = listDocSnap.data();
-					const sharedWithData = listData.sharedWith || []; // Assuming sharedWith is an array
+					const sharedWithData = listData.sharedWith || [];
 					setSharedWith(sharedWithData);
 				} else {
 					console.log('No such document!');
@@ -216,7 +217,7 @@ export async function shareList(input, selectedLists) {
 
 	await Promise.all(sharePromises);
 
-	return `Yay, ${recipientName} was invited to ${selectedLists.length === 1 ? 'your list' : 'your lists'}!`;
+	return `Yay, ${capitalizeFirstLetterOfEachWord(recipientName)} was invited to ${selectedLists.length === 1 ? 'your list' : 'your lists'}!`;
 }
 
 /**
