@@ -65,7 +65,7 @@ export default function AddItem({ listPath, data }) {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="flex items-end flex-wrap space-x-2"
+			className="flex items-end flex-wrap gap-4 w-full"
 		>
 			<TextInput
 				label="Add item"

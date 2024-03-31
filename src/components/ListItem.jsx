@@ -10,6 +10,7 @@ import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import { IoIosCheckmark } from 'react-icons/io';
 import { VscTrash } from 'react-icons/vsc';
 import Urgency from './Urgency';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 export function ListItem({
 	name,
@@ -87,19 +88,6 @@ export function ListItem({
 		if (e.key === 'Enter' || e.key === ' ') {
 			handleChecked();
 		}
-	};
-
-	const capitalizeFirstLetterOfEachWord = (str) => {
-		// Split the string into words
-		const words = str.toLowerCase().split(' ');
-
-		// Capitalize the first letter of each word
-		const capitalizedWords = words.map((word) => {
-			return word.charAt(0).toUpperCase() + word.slice(1);
-		});
-
-		// Join the words back into a single string
-		return capitalizedWords.join(' ');
 	};
 
 	const handleDelete = async () => {

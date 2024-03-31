@@ -2,7 +2,7 @@ import { IoChevronDownOutline } from 'react-icons/io5';
 
 const SelectInput = ({ id, label, name, value, onChange }) => {
 	return (
-		<div className="relative">
+		<div className="relative flex flex-col gap-2">
 			<label htmlFor={id} className="text-xs font-medium">
 				{label}
 			</label>

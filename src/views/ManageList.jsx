@@ -22,6 +22,7 @@ export function ManageList({ listPath, data }) {
 			{/* Button to open modal for inviting user */}
 			{!openInviteModal ? <button onClick={openModal}>Invite</button> : null}
 			<Modal isOpen={openInviteModal} onClose={closeModal}>
+				<select></select>
 				<InviteForm listPath={listPath} closeModal={closeModal} />
 			</Modal>
 			<AddItem listPath={listPath} data={data} />

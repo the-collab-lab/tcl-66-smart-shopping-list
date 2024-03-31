@@ -15,10 +15,13 @@ export default function AddList({ setListPath }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			if (!listName) {
+				window.alert('Please enter a list name');
+				return;
+			}
 			const newList = await createList(user.uid, user.email, listName);
 			const listPath = user.uid + '/' + listName;
 			// if list is created newList will be true else newList will be false
-
 			if (newList) {
 				setListName('');
 				setMessage(`Your list, ${listName}, was successfully created.`);
