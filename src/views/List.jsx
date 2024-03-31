@@ -10,7 +10,6 @@ import SharedWithList from '../components/SharedWithList';
 import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
-import Button from '../components/Button';
 
 export function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
@@ -62,21 +61,11 @@ export function List({ data, listPath, lists, loading }) {
 				<Spinner />
 			) : data.length > 0 ? (
 				<>
-					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-4">
+					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-16 mb-12">
 						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
 					{listPath.includes(user?.uid) ? (
-						<div className="flex justify-center items-center gap-4 mb-6">
-							<div>
-								<Button
-									type="submit"
-									text="Share list"
-									bgColor="bg-tcl-blue"
-									textColor="text-white"
-									icon={<IoMailOutline size={19} />}
-									onClick={() => openModal('inviteForm')}
-								/>
-							</div>
+						<div className="absolute top-2 right-2 flex justify-center items-center gap-4">
 							<div>
 								{usersSharedWith.length > 0 ? (
 									<button
@@ -87,6 +76,15 @@ export function List({ data, listPath, lists, loading }) {
 										{` ${usersSharedWith.length}`}
 									</button>
 								) : null}
+							</div>
+							<div>
+								<button
+									onClick={() => openModal('inviteForm')}
+									className="flex items-center xsm:text-xs sm:text-md md:text-lg px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
+								>
+									<IoMailOutline className="mr-2" />
+									Share list
+								</button>
 							</div>
 						</div>
 					) : null}

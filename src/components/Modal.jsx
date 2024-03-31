@@ -1,4 +1,5 @@
 import React from 'react';
+import { IoClose } from 'react-icons/io5';
 
 const Modal = ({ isOpen, onClose, children }) => {
 	return (
@@ -11,7 +12,7 @@ const Modal = ({ isOpen, onClose, children }) => {
 							className="close-btn absolute top-4 right-6"
 							onClick={onClose}
 						>
-							Close
+							<IoClose size={18} />
 						</button>
 						{children}
 					</div>
