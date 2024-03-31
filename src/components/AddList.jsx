@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { createList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
+import { Button } from 'flowbite-react';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');
@@ -36,15 +37,30 @@ export default function AddList({ setListPath }) {
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
-				<label htmlFor="newList">Create a new shopping list:</label>
+				<label
+					htmlFor="newList"
+					className="leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]"
+				>
+					Create a new shopping list:
+				</label>
 				<input
 					type="text"
 					id="newList"
 					placeholder={`e.g. Groceries, Clothes`}
 					onChange={(e) => setListName(e.target.value)}
-					className="border border-inputBorder px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-2 lg:w-56 h-8 mx-2"
+					className="border border-inputBorder px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-px lg:w-56 h-8 ml-px"
 				></input>
-				<button type="submit">Create List</button>
+				<Button
+					type="submit"
+					className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border my-2"
+					color="light"
+				>
+					<div className="max-w-fit flex gap-x-2 items-center">
+						<p className="w-[64px] h-[18px] font-medium font-family: 'Inter' text-xs leading-[20px] text-[#111928] text-center">
+							Create List
+						</p>
+					</div>
+				</Button>
 			</form>
 			{message ? <p>{message}</p> : null}
 		</>

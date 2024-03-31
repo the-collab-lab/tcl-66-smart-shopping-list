@@ -55,6 +55,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 					) : null}
 					{openFormModal ? (
 						<NavigationBarModal
+							setListPath={setListPath}
 							isOpen={openFormModal}
 							onClose={closeModal}
 							className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
