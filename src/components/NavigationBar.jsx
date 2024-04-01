@@ -1,10 +1,10 @@
+import { Button } from 'flowbite-react';
 import { React, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 import { NavigationBarSingleList } from '../components/NavigationBarSingleList.jsx';
 import Logo from '../assets/Logo.jsx';
 import PlusSign from '../assets/PlusSign.jsx';
-import { Button } from 'flowbite-react';
 import NavigationBarModal from '../components/NavigationBarModal.jsx';
 
 export default function NavigationBar({ data, setListPath, setLoading }) {

@@ -1,8 +1,8 @@
+import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { createList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
-import { Button } from 'flowbite-react';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');

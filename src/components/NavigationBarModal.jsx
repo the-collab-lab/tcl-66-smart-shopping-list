@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button } from 'flowbite-react';
+import React from 'react';
 import NavigationBarAddList from '../components/NavigationBarAddList.jsx';
 
 const NavigationBarModal = ({ isOpen, onClose, children, setListPath }) => {
