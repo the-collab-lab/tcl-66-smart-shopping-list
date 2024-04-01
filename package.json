@@ -7,6 +7,8 @@
 		"npm": ">=8.19.0"
 	},
 	"dependencies": {
+		"@headlessui/react": "^1.7.18",
+		"@heroicons/react": "^2.1.3",
 		"@the-collab-lab/shopping-list-utils": "^2.2.0",
 		"firebase": "^10.1.0",
 		"flowbite-react": "^0.7.5",

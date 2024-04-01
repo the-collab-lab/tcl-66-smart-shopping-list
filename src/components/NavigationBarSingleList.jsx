@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import BulletPointListName from '../assets/BulletPointListName';
 
-export function SingleListNavigationBar({
+export function NavigationBarSingleList({
 	name,
 	path,
 	setListPath,

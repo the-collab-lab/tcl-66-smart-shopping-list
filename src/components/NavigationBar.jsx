@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
-import { SingleListNavigationBar } from './SingleListNavigationBar.jsx';
+import { NavigationBarSingleList } from '../components/NavigationBarSingleList.jsx';
 import Logo from '../assets/Logo.jsx';
 import PlusSign from '../assets/PlusSign.jsx';
 import { Button } from 'flowbite-react';
@@ -68,7 +68,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 											<div key={list.name}>
 												{list.path.substring(0, list.path.lastIndexOf('/')) ===
 												user?.uid ? (
-													<SingleListNavigationBar
+													<NavigationBarSingleList
 														key={list.name}
 														name={list.name}
 														path={list.path}
@@ -108,7 +108,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 																0,
 																list.path.lastIndexOf('/'),
 															) !== user?.uid ? (
-																<SingleListNavigationBar
+																<NavigationBarSingleList
 																	key={list.name}
 																	name={list.name}
 																	path={list.path}

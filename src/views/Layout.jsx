@@ -15,7 +15,7 @@ export function Layout({ data, setListPath, setLoading }) {
 				/>
 				{/* Main content */}
 				<main
-					className={`min-h-screen flex-grow bg-appBg p-2 md:p-6 ${mainContentMargin} pb-12`}
+					className={`min-h-screen flex-grow bg-appBg p-2 ${mainContentMargin} md:p-6 pb-12`}
 				>
 					<Outlet />
 				</main>
