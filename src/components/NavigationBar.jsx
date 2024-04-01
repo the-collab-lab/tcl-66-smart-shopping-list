@@ -24,6 +24,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 		<nav
 			className={`fixed ${sidebarWidth} gap-6 bg-navBg border-b-1 border-r-1 border-navBorder min-h-screen`}
 		>
+			{/* "The Collab Lab" logo */}
 			<div className="xsm:pt-4 sm:pt-4 md:p-4 lg:px-4">
 				<NavLink to="/" className="block pr-4 pt-1 rounded-md">
 					<div className="invert-[85%] w-36 h-4">
@@ -31,6 +32,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 					</div>
 				</NavLink>
 				<div className="w-56 h-[125px] gap-6 pt-6">
+					{/* If a user clicks the "New list" button, then the "My Lists" header and the "New List" button disappear and the Create List form appears. */}
 					{!openFormModal ? (
 						<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-6 flex items-center">
 							<div className="w-32 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
@@ -50,6 +52,8 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							</Button>
 						</div>
 					) : null}
+
+					{/* The user's lists display when the user's uid matches the uid contained in the listPath of a shopping list.*/}
 					{openFormModal ? (
 						<NavigationBarModal
 							setListPath={setListPath}
@@ -87,6 +91,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							</div>
 							<hr className="h-px bg-[#D9D9D9] border mb-4"></hr>
 
+							{/* Lists shared with the user by other users display when the signed-in user's uid does not match the listPath uid of a shopping list.*/}
 							<div className="flex flex-col min-h-12 overflow-auto">
 								<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4">
 									Shared with me
@@ -100,25 +105,22 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 										) ? (
 											<ul className="w-56 gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12 overflow-auto">
 												{' '}
-												{
-													//data.find(list => list.path.substring(0, list.path.lastIndexOf('/')) !== user?.uid) ?
-													data.map((list) => (
-														<div key={list.name}>
-															{list.path.substring(
-																0,
-																list.path.lastIndexOf('/'),
-															) !== user?.uid ? (
-																<NavigationBarSingleList
-																	key={list.name}
-																	name={list.name}
-																	path={list.path}
-																	setListPath={setListPath}
-																	setLoading={setLoading}
-																/>
-															) : null}
-														</div>
-													))
-												}
+												{data.map((list) => (
+													<div key={list.name}>
+														{list.path.substring(
+															0,
+															list.path.lastIndexOf('/'),
+														) !== user?.uid ? (
+															<NavigationBarSingleList
+																key={list.name}
+																name={list.name}
+																path={list.path}
+																setListPath={setListPath}
+																setLoading={setLoading}
+															/>
+														) : null}
+													</div>
+												))}
 											</ul>
 										) : (
 											<p className="pl-2 text-center place-self-center w-56 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
@@ -136,6 +138,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 					)}
 				</div>
 			</div>
+
 			<div className="absolute xsm:pb-4 sm:pb-4 md:p-4 bottom-0 w-full">
 				{user ? <SignOutButton /> : <SignInButton />}
 			</div>
