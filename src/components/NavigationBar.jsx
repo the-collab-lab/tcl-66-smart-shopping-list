@@ -66,23 +66,35 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						<div className="flex-col w-56 ">
 							<div className="flex grow min-h-12 h-[40vh]">
 								{data.length > 0 ? (
-									<ul className="w-56 mt-3 gap-6 text-sm font-family: Inter font-medium leading-4 text-left overflow-auto">
-										{' '}
-										{data.map((list) => (
-											<div key={list.name}>
-												{list.path.substring(0, list.path.lastIndexOf('/')) ===
-												user?.uid ? (
-													<NavigationBarSingleList
-														key={list.name}
-														name={list.name}
-														path={list.path}
-														setListPath={setListPath}
-														setLoading={setLoading}
-													/>
-												) : null}
-											</div>
-										))}
-									</ul>
+									data.find(
+										(list) =>
+											list.path.substring(0, list.path.lastIndexOf('/')) ===
+											user?.uid,
+									) ? (
+										<ul className="w-56 mt-3 gap-6 text-sm font-family: Inter font-medium leading-4 text-left overflow-auto">
+											{' '}
+											{data.map((list) => (
+												<div key={list.name}>
+													{list.path.substring(
+														0,
+														list.path.lastIndexOf('/'),
+													) === user?.uid ? (
+														<NavigationBarSingleList
+															key={list.name}
+															name={list.name}
+															path={list.path}
+															setListPath={setListPath}
+															setLoading={setLoading}
+														/>
+													) : null}
+												</div>
+											))}
+										</ul>
+									) : (
+										<p className="pl-2 text-center place-self-center w-56 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
+											No Lists
+										</p>
+									)
 								) : (
 									<p className="pl-2 text-center place-self-center w-56 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
 										No Lists
@@ -94,7 +106,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							{/* Lists shared with the user by other users display when the signed-in user's uid does not match the listPath uid of a shopping list.*/}
 							<div className="flex flex-col min-h-12 overflow-auto">
 								<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4">
-									Shared with me
+									Shared With Me
 								</p>
 								<div className="flex grow min-h-12 h-[40vh] pb-4">
 									{data.length > 0 ? (
