@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { addItem } from '../api/firebase';
+import TextInput from '../components/TextInput';
+import Button from './Button';
+import SelectInput from './SelectInput';
+import { GoPlus } from 'react-icons/go';
 
 export default function AddItem({ listPath, data }) {
 	const initialState = {
@@ -61,37 +65,29 @@ export default function AddItem({ listPath, data }) {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="items-center mb-2 xsm:text-xs sm:text-sm md:text-md"
+			className="flex items-end flex-wrap gap-4 w-full"
 		>
-			<label>
-				Item name:
-				<input
-					type="text"
-					name="itemName"
-					placeholder={`e.g. coffee`}
-					className="border border-inputBorder p-2 rounded-lg ml-2 mb-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-56 md:h-8 "
-					onChange={handleInputChange}
-					value={itemValue.itemName}
-				/>
-			</label>
-			<br />
-			<label>
-				Timeframe:
-				<select
-					name="daysUntilNextPurchase"
-					onChange={handleInputChange}
-					value={itemValue.daysUntilNextPurchase}
-					className="border border-inputBorder px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8 lg:h-10"
-				>
-					<option value="" disabled>
-						Select an option
-					</option>
-					<option value="7">Soon</option>
-					<option value="14">Kind of Soon</option>
-					<option value="30">Not so Soon</option>
-				</select>
-			</label>
-			<button type="submit">Add item</button>
+			<TextInput
+				label="Add item"
+				name="itemName"
+				placeholder="Add item to list"
+				onChange={handleInputChange}
+				value={itemValue.itemName}
+			/>
+			<SelectInput
+				label="Timeframe"
+				id="timeframe"
+				name="daysUntilNextPurchase"
+				value={itemValue.daysUntilNextPurchase}
+				onChange={handleInputChange}
+			/>
+			<Button
+				type="submit"
+				text="Add item"
+				bgColor="bg-tcl-blue"
+				textColor="text-white"
+				icon={<GoPlus size={19} />}
+			/>
 		</form>
 	);
 }

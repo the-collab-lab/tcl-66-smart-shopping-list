@@ -2,6 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { createList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
+import Button from './Button.jsx';
+import TextInput from './TextInput.jsx';
+import { GoPlus } from 'react-icons/go';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');
@@ -11,6 +14,10 @@ export default function AddList({ setListPath }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
+			if (!listName) {
+				window.alert('Please enter a list name');
+				return;
+			}
 			const newList = await createList(user.uid, user.email, listName);
 			const listPath = user.uid + '/' + listName;
 			// if list is created newList will be true else newList will be false
@@ -33,16 +40,23 @@ export default function AddList({ setListPath }) {
 	};
 	return (
 		<>
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="newList">Create a new shopping list:</label>
-				<input
-					type="text"
-					id="newList"
-					placeholder={`e.g. Groceries, Clothes`}
+			<form
+				onSubmit={handleSubmit}
+				className="flex items-end flex-wrap space-x-2"
+			>
+				<TextInput
+					label="Create a new shopping list:"
+					placeholder="add a list name"
 					onChange={(e) => setListName(e.target.value)}
-					className="border border-inputBorder px-1 rounded-lg xsm:max-w-full xsm:ml-0 md:ml-2 lg:w-56 h-8 mx-2"
-				></input>
-				<button type="submit">Create List</button>
+					value={listName}
+				/>
+				<Button
+					type="submit"
+					text="Add item"
+					bgColor="bg-tcl-blue"
+					textColor="text-white"
+					icon={<GoPlus size={19} />}
+				/>
 			</form>
 			{message ? <p>{message}</p> : null}
 		</>

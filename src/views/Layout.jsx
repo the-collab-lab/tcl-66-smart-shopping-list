@@ -18,6 +18,7 @@ export function Layout({ data, setListPath, setLoading }) {
 					className={`min-h-screen flex-grow bg-appBg p-2 ${mainContentMargin} md:p-6 pb-12`}
 				>
 					<Outlet />
+					{/* Modal for inviting friends */}
 				</main>
 			</div>
 		</>

@@ -4,7 +4,7 @@ import { Home, Layout, List, ManageList, Err, Login } from './views';
 
 import { PublicRoute, PrivateRoute } from './components';
 
-import { useAuth } from './api';
+import { useAuth, useSharedWithData } from './api';
 
 import { useShoppingListData, useShoppingLists } from './api';
 import { useStateWithStorage } from './utils';
@@ -36,6 +36,8 @@ export function App() {
 	 * Check ./api/firestore.js for its implementation.
 	 */
 	const { data, loading, setLoading } = useShoppingListData(listPath);
+
+	const { sharedWith } = useSharedWithData(listPath);
 
 	return (
 		<Router>
@@ -70,6 +72,8 @@ export function App() {
 								<List
 									data={data}
 									listPath={listPath}
+									lists={lists}
+									sharedWith={sharedWith}
 									loading={loading}
 									setLoading={setLoading}
 								/>

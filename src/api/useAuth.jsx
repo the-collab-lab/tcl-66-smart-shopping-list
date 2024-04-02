@@ -54,6 +54,7 @@ export const SignInButton = () => {
 		</button>
 	);
 };
+
 /**
  * A button that signs the user out of the app using Firebase Auth.
  */
@@ -87,6 +88,7 @@ export const SignOutButton = () => {
 		</button>
 	);
 };
+
 /**
  * A custom hook that listens for changes to the user's auth state.
  * Check out the Firebase docs for more info on auth listeners:
@@ -94,6 +96,7 @@ export const SignOutButton = () => {
  */
 export const useAuth = () => {
 	const [user, setUser] = useState(null);
+  
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			setUser(user);
@@ -102,5 +105,6 @@ export const useAuth = () => {
 			}
 		});
 	}, []);
+  
 	return { user };
 };
