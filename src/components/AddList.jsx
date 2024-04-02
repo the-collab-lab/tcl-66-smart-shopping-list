@@ -1,22 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { GoPlus } from 'react-icons/go';
 import { createList } from '../api';
 import { useAuth } from '../api/useAuth.jsx';
+import { useToast } from '../utils/hooks.js';
 import Button from './Button.jsx';
 import TextInput from './TextInput.jsx';
-import { GoPlus } from 'react-icons/go';
+import Toast from './Toast';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');
-	const [message, setMessage] = useState('');
 	const navigate = useNavigate();
 	const { user } = useAuth();
+	const { toasts, addToast } = useToast();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			if (!listName) {
-				window.alert('Please enter a list name');
+				addToast({
+					id: 'noListName',
+					message: 'Please name your list',
+					iconName: 'warning',
+					color: 'orange',
+				});
 				return;
 			}
 			const newList = await createList(user.uid, user.email, listName);
@@ -24,23 +31,39 @@ export default function AddList({ setListPath }) {
 			// if list is created newList will be true else newList will be false
 			if (newList) {
 				setListName('');
-				setMessage(`Your list, ${listName}, was successfully created.`);
+				addToast({
+					id: 'newListCreated',
+					message: `Your list, ${listName}, was successfully created.`,
+					iconName: 'check',
+					color: 'blue',
+				});
 				setListPath(listPath);
 				setTimeout(() => {
 					navigate('/list');
 				}, 2000);
 			} else {
-				setMessage(`Your list, ${listName} was not created. Please try again.`);
+				addToast({
+					id: 'problemCreatingList',
+					message: `Eeep, ${listName} list was not created. Please try again.`,
+					iconName: 'error',
+					color: 'red',
+				});
 			}
 		} catch (err) {
 			console.error(err);
-			setMessage(
-				`An error occurred while creating your list, ${listName}: ${err.message}.`,
-			);
+			addToast({
+				id: 'errorCreatingList',
+				message: `An error occurred while creating your list, ${listName}: ${err.message}.`,
+				iconName: 'error',
+				color: 'red',
+			});
 		}
 	};
 	return (
 		<>
+			{toasts.map((toast) => (
+				<Toast key={toast.id} {...toast} />
+			))}
 			<form
 				onSubmit={handleSubmit}
 				className="flex items-end flex-wrap space-x-2"
@@ -59,7 +82,6 @@ export default function AddList({ setListPath }) {
 					icon={<GoPlus size={19} />}
 				/>
 			</form>
-			{message ? <p>{message}</p> : null}
 		</>
 	);
 }

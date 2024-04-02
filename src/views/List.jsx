@@ -62,7 +62,7 @@ export function List({ data, listPath, lists, loading }) {
 			) : data.length > 0 ? (
 				<>
 					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-16 mb-12">
-						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
+						{listName ? `Hello from your ${listName} list!` : 'Hello!'}
 					</h2>
 					{listPath.includes(user?.uid) ? (
 						<div className="absolute top-2 right-2 flex justify-center items-center gap-4">

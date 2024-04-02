@@ -36,7 +36,7 @@ export default function AddItem({ listPath, data }) {
 		if (itemValue.daysUntilNextPurchase === '') {
 			addToast({
 				id: 'toastTimeframe',
-				message: 'Eeep, select a timeframe to add an item to your list!',
+				message: 'Eeep, select a time frame to add an item to your list!',
 				iconName: 'warning',
 				color: 'orange',
 			});

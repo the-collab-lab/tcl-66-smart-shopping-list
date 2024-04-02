@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Svg from './Svg';
 import { IoClose } from 'react-icons/io5';
 
@@ -22,17 +22,19 @@ const Toast = ({ id, message, iconName, color, dismissible = true }) => {
 	return (
 		<div
 			id={id}
-			className={`fixed top-5 right-5 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg 
+			className={`fixed top-5 right-5 flex items-center justify-between w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg 
             shadow-${color} transition-opacity duration-500 
             ${isVisible ? 'opacity-100' : 'opacity-0'}`}
 		>
-			<div
-				className={`inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-${color}-500 bg-${color}-100 rounded-lg`}
-			>
-				<Svg className="w-5 h-5" aria-hidden="true" symbolId={iconName} />
-				<span className="sr-only">{iconName} icon</span>
+			<div className="flex items-center flex-grow">
+				<div
+					className={`inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-${color}-500 bg-${color}-100 rounded-lg`}
+				>
+					<Svg className="w-5 h-5" aria-hidden="true" symbolId={iconName} />
+					<span className="sr-only">{iconName} icon</span>
+				</div>
+				<div className="ms-3 text-sm font-normal">{message}</div>
 			</div>
-			<div className="ms-3 text-sm font-normal">{message}</div>
 			{dismissible ? (
 				<button
 					type="button"
