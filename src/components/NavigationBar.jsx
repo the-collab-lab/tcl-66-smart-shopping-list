@@ -31,11 +31,11 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						<Logo />
 					</div>
 				</NavLink>
-				<div className="w-56 h-[125px] gap-6 pt-6">
+				<div className="xsm:min-w-24 sm:min-w-36 md:w-36 lg:w-56 h-[125px] gap-6 pt-6">
 					{/* If a user clicks the "New list" button, then the "My Lists" header and the "New List" button disappear and the Create List form appears. */}
 					{!openFormModal ? (
-						<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-6 flex items-center">
-							<div className="w-32 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
+						<div className="max-w-fit w-56 h-[34px] pl-2 grid grid-cols-2 gap-y-6 gap-x flex items-center">
+							<div className="w-32 h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280] flex flex-initial">
 								My Lists
 							</div>
 							<Button
@@ -64,7 +64,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						/>
 					) : (
 						<div className="flex-col w-56 ">
-							<div className="flex grow min-h-12 h-[40vh]">
+							<div className="flex min-h-12 h-[40vh] pb-4 xsm:min-w-24 sm:min-w-32 md:w-36 lg:w-56">
 								{data.length > 0 ? (
 									data.find(
 										(list) =>
@@ -101,14 +101,14 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									</p>
 								)}
 							</div>
-							<hr className="h-px bg-[#D9D9D9] border mb-4"></hr>
+							<hr className="h-px bg-[#D9D9D9] border mb-4 xsm:min-w-24 sm:min-w-36 md:w-36 lg:w-56 h-[125px]"></hr>
 
 							{/* Lists shared with the user by other users display when the signed-in user's uid does not match the listPath uid of a shopping list.*/}
 							<div className="flex flex-col min-h-12 overflow-auto">
 								<p className="w-56 h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4">
 									Shared With Me
 								</p>
-								<div className="flex grow min-h-12 h-[40vh] pb-4">
+								<div className="flex min-h-12 h-[40vh] pb-4 xsm:min-w-24 sm:min-w-32 md:w-36 lg:w-56">
 									{data.length > 0 ? (
 										data.find(
 											(list) =>
