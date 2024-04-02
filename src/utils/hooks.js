@@ -40,6 +40,12 @@ export function useToast() {
 			removeToast(toast.id);
 		}, displayDuration);
 	};
+	const addConfirmToast = (toast) => {
+		setToasts((prevToasts) => [...prevToasts, toast]);
+	};
+	const cancelConfirmToast = (id) => {
+		removeToast(id);
+	};
 
 	/**
 	 * Removes a toast notification from the list by its ID.
@@ -49,5 +55,5 @@ export function useToast() {
 		setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
 	};
 
-	return { toasts, addToast };
+	return { toasts, addToast, addConfirmToast, cancelConfirmToast };
 }

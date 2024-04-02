@@ -82,7 +82,7 @@ export default function AddItem({ listPath, data }) {
 				iconName: 'error',
 				color: 'red',
 			});
-			// console.error(err);
+			console.error(err);
 		}
 	};
 

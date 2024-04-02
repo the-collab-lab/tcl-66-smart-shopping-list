@@ -22,7 +22,7 @@ const Toast = ({ id, message, iconName, color, dismissible = true }) => {
 	return (
 		<div
 			id={id}
-			className={`absolute top-2 right-2 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg 
+			className={`fixed top-5 right-5 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg 
             shadow-${color} transition-opacity duration-500 
             ${isVisible ? 'opacity-100' : 'opacity-0'}`}
 		>
