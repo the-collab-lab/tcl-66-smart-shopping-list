@@ -7,9 +7,7 @@ import { PublicRoute, PrivateRoute } from './components';
 import { useAuth, useSharedWithData } from './api';
 
 import { useShoppingListData, useShoppingLists } from './api';
-
 import { useStateWithStorage } from './utils';
-
 export function App() {
 	/**
 	 * This custom hook takes the path of a shopping list
@@ -20,7 +18,6 @@ export function App() {
 		'tcl-shopping-list-path',
 		null,
 	);
-
 	/**
 	 * This custom hook holds info about the current signed in user.
 	 * Check ./api/useAuth.jsx for its implementation.
@@ -28,7 +25,6 @@ export function App() {
 	const { user } = useAuth();
 	const userId = user?.uid;
 	const userEmail = user?.email;
-
 	/**
 	 * This custom hook takes a user ID and email and fetches
 	 * the shopping lists that the user has access to.
@@ -50,7 +46,16 @@ export function App() {
 					<Route path="/login" element={<Login />} />
 				</Route>
 				<Route element={<PrivateRoute />}>
-					<Route path="/" element={<Layout />}>
+					<Route
+						path="/"
+						element={
+							<Layout
+								data={lists}
+								setListPath={setListPath}
+								setLoading={setLoading}
+							/>
+						}
+					>
 						<Route
 							index
 							element={
