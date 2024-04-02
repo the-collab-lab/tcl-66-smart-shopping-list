@@ -1,15 +1,32 @@
 import { useState, useEffect } from 'react';
 import AddItem from '../components/AddItem';
 import { ListItem } from '../components/ListItem';
-import { comparePurchaseUrgency } from '../api/firebase';
+import { comparePurchaseUrgency, useSharedWithData } from '../api/firebase';
+import { Spinner } from '../components/Spinner';
+import TextInput from '../components/TextInput';
+import Modal from '../components/Modal';
+import InviteForm from '../components/InviteForm';
+import SharedWithList from '../components/SharedWithList';
+import { useAuth } from '../api';
+import { IoMailOutline } from 'react-icons/io5';
+import { FaRegCircleUser } from 'react-icons/fa6';
 
-export function List({ data, listPath, loading }) {
+export function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
 	const [listName, setListName] = useState('');
+	const [toggleModal, setToggleModal] = useState(false);
+	const [modalContent, setModalContent] = useState('');
+	const { sharedWith } = useSharedWithData(listPath);
+	const { user } = useAuth();
+	const [usersSharedWith, setUsersSharedWith] = useState(sharedWith);
 
 	useEffect(() => {
 		setListName(listPath.split('/')[1]);
 	}, [listPath]);
+
+	useEffect(() => {
+		setUsersSharedWith(sharedWith);
+	}, [sharedWith]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -23,6 +40,15 @@ export function List({ data, listPath, loading }) {
 		setSearch('');
 	};
 
+	const openModal = (content) => {
+		setModalContent(content);
+		setToggleModal(true);
+	};
+
+	const closeModal = () => {
+		setToggleModal(false);
+	};
+
 	const filteredData = data.filter((item) =>
 		item.name.toLowerCase().includes(search.toLowerCase()),
 	);
@@ -32,13 +58,37 @@ export function List({ data, listPath, loading }) {
 	return (
 		<>
 			{loading ? (
-				<p>loading . . .</p>
+				<Spinner />
 			) : data.length > 0 ? (
 				<>
-					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-6 mb-10">
+					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-16 mb-12">
 						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
-					<span className="flex justify-between items-center flex-wrap">
+					{listPath.includes(user?.uid) ? (
+						<div className="absolute top-2 right-2 flex justify-center items-center gap-4">
+							<div>
+								{usersSharedWith.length > 0 ? (
+									<button
+										onClick={() => openModal('sharedWithList')}
+										className="flex items-center gap-1"
+									>
+										<FaRegCircleUser />
+										{` ${usersSharedWith.length}`}
+									</button>
+								) : null}
+							</div>
+							<div>
+								<button
+									onClick={() => openModal('inviteForm')}
+									className="flex items-center xsm:text-xs sm:text-md md:text-lg px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
+								>
+									<IoMailOutline className="mr-2" />
+									Share list
+								</button>
+							</div>
+						</div>
+					) : null}
+					<span className="flex justify-between items-center gap-4 flex-wrap mb-6">
 						{/* AddItem component */}
 						<div className="md:flex md:flex-col md:items-start">
 							<AddItem listPath={listPath} data={data} />
@@ -49,22 +99,18 @@ export function List({ data, listPath, loading }) {
 							onSubmit={handleSubmit}
 							className="xsm:text-xs sm:text-sm md:text-md"
 						>
-							<label htmlFor="search">Search:</label>
-							<input
-								type="text"
-								id="search"
+							<TextInput
 								name="search"
-								className="border border-inputBorder pl-2 mx-2 rounded-lg xsm:flex-grow xsm:h-6 sm:w-full sm:h-6 md:w-36 md:h-8"
 								onChange={handleChange}
 								value={search}
+								handleClear={handleClear}
+								isSearch={true}
+								placeholder="Search list"
 							/>
-							<button type="button" onClick={handleClear}>
-								x
-							</button>
 						</form>
 					</span>
 
-					<ul>
+					<ul className="flex flex-col gap-2">
 						{sortedItems.map((item) => (
 							<ListItem
 								key={item.id}
@@ -80,9 +126,37 @@ export function List({ data, listPath, loading }) {
 							/>
 						))}
 					</ul>
+					<div>
+						<Modal
+							isOpen={toggleModal}
+							onClose={closeModal}
+							id={
+								modalContent === 'inviteForm' ? 'inviteForm' : 'sharedWithList'
+							}
+						>
+							{modalContent === 'inviteForm' ? (
+								<InviteForm
+									listName={listName}
+									listPath={listPath}
+									lists={lists}
+									closeModal={closeModal}
+									sharedWith={usersSharedWith}
+									setUsersSharedWith={setUsersSharedWith}
+								/>
+							) : (
+								// Render your shared user list component here
+								<SharedWithList
+									listPath={listPath}
+									sharedWith={usersSharedWith}
+									closeModal={closeModal}
+									setUsersSharedWith={setUsersSharedWith}
+								/>
+							)}
+						</Modal>
+					</div>
 				</>
 			) : loading ? (
-				<p>loading . . .</p>
+				<Spinner />
 			) : data.length < 1 ? (
 				<>
 					<p className="py-2">

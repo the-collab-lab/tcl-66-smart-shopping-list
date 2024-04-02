@@ -1,8 +1,11 @@
 import {
 	arrayUnion,
+	arrayRemove,
 	getDoc,
 	setDoc,
 	deleteDoc,
+	getDocs,
+	writeBatch,
 	collection,
 	doc,
 	onSnapshot,
@@ -137,30 +140,160 @@ export async function createList(userId, userEmail, listName) {
 	return false;
 }
 
+export function useSharedWithData(listPath) {
+	const [sharedWith, setSharedWith] = useState([]);
+
+	useEffect(() => {
+		if (!listPath) return;
+
+		const fetchSharedWithData = async () => {
+			try {
+				const listDocRef = doc(db, listPath);
+				const listDocSnap = await getDoc(listDocRef);
+
+				if (listDocSnap.exists()) {
+					const listData = listDocSnap.data();
+					const sharedWithData = listData.sharedWith || [];
+					setSharedWith(sharedWithData);
+				} else {
+					console.log('No such document!');
+				}
+			} catch (error) {
+				console.error('Error fetching sharedWith data:', error);
+			}
+		};
+
+		fetchSharedWithData();
+	}, [listPath]);
+
+	return { sharedWith };
+}
+
 /**
  * Shares a list with another user.
  * @param {string} listPath The path to the list to share.
  * @param {string} recipientEmail The email of the user to share the list with.
  */
-export async function shareList(listPath, currentUserId, recipientEmail) {
-	// Check if current user is owner.
-	if (!listPath.includes(currentUserId)) {
-		return 'You are not the owner of this list. Only the owner can share the list.';
-	}
+export async function shareList(input, selectedLists) {
 	// Get the document for the recipient user.
+	const recipientEmail = input.recipientEmail;
+	const recipientName = input.recipientName;
 	const usersCollectionRef = collection(db, 'users');
 	const recipientDoc = await getDoc(doc(usersCollectionRef, recipientEmail));
+
 	// If the recipient user doesn't exist, we can't share the list.
 	if (!recipientDoc.exists()) {
 		return 'User not found, please try again.';
 	}
-	// Add the list to the recipient user's sharedLists array.
-	const listDocumentRef = doc(db, listPath);
-	const userDocumentRef = doc(db, 'users', recipientEmail);
-	updateDoc(userDocumentRef, {
-		sharedLists: arrayUnion(listDocumentRef),
+
+	// Construct the shared data object
+	const sharedData = {
+		name: input.recipientName,
+		email: input.recipientEmail,
+	};
+
+	// Share each selected list with the recipient user
+	const sharePromises = selectedLists.map(async (list) => {
+		const listDocumentRef = doc(db, list.value);
+		const userDocumentRef = doc(db, 'users', recipientEmail);
+
+		// Check if the list is already shared with the recipient user
+		const listDoc = await getDoc(listDocumentRef);
+		const sharedWithArray = listDoc.data()?.sharedWith || [];
+		const alreadyShared = sharedWithArray.some(
+			(shared) => shared.email === input.recipientEmail,
+		);
+
+		if (!alreadyShared) {
+			await updateDoc(listDocumentRef, {
+				sharedWith: arrayUnion(sharedData),
+			});
+
+			// Add the list to the recipient user's sharedLists array
+			await updateDoc(userDocumentRef, {
+				sharedLists: arrayUnion(listDocumentRef),
+			});
+		}
 	});
-	return `Yay, ${recipientEmail} was invited to your list!`;
+
+	await Promise.all(sharePromises);
+
+	return `Yay, ${recipientName} was invited to ${selectedLists.length === 1 ? 'your list' : 'your lists'}!`;
+}
+
+/**
+ * Unshares a list with a user.
+ * @param {string} listPath The path to the list to unshare.
+ * @param {string} recipientEmail The email of the user to unshare the list with.
+ */
+export async function unshareList(listPath, recipientEmail, recipientName) {
+	const sharedData = {
+		name: recipientName,
+		email: recipientEmail,
+	};
+
+	try {
+		// Remove the user from the sharedWith array of the list document
+		const listDocRef = doc(db, listPath);
+		await updateDoc(listDocRef, {
+			sharedWith: arrayRemove(sharedData),
+		});
+
+		// Remove the list from the sharedLists array of the user document
+		const userDocRef = doc(db, 'users', recipientEmail);
+		await updateDoc(userDocRef, {
+			sharedLists: arrayRemove(listDocRef),
+		});
+
+		return `List unshared with ${recipientEmail}.`;
+	} catch (error) {
+		console.error('Error unsharing list:', error);
+		return 'An error occurred while unsharing the list. Please try again.';
+	}
+}
+
+export async function deleteList(listPath, userId, userEmail, listName) {
+	const listDocRef = doc(db, userId, listName);
+	const listCollectionRef = collection(db, listPath, 'items');
+	const userDocumentRef = doc(db, 'users', userEmail);
+
+	await deleteDoc(listDocRef);
+
+	// Delete all nested documents within the list collection
+	const snapshot = await getDocs(listCollectionRef);
+	const batch = writeBatch(db);
+	snapshot.forEach((doc) => {
+		batch.delete(doc.ref);
+	});
+	await batch.commit();
+
+	// Remove the list from sharedLists arrays in users' documents
+	const usersSnapshot = await getDocs(collection(db, 'users'));
+	const batchUpdateUsers = writeBatch(db);
+	usersSnapshot.forEach((userDoc) => {
+		const sharedLists = userDoc.data().sharedLists || [];
+		const updatedSharedLists = sharedLists.filter((sharedListRef) => {
+			return sharedListRef.path !== listDocRef.path;
+		});
+		batchUpdateUsers.update(userDoc.ref, { sharedLists: updatedSharedLists });
+	});
+	await batchUpdateUsers.commit();
+
+	updateDoc(userDocumentRef, {
+		sharedLists: arrayRemove(listDocRef),
+	});
+}
+
+export async function deleteSharedList(userEmail, sharedFromUserId, listName) {
+	const sharedListDocRef = doc(db, sharedFromUserId, listName);
+	const userDocumentRef = doc(db, 'users', userEmail);
+
+	if (sharedListDocRef) {
+		await deleteDoc(sharedListDocRef);
+		updateDoc(userDocumentRef, {
+			sharedLists: arrayRemove(sharedListDocRef),
+		});
+	}
 }
 
 /**

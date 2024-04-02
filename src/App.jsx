@@ -1,8 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { Home, Layout, List, ManageList } from './views';
+import { Home, Layout, List, ManageList, Err, Login } from './views';
 
-import { useAuth } from './api';
+import { PublicRoute, PrivateRoute } from './components';
+
+import { useAuth, useSharedWithData } from './api';
 
 import { useShoppingListData, useShoppingLists } from './api';
 
@@ -13,9 +15,6 @@ export function App() {
 	 * This custom hook takes the path of a shopping list
 	 * in our database and syncs it with localStorage for later use.
 	 * Check ./utils/hooks.js for its implementation.
-	 *
-	 * We'll later use `setListPath` when we allow a user
-	 * to create and switch between lists.
 	 */
 	const [listPath, setListPath] = useStateWithStorage(
 		'tcl-shopping-list-path',
@@ -42,36 +41,46 @@ export function App() {
 	 */
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
+	const { sharedWith } = useSharedWithData(listPath);
+
 	return (
 		<Router>
 			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route
-						index
-						element={
-							<Home
-								data={lists}
-								setListPath={setListPath}
-								setLoading={setLoading}
-							/>
-						}
-					/>
-					<Route
-						path="/list"
-						element={
-							<List
-								data={data}
-								listPath={listPath}
-								loading={loading}
-								setLoading={setLoading}
-							/>
-						}
-					/>
-					<Route
-						path="/manage-list"
-						element={<ManageList listPath={listPath} data={data} />}
-					/>
+				<Route element={<PublicRoute />}>
+					<Route path="/login" element={<Login />} />
 				</Route>
+				<Route element={<PrivateRoute />}>
+					<Route path="/" element={<Layout />}>
+						<Route
+							index
+							element={
+								<Home
+									data={lists}
+									setListPath={setListPath}
+									setLoading={setLoading}
+								/>
+							}
+						/>
+						<Route
+							path="/list"
+							element={
+								<List
+									data={data}
+									listPath={listPath}
+									lists={lists}
+									sharedWith={sharedWith}
+									loading={loading}
+									setLoading={setLoading}
+								/>
+							}
+						/>
+						<Route
+							path="/manage-list"
+							element={<ManageList listPath={listPath} data={data} />}
+						/>
+					</Route>
+				</Route>
+				<Route path="*" element={<Err />} />
 			</Routes>
 		</Router>
 	);

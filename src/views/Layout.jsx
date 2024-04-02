@@ -16,20 +16,22 @@ export function Layout() {
 				<nav
 					className={`fixed ${sidebarWidth} bg-navBg border-b-1 border-r-1 border-navBorder min-h-screen`}
 				>
-					<div className={sidebarPadding}>
-						<NavLink
-							to="/"
-							className="block px-4 py-1 rounded-md hover:bg-hover"
-						>
-							Home
-						</NavLink>
-						<NavLink
-							to="/list"
-							className="block px-4 py-1 mt-2 rounded-md hover:bg-hover"
-						>
-							List
-						</NavLink>
-					</div>
+					<span className="flex flex-col min-h-screen justify-between">
+						<div className={sidebarPadding}>
+							<NavLink
+								to="/"
+								className="block px-4 py-1 rounded-md hover:bg-hover"
+							>
+								Home
+							</NavLink>
+							<NavLink
+								to="/list"
+								className="block px-4 py-1 mt-2 rounded-md hover:bg-hover"
+							>
+								List
+							</NavLink>
+						</div>
+					</span>
 					<div className={signInOutContainer}>
 						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
@@ -39,6 +41,7 @@ export function Layout() {
 					className={`min-h-screen flex-grow bg-appBg p-2 md:p-6 ${mainContentMargin} pb-12`}
 				>
 					<Outlet />
+					{/* Modal for inviting friends */}
 				</main>
 			</div>
 		</>

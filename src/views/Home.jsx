@@ -10,7 +10,7 @@ export function Home({ data, setListPath, setLoading }) {
 				{user ? `Welcome ${user.displayName}!` : 'Welcome!'}
 			</h2>
 			<AddList setListPath={setListPath} />
-			<ul>
+			<ul className="mt-6">
 				{data.map((list) => (
 					<SingleList
 						key={list.name}
