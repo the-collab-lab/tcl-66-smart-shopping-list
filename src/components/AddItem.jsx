@@ -81,7 +81,7 @@ export default function AddItem({ listPath, data }) {
 					name="daysUntilNextPurchase"
 					onChange={handleInputChange}
 					value={itemValue.daysUntilNextPurchase}
-					className="border border-inputBorder px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8"
+					className="border border-inputBorder px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8 lg:h-10"
 				>
 					<option value="" disabled>
 						Select an option
