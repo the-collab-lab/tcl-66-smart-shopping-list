@@ -1,14 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import { Home, Layout, List, ManageList, Err, Login } from './views';
-
-import { PublicRoute, PrivateRoute } from './components';
-
+import { lazy, Suspense } from 'react';
 import { useAuth, useSharedWithData } from './api';
-
 import { useShoppingListData, useShoppingLists } from './api';
-
 import { useStateWithStorage } from './utils';
+
+import { Spinner } from './components';
+
+const PublicRoute = lazy(() => import('./components/PublicRoute'));
+const PrivateRoute = lazy(() => import('./components/PrivateRoute'));
+const Login = lazy(() => import('./views/Login'));
+const Layout = lazy(() => import('./views/Layout'));
+const Home = lazy(() => import('./views/Home'));
+const List = lazy(() => import('./views/List'));
+const Err = lazy(() => import('./views/Err'));
 
 export function App() {
 	/**
@@ -46,41 +50,78 @@ export function App() {
 	return (
 		<Router>
 			<Routes>
-				<Route element={<PublicRoute />}>
-					<Route path="/login" element={<Login />} />
+				<Route
+					element={
+						<Suspense fallback={<Spinner />}>
+							<PublicRoute />
+						</Suspense>
+					}
+				>
+					<Route
+						path="/login"
+						element={
+							<Suspense fallback={<Spinner />}>
+								<Login />
+							</Suspense>
+						}
+					/>
 				</Route>
-				<Route element={<PrivateRoute />}>
-					<Route path="/" element={<Layout />}>
+				<Route
+					element={
+						<Suspense fallback={<Spinner />}>
+							<PrivateRoute />
+						</Suspense>
+					}
+				>
+					<Route
+						path="/"
+						element={
+							<Suspense fallback={<Spinner />}>
+								<Layout />
+							</Suspense>
+						}
+					>
 						<Route
 							index
 							element={
-								<Home
-									data={lists}
-									setListPath={setListPath}
-									setLoading={setLoading}
-								/>
+								<Suspense fallback={<Spinner />}>
+									<Home
+										data={lists}
+										setListPath={setListPath}
+										setLoading={setLoading}
+									/>
+								</Suspense>
 							}
 						/>
 						<Route
 							path="/list"
 							element={
-								<List
-									data={data}
-									listPath={listPath}
-									lists={lists}
-									sharedWith={sharedWith}
-									loading={loading}
-									setLoading={setLoading}
-								/>
+								<Suspense fallback={<Spinner />}>
+									<List
+										data={data}
+										listPath={listPath}
+										lists={lists}
+										sharedWith={sharedWith}
+										loading={loading}
+										setLoading={setLoading}
+									/>
+								</Suspense>
 							}
 						/>
-						<Route
+						{/* <Route
 							path="/manage-list"
 							element={<ManageList listPath={listPath} data={data} />}
-						/>
+						/> */}
 					</Route>
 				</Route>
-				<Route path="*" element={<Err />} />
+				<Route
+					path="*"
+					element={
+						<Suspense fallback={<Spinner />}>
+							<Err />
+						</Suspense>
+					}
+				/>
 			</Routes>
 		</Router>
 	);

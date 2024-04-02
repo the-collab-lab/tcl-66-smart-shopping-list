@@ -1,7 +1,7 @@
 import { SignInButton } from '../api/useAuth';
 import Logo from '../assets/Logo.jsx';
 
-export function Login() {
+export default function Login() {
 	return (
 		<div className="flex my-auto h-screen bg-[url('assets/lightestContrastGraph.png')] bg-cover xsm:p-4">
 			<div className="m-auto">

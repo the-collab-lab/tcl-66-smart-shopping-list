@@ -1,7 +1,7 @@
 import { Outlet, NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 
-export function Layout() {
+export default function Layout() {
 	const { user } = useAuth();
 
 	const sidebarWidth = 'xsm:min-w-24 sm:min-w-36 md:w-48 lg:w-64';
