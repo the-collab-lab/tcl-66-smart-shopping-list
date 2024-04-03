@@ -10,7 +10,6 @@ import { IoMdHelpCircle } from 'react-icons/io';
 import siteTitle from '../assets/titleLogo.png';
 import logo from '../assets/logo.png';
 import Modal from './Modal.jsx';
-import InviteForm from './InviteForm.jsx';
 import AppInfo from './AppInfo.jsx';
 
 export default function NavigationBar({ data, setListPath, setLoading }) {
