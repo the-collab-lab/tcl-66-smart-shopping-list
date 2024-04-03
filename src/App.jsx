@@ -4,11 +4,11 @@ import { useAuth, useSharedWithData } from './api';
 import { useShoppingListData, useShoppingLists } from './api';
 import { useStateWithStorage } from './utils';
 
+import Login from './views/Login';
+import PublicRoute from './components/PublicRoute';
 import { Spinner } from './components';
 
-const PublicRoute = lazy(() => import('./components/PublicRoute'));
 const PrivateRoute = lazy(() => import('./components/PrivateRoute'));
-const Login = lazy(() => import('./views/Login'));
 const Layout = lazy(() => import('./views/Layout'));
 const Home = lazy(() => import('./views/Home'));
 const List = lazy(() => import('./views/List'));
