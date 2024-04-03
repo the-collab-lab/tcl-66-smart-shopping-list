@@ -1,5 +1,4 @@
-import React from 'react';
-import Svg from './Svg'; // Assuming you have Svg component implemented
+import Svg from './Svg';
 
 const ConfirmToast = ({
 	id,
@@ -10,10 +9,10 @@ const ConfirmToast = ({
 	onCancel,
 }) => {
 	return (
-		<div className="flex justify-end">
+		<div className="fixed inset-0 flex items-center justify-center z-50">
 			<div
 				id={id}
-				className={`w-full max-w-xs p-4 mb-3 shadow-2xl text-gray-500 bg-white rounded-lg shadow-${color}`}
+				className={`w-full max-w-xs p-4 mb-3 text-gray-500 bg-white rounded-lg shadow-xl border border-gray-100`}
 				role="alert"
 			>
 				<div className="flex items-center">
@@ -28,7 +27,7 @@ const ConfirmToast = ({
 							{message}
 						</span>
 						<div className="mb-2 text-sm font-normal">
-							This action is foreva-eva-eva
+							Are you sure? This action is forever-eva-eva.
 						</div>
 						<div className="grid grid-cols-2 gap-2">
 							<div>
@@ -36,7 +35,7 @@ const ConfirmToast = ({
 									onClick={onConfirm}
 									className={`inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300`}
 								>
-									Confirm
+									Delete
 								</button>
 							</div>
 							<div>

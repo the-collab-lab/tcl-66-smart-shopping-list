@@ -96,7 +96,7 @@ export function ListItem({
 	const handleDelete = async () => {
 		try {
 			// Call addConfirmationToast to show the confirmation toast
-			const confirmationId = 'delete-confirmation';
+			const confirmationId = 'deleteItemConfirm';
 			addConfirmToast({
 				id: confirmationId,
 				message: `Are you sure you want to delete ${capitalizeFirstLetterOfEachWord(name)} from your list?`,

@@ -46,7 +46,7 @@ export default function AddItem({ listPath, data }) {
 		if (newItemName === '') {
 			addToast({
 				id: 'toastEmptyName',
-				message: "Please name your item. Empty spaces don't count!",
+				message: "Please name your item. Heh, empty spaces don't count!",
 				iconName: 'warning',
 				color: 'orange',
 			});
@@ -57,7 +57,7 @@ export default function AddItem({ listPath, data }) {
 		if (existingItem(newItemName)) {
 			addToast({
 				id: 'toastExistingItem',
-				message: 'Uh oh, this item is already in your list!',
+				message: `All good, ${newItemName} is already in your list!`,
 				iconName: 'error',
 				color: 'red',
 			});
@@ -69,7 +69,7 @@ export default function AddItem({ listPath, data }) {
 			await addItem(listPath, itemValue);
 			addToast({
 				id: 'toastItemAdded',
-				message: `${newItemName} added to list!`,
+				message: `Done! ${newItemName} added to list!`,
 				iconName: 'check',
 				color: 'blue',
 			});
@@ -77,8 +77,8 @@ export default function AddItem({ listPath, data }) {
 		} catch (err) {
 			// alerts user something else went wrong
 			addToast({
-				id: 'toastItemAddError',
-				message: `There was an error adding ${newItemName} to list, please try again`,
+				id: 'toastItemAddErr',
+				message: `There was an error adding ${newItemName} to your list, please try again`,
 				iconName: 'error',
 				color: 'red',
 			});
