@@ -79,7 +79,7 @@ export const SignOutButton = () => {
 	return (
 		<button
 			type="button"
-			className="block px-4 py-2 rounded-lg hover:bg-gray-100"
+			className="flex items-center xsm:text-[12px] sm:text-[13px] md:text-[14px] px-2 py-1 border-1 m-auto rounded-lg hover:bg-hover"
 			onClick={handleSignOut}
 			aria-label="Sign Out"
 		>

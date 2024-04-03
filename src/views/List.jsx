@@ -94,7 +94,7 @@ export function List({ data, listPath, lists, loading }) {
 							</div>
 						</div>
 					) : null}
-					<span className="flex xsm:justify-between sm:justify-normal items-center xsm:gap-4 sm:gap-2 flex-wrap mb-6">
+					<span className="flex xsm:justify-between items-center xsm:gap-4 sm:gap-2 flex-wrap mb-6">
 						{/* AddItem component */}
 						<div className="justify-center flex sm:flex-col sm:items-start">
 							<AddItem listPath={listPath} data={data} />
@@ -164,12 +164,12 @@ export function List({ data, listPath, lists, loading }) {
 			) : loading ? (
 				<Spinner />
 			) : data.length < 1 ? (
-				<>
-					<p className="py-2">
+				<div className="flex flex-col justify-center px-8">
+					<p className="pb-8 font-medium xsm:pt-16 sm:pt-8">
 						Please add an item to your {listName} list to get started
 					</p>
 					<AddItem listPath={listPath} data={data} />
-				</>
+				</div>
 			) : null}
 		</>
 	);

@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar.jsx';
 
 export function Layout({ data, setListPath, setLoading }) {
-	const mainContentMargin = 'xsm:mx-2 sm:ml-44 md:ml-48 lg:ml-64';
+	const mainContentMargin = 'xsm:mx-2 sm:ml-44 md:ml-48 lg:ml-56';
 
 	return (
 		<>

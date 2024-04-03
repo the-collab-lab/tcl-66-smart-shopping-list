@@ -4,10 +4,11 @@ import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 import { NavigationBarSingleList } from '../components/NavigationBarSingleList.jsx';
 import PlusSign from '../assets/PlusSign.jsx';
-import NavigationBarModal from '../components/NavigationBarModal.jsx';
+import Modal from './Modal.jsx';
 import { IoMenu } from 'react-icons/io5';
 import logoWide from '../assets/logo-wide.png';
 import logo from '../assets/logo.png';
+import AddList from './AddList.jsx';
 
 export default function NavigationBar({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
@@ -62,7 +63,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							to="/"
 							className="flex xsm:justify-center sm:justify-center pt-4 rounded-md"
 						>
-							<div className="">
+							<div>
 								{screenSize > 480 ? (
 									<img
 										src={logoWide}
@@ -73,7 +74,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									<img
 										src={logo}
 										alt="List Genius logo of shopping bag"
-										className="xsm:w-[70px] sm:hidden"
+										className="xsm:w-[70px] sm:hidden pb-2"
 									/>
 								)}
 							</div>
@@ -84,26 +85,21 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						>
 							<IoMenu size={28} className="sm:hidden" />
 						</button>
-						<div className={`${sidebarWidth} h-[125px] xsm:pt-0 sm:pt-6`}>
+						<div className={`${sidebarWidth} h-[125px] xsm:pt-0 sm:pt-2`}>
 							{/* If a user clicks the "New list" button, then the "My Lists" header and the "New List" button disappear and the Create List form appears. */}
 							{!openFormModal ? (
 								<>
-									<NavLink to="/" className="sm:hidden">
-										<div
-											className={`pl-2 pb-2 text-lg font-medium font-family: 'Inter' text-[#111928] sm:hidden hover:bg-gray-100`}
-										>
-											Home
-										</div>
-									</NavLink>
 									<hr
-										className={`h-px bg-[#D9D9D9] border mb-4 ${sidebarWidth} h-[125px] sm:hidden`}
+										className={`h-px bg-[#D9D9D9] border mb-4 ${sidebarWidth} h-[125px]`}
 									></hr>
 									<div
 										className={`w-full flex justify-between ${sidebarWidth} h-[34px] px-2 items-center`}
 									>
-										<div className="h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]">
-											My Lists
-										</div>
+										<NavLink to="/">
+											<div className="text-sm font-medium text-[#6B7280]">
+												My Lists
+											</div>
+										</NavLink>
 										<Button
 											className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
 											color="light"
@@ -111,7 +107,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 										>
 											<div className="max-w-fit flex gap-x-2 items-center">
 												<PlusSign />
-												<p className="w-[46px] h-[18px] font-medium font-family: 'Inter' text-xs leading-[20px] text-[#111928]">
+												<p className="w-[46px] h-[18px] font-medium text-xs leading-[20px] text-[#111928]">
 													<span className="whitespace-nowrap">New list</span>
 												</p>
 											</div>
@@ -122,17 +118,15 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 
 							{/* The user's lists display when the user's uid matches the uid contained in the listPath of a shopping list.*/}
 							{openFormModal ? (
-								<NavigationBarModal
-									setListPath={setListPath}
-									isOpen={openFormModal}
-									onClose={closeModal}
-									className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
-									color="light"
-								/>
+								<Modal isOpen={openFormModal} onClose={closeModal}>
+									<div className="flex flex-col gap-4 p-4">
+										<AddList setListPath={setListPath} />
+									</div>
+								</Modal>
 							) : (
 								<div className={`flex-col ${sidebarWidth} `}>
 									<div
-										className={`flex min-h-12 xsm:h-[30vh] sm:h-[40vh] pb-4 ${sidebarWidth}`}
+										className={`flex min-h-12 xsm:h-[30vh] sm:h-[35vh] pt-2 pb-4 ${sidebarWidth}`}
 									>
 										{data.length > 0 ? (
 											data.find(
@@ -141,7 +135,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 													user?.uid,
 											) ? (
 												<ul
-													className={`${sidebarWidth} gap-6 text-sm font-family: Inter font-medium leading-4 text-left overflow-auto`}
+													className={`${sidebarWidth} gap-6 text-sm text-left overflow-auto`}
 												>
 													{' '}
 													{data.map((list) => (
@@ -163,14 +157,14 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 												</ul>
 											) : (
 												<p
-													className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
+													className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
 												>
 													No Lists
 												</p>
 											)
 										) : (
 											<p
-												className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
+												className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
 											>
 												No Lists
 											</p>
@@ -183,12 +177,12 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									{/* Lists shared with the user by other users display when the signed-in user's uid does not match the listPath uid of a shopping list.*/}
 									<div className="flex flex-col min-h-12 overflow-auto">
 										<p
-											className={`${sidebarWidth} h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4`}
+											className={`${sidebarWidth} h-[14px] font-medium text-sm text-[#6B7280] flex pl-2 pb-2`}
 										>
 											Shared With Me
 										</p>
 										<div
-											className={`flex min-h-12 h-[40vh] pb-4 ${sidebarWidth}`}
+											className={`flex min-h-12 xsm:h-[30vh] sm:h-[35vh] pt-2 pb-8 ${sidebarWidth}`}
 										>
 											{data.length > 0 ? (
 												data.find(
@@ -199,7 +193,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 														) !== user?.uid,
 												) ? (
 													<ul
-														className={`${sidebarWidth} gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12 overflow-auto`}
+														className={`${sidebarWidth} gap-6 text-sm font-medium text-left rounded-lg min-h-12 overflow-auto`}
 													>
 														{' '}
 														{data.map((list) => (
@@ -221,14 +215,14 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 													</ul>
 												) : (
 													<p
-														className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
+														className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
 													>
 														No Lists
 													</p>
 												)
 											) : (
 												<p
-													className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
+													className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
 												>
 													No Lists
 												</p>
@@ -240,7 +234,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						</div>
 					</div>
 
-					<div className="absolute xsm:pb-4 md:p-4 bottom-0 left-8 w-full">
+					<div className="absolute xsm:pb-4 md:p-4 bottom-0 w-full flex justify-between items-center">
 						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
 				</nav>
