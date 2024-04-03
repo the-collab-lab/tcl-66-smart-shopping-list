@@ -21,11 +21,18 @@ export function NavigationBarSingleList({
 		window.location.pathname.substring(
 			window.location.pathname.lastIndexOf('/') + 1,
 		) === 'list';
-	const localStorageListName = localStorage
-		.getItem('tcl-shopping-list-path')
-		.substring(
-			localStorage.getItem('tcl-shopping-list-path').lastIndexOf('/') + 1,
-		);
+
+	const localStorageListName = () => {
+		try {
+			localStorage
+				.getItem('tcl-shopping-list-path')
+				.substring(
+					localStorage.getItem('tcl-shopping-list-path').lastIndexOf('/') + 1,
+				);
+		} catch (e) {
+			console.error('error', e);
+		}
+	};
 
 	return (
 		<li
