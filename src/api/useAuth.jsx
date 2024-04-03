@@ -96,6 +96,7 @@ export const SignOutButton = () => {
  */
 export const useAuth = () => {
 	const [user, setUser] = useState(null);
+
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			setUser(user);
@@ -104,5 +105,6 @@ export const useAuth = () => {
 			}
 		});
 	}, []);
+
 	return { user };
 };

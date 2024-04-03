@@ -52,9 +52,9 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 			<Link
 				to="/list"
 				onClick={() => handleClick()}
-				className="flex items-center w-full h-full gap-2.5"
+				className="flex items-center w-full h-full"
 			>
-				<p>{name}</p>
+				{name}
 			</Link>
 			<button onClick={() => handleDelete()}>
 				<VscTrash size={20} className="text-gray-600" />
