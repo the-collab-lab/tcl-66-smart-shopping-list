@@ -74,6 +74,7 @@ export default function AddItem({ listPath, data }) {
 				color: 'blue',
 			});
 			setItemValue(initialState);
+			// alert(`Done! ${newItemName} added to list!`);
 		} catch (err) {
 			// alerts user something else went wrong
 			addToast({

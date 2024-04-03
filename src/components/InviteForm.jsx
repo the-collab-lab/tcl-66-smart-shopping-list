@@ -38,7 +38,13 @@ const InviteForm = ({ lists, closeModal, setUsersSharedWith, sharedWith }) => {
 		try {
 			const message = await shareList(input, selectedLists);
 			if (message) {
-				alert(message);
+				addToast({
+					id: 'toastEmptyShareName',
+					message: message,
+					iconName: 'check',
+					color: 'blue',
+				});
+				// alert(message);
 				setInput('');
 				// Wait for the sharing operation to complete successfully
 				const updatedSharedWith = [...sharedWith, input];
