@@ -3,10 +3,11 @@ import { React, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 import { NavigationBarSingleList } from '../components/NavigationBarSingleList.jsx';
-import Logo from '../assets/Logo.jsx';
 import PlusSign from '../assets/PlusSign.jsx';
 import NavigationBarModal from '../components/NavigationBarModal.jsx';
 import { IoMenu } from 'react-icons/io5';
+import logoWide from '../assets/logo-wide.png';
+import logo from '../assets/logo.png';
 
 export default function NavigationBar({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
@@ -59,10 +60,22 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 					<div>
 						<NavLink
 							to="/"
-							className="flex xsm:justify-end sm:justify-center pt-4 rounded-md"
+							className="flex xsm:justify-center sm:justify-center pt-4 rounded-md"
 						>
-							<div className="invert-[85%]">
-								<Logo />
+							<div className="">
+								{screenSize > 480 ? (
+									<img
+										src={logoWide}
+										alt="List Genius wide logo"
+										className="xsm:hidden sm:flex sm:h-[25px]"
+									/>
+								) : (
+									<img
+										src={logo}
+										alt="List Genius logo of shopping bag"
+										className="xsm:w-[70px] sm:hidden"
+									/>
+								)}
 							</div>
 						</NavLink>
 						<button
@@ -71,13 +84,13 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						>
 							<IoMenu size={28} className="sm:hidden" />
 						</button>
-						<div className={`${sidebarWidth} h-[125px] pt-6`}>
+						<div className={`${sidebarWidth} h-[125px] xsm:pt-0 sm:pt-6`}>
 							{/* If a user clicks the "New list" button, then the "My Lists" header and the "New List" button disappear and the Create List form appears. */}
 							{!openFormModal ? (
 								<>
 									<NavLink to="/" className="sm:hidden">
 										<div
-											className={`p-2 text-lg font-medium font-family: 'Inter' text-[#111928] sm:hidden hover:bg-gray-100`}
+											className={`pl-2 pb-2 text-lg font-medium font-family: 'Inter' text-[#111928] sm:hidden hover:bg-gray-100`}
 										>
 											Home
 										</div>
@@ -119,7 +132,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							) : (
 								<div className={`flex-col ${sidebarWidth} `}>
 									<div
-										className={`flex min-h-12 h-[40vh] pb-4 ${sidebarWidth}`}
+										className={`flex min-h-12 xsm:h-[30vh] sm:h-[40vh] pb-4 ${sidebarWidth}`}
 									>
 										{data.length > 0 ? (
 											data.find(
@@ -128,7 +141,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 													user?.uid,
 											) ? (
 												<ul
-													className={`${sidebarWidth} mt-3 gap-6 text-sm font-family: Inter font-medium leading-4 text-left overflow-auto`}
+													className={`${sidebarWidth} gap-6 text-sm font-family: Inter font-medium leading-4 text-left overflow-auto`}
 												>
 													{' '}
 													{data.map((list) => (

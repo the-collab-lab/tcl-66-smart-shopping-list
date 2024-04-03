@@ -1,12 +1,18 @@
 import { SingleList } from '../components/SingleList';
 import AddList from '../components/AddList.jsx';
 import { useAuth } from '../api/useAuth.jsx';
+import pageTitle from '../assets/titleLogo.png';
 
 export function Home({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
 	return (
 		<div>
-			<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-16 xsm:mb-8 sm:mt-10 sm:mb-12">
+			<img
+				src={pageTitle}
+				alt="The Collab Lab"
+				className="mx-auto xsm:h-[24px] w-auto sm:hidden"
+			/>
+			<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-8 xsm:mb-8 sm:mt-10 sm:mb-12">
 				{user ? `Welcome ${user.displayName}!` : 'Welcome!'}
 			</h2>
 			<AddList setListPath={setListPath} />
