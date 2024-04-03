@@ -13,7 +13,7 @@ export default function AddList({ setListPath }) {
 	const navigate = useNavigate();
 	const { user } = useAuth();
 	const { toasts, addToast } = useToast();
-  
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -76,7 +76,7 @@ export default function AddList({ setListPath }) {
 				/>
 				<Button
 					type="submit"
-					text="Add item"
+					text="Add list"
 					bgColor="bg-tcl-blue"
 					textColor="text-white"
 					icon={<GoPlus size={19} />}
