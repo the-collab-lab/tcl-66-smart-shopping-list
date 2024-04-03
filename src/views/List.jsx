@@ -10,6 +10,7 @@ import SharedWithList from '../components/SharedWithList';
 import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
+import pageTitle from '../assets/titleLogo.png';
 
 export function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
@@ -61,7 +62,12 @@ export function List({ data, listPath, lists, loading }) {
 				<Spinner />
 			) : data.length > 0 ? (
 				<>
-					<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-16 xsm:mb-8 sm:mt-10 sm:mb-12">
+					<img
+						src={pageTitle}
+						alt="The Collab Lab"
+						className="mx-auto xsm:h-[24px] w-auto sm:hidden"
+					/>
+					<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-12 xsm:mb-8 sm:mt-10 sm:mb-12">
 						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
 					</h2>
 					{listPath.includes(user?.uid) ? (
