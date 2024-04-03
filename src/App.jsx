@@ -29,7 +29,7 @@ export function App() {
 	 * This custom hook holds info about the current signed in user.
 	 * Check ./api/useAuth.jsx for its implementation.
 	 */
-	const { user } = useAuth();
+	const { user, isAuthenticating } = useAuth();
 	const userId = user?.uid;
 	const userEmail = user?.email;
 
@@ -46,7 +46,9 @@ export function App() {
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
 	const { sharedWith } = useSharedWithData(listPath);
-
+	if (isAuthenticating) {
+		return <Spinner />;
+	}
 	return (
 		<Router>
 			<Routes>
