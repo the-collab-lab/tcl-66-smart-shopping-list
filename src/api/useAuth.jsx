@@ -54,6 +54,7 @@ export const SignInButton = () => {
 		</button>
 	);
 };
+
 /**
  * A button that signs the user out of the app using Firebase Auth.
  */
@@ -78,7 +79,7 @@ export const SignOutButton = () => {
 	return (
 		<button
 			type="button"
-			className="block px-4 py-2 rounded-md hover:bg-gray-100"
+			className="block px-4 py-2 rounded-lg hover:bg-gray-100"
 			onClick={handleSignOut}
 			aria-label="Sign Out"
 		>
@@ -87,6 +88,7 @@ export const SignOutButton = () => {
 		</button>
 	);
 };
+
 /**
  * A custom hook that listens for changes to the user's auth state.
  * Check out the Firebase docs for more info on auth listeners:

@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import { addItem } from '../api/firebase';
+import TextInput from '../components/TextInput';
+import Button from './Button';
+import SelectInput from './SelectInput';
+import { GoPlus } from 'react-icons/go';
 
 export default function AddItem({ listPath, data }) {
 	const initialState = {
@@ -59,39 +63,30 @@ export default function AddItem({ listPath, data }) {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="items-center mb-2 xsm:text-xs sm:text-sm md:text-md"
-		>
-			<label>
-				Item name:
-				<input
-					type="text"
+		<form onSubmit={handleSubmit}>
+			<div className="flex xsm:justify-center sm:justify-normal items-end flex-wrap xsm:gap-2 sm:gap-4 w-full xsm: mb-6">
+				<TextInput
+					label="Add item"
 					name="itemName"
-					placeholder={`e.g. coffee`}
-					className="border border-inputBorder p-2 rounded-lg ml-2 mb-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-56 md:h-8 "
+					placeholder="Add item to list"
 					onChange={handleInputChange}
 					value={itemValue.itemName}
 				/>
-			</label>
-			<br />
-			<label>
-				Timeframe:
-				<select
+				<SelectInput
+					label="Timeframe"
+					id="timeframe"
 					name="daysUntilNextPurchase"
-					onChange={handleInputChange}
 					value={itemValue.daysUntilNextPurchase}
-					className="border border-inputBorder px-1 rounded-lg mx-2 xsm:max-w-full xsm:h-6 sm:max-w-full sm:h-6 md:w-36 md:h-8 lg:h-10"
-				>
-					<option value="" disabled>
-						Select an option
-					</option>
-					<option value="7">Soon</option>
-					<option value="14">Kind of Soon</option>
-					<option value="30">Not so Soon</option>
-				</select>
-			</label>
-			<button type="submit">Add item</button>
+					onChange={handleInputChange}
+				/>
+				<Button
+					type="submit"
+					text="Add item"
+					bgColor="bg-tcl-blue"
+					textColor="text-white"
+					icon={<GoPlus size={19} />}
+				/>
+			</div>
 		</form>
 	);
 }
