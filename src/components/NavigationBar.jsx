@@ -227,7 +227,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						</div>
 					</div>
 
-					<div className="absolute xsm:pb-4 sm:pb-4 md:p-4 bottom-0 w-full">
+					<div className="absolute xsm:pb-4 md:p-4 bottom-0 left-8 w-full">
 						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
 				</nav>
