@@ -13,7 +13,7 @@ export default function AddList({ setListPath }) {
 	const navigate = useNavigate();
 	const { user } = useAuth();
 	const { toasts, addToast } = useToast();
-
+  
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
