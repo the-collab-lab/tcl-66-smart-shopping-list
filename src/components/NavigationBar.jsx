@@ -254,9 +254,9 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						</div>
 					</div>
 
-					<div className="absolute xsm:p-2 bottom-0 left-0 w-full flex justify-between items-end">
+					<div className="absolute xsm:p-2 bottom-0 left-0 w-full flex justify-between items-center">
 						<div>
-							<button onClick={openInfoModal}>
+							<button onClick={openInfoModal} className="flex">
 								<IoMdHelpCircle size={32} />
 							</button>
 						</div>
