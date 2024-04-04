@@ -8,7 +8,7 @@ const AppInfo = () => {
 				<h2 className="text-xl font-bold mt-6 mb-4 border-b-1 border-gray-200 pb-[20px] w-full">
 					Let's get started!
 				</h2>
-				<div className="max-w-lg px-4">
+				<div className="max-w-lg xsm:px-2 sm:px-4">
 					<p className="mb-4">
 						Hey there! Welcome to List Genius, your go-to shopping companion.
 						Our goal is to help simplify the way you shop by keeping track of
@@ -26,15 +26,15 @@ const AppInfo = () => {
 							<li className="mb-2">
 								Add items to your list and let us know how soon you need them.
 								Whether it's{' '}
-								<span className="inline-block rounded-md px-2 py-1 text-orange-800 bg-orange-100">
+								<span className="inline-block rounded-md px-2 my-1 py-[2px] text-orange-800 bg-orange-100">
 									soon
 								</span>
 								{' (this week), '}
-								<span className="inline-block rounded-md px-2 py-1 text-yellow-800 bg-yellow-100">
+								<span className="inline-block rounded-md px-2 my-1 py-[2px] text-yellow-800 bg-yellow-100">
 									kind of soon
 								</span>
 								{' (this month), or '}
-								<span className="inline-block rounded-md px-2 py-1 text-green-800 bg-green-100">
+								<span className="inline-block rounded-md px-2 my-1 py-[2px] text-green-800 bg-green-100">
 									not so soon
 								</span>
 								{' (more than 30 days)'}, we've got you covered!

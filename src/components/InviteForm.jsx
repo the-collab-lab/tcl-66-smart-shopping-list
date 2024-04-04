@@ -36,7 +36,6 @@ const InviteForm = ({ lists, closeModal, setUsersSharedWith, sharedWith }) => {
 				const updatedSharedWith = [...sharedWith, input];
 				setUsersSharedWith(updatedSharedWith);
 				closeModal();
-				window.location.reload();
 				return;
 			}
 		} catch (err) {
