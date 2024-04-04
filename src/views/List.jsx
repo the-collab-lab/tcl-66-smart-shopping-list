@@ -11,7 +11,7 @@ import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
 
-export function List({ data, listPath, lists, loading }) {
+export default function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
 	const [listName, setListName] = useState('');
 	const [toggleModal, setToggleModal] = useState(false);

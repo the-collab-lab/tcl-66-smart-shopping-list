@@ -86,7 +86,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									<img
 										src={logo}
 										alt="List Genius logo of shopping bag"
-										className="xsm:w-[70px] sm:hidden"
+										className="xsm:w-[70px] pb-2 sm:hidden"
 									/>
 								)}
 							</div>
@@ -101,22 +101,17 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							{/* If a user clicks the "New list" button, then the "My Lists" header and the "New List" button disappear and the Create List form appears. */}
 							{!openFormModal ? (
 								<>
-									<NavLink to="/" className="sm:hidden">
-										<div
-											className={`pl-2 pb-2 text-lg font-medium text-[#111928] sm:hidden hover:bg-gray-100`}
-										>
-											Home
-										</div>
-									</NavLink>
 									<hr
 										className={`h-px bg-[#D9D9D9] border mb-4 ${sidebarWidth} h-[125px] sm:hidden`}
 									></hr>
 									<div
 										className={`w-full flex justify-between ${sidebarWidth} h-[34px] px-2 items-center`}
 									>
-										<div className="h-3.5 leading-[14px] text-sm font-medium text-[#6B7280]">
-											My Lists
-										</div>
+										<NavLink to="/" className="flex items-center">
+											<div className="text-sm font-medium text-[#6B7280]">
+												My Lists
+											</div>
+										</NavLink>
 										<Button
 											className="max-w-fit w-[90px] h-[34px] rounded-lg pt-2 pr-3 pb-2 pl-3 border"
 											color="light"

@@ -1,13 +1,19 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import { Home, Layout, List, ManageList, Err, Login } from './views';
-
-import { PublicRoute, PrivateRoute } from './components';
-
+import { lazy, Suspense } from 'react';
 import { useAuth, useSharedWithData } from './api';
-
 import { useShoppingListData, useShoppingLists } from './api';
 import { useStateWithStorage } from './utils';
+
+import Login from './views/Login';
+import PublicRoute from './components/PublicRoute';
+import { Spinner } from './components';
+
+const PrivateRoute = lazy(() => import('./components/PrivateRoute'));
+const Layout = lazy(() => import('./views/Layout'));
+const Home = lazy(() => import('./views/Home'));
+const List = lazy(() => import('./views/List'));
+const Err = lazy(() => import('./views/Err'));
+
 export function App() {
 	/**
 	 * This custom hook takes the path of a shopping list
@@ -22,7 +28,7 @@ export function App() {
 	 * This custom hook holds info about the current signed in user.
 	 * Check ./api/useAuth.jsx for its implementation.
 	 */
-	const { user } = useAuth();
+	const { user, isAuthenticating } = useAuth();
 	const userId = user?.uid;
 	const userEmail = user?.email;
 	/**
@@ -38,54 +44,85 @@ export function App() {
 	const { data, loading, setLoading } = useShoppingListData(listPath);
 
 	const { sharedWith } = useSharedWithData(listPath);
-
+	if (isAuthenticating) {
+		return <Spinner />;
+	}
 	return (
 		<Router>
 			<Routes>
-				<Route element={<PublicRoute />}>
-					<Route path="/login" element={<Login />} />
+				<Route
+					element={
+						<Suspense fallback={<Spinner />}>
+							<PublicRoute />
+						</Suspense>
+					}
+				>
+					<Route
+						path="/login"
+						element={
+							<Suspense fallback={<Spinner />}>
+								<Login />
+							</Suspense>
+						}
+					/>
 				</Route>
-				<Route element={<PrivateRoute />}>
+				<Route
+					element={
+						<Suspense fallback={<Spinner />}>
+							<PrivateRoute />
+						</Suspense>
+					}
+				>
 					<Route
 						path="/"
 						element={
-							<Layout
-								data={lists}
-								setListPath={setListPath}
-								setLoading={setLoading}
-							/>
+							<Suspense fallback={<Spinner />}>
+								<Layout
+									data={lists}
+									setListPath={setListPath}
+									listPath={listPath}
+									setLoading={setLoading}
+								/>
+							</Suspense>
 						}
 					>
 						<Route
 							index
 							element={
-								<Home
-									data={lists}
-									setListPath={setListPath}
-									setLoading={setLoading}
-								/>
+								<Suspense fallback={<Spinner />}>
+									<Home
+										data={lists}
+										setListPath={setListPath}
+										setLoading={setLoading}
+									/>
+								</Suspense>
 							}
 						/>
 						<Route
 							path="/list"
 							element={
-								<List
-									data={data}
-									listPath={listPath}
-									lists={lists}
-									sharedWith={sharedWith}
-									loading={loading}
-									setLoading={setLoading}
-								/>
+								<Suspense fallback={<Spinner />}>
+									<List
+										data={data}
+										listPath={listPath}
+										lists={lists}
+										sharedWith={sharedWith}
+										loading={loading}
+										setLoading={setLoading}
+									/>
+								</Suspense>
 							}
-						/>
-						<Route
-							path="/manage-list"
-							element={<ManageList listPath={listPath} data={data} />}
 						/>
 					</Route>
 				</Route>
-				<Route path="*" element={<Err />} />
+				<Route
+					path="*"
+					element={
+						<Suspense fallback={<Spinner />}>
+							<Err />
+						</Suspense>
+					}
+				/>
 			</Routes>
 		</Router>
 	);

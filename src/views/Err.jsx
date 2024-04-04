@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import Logo from '../assets/Logo.jsx';
 
-export function Err() {
+export default function Err() {
 	return (
 		<div className="flex my-auto h-screen bg-[url('assets/lightContrastGraph.png')] bg-cover xsm:p-4">
 			<div className="m-auto">
