@@ -44,13 +44,25 @@ const InviteForm = ({ lists, closeModal, setUsersSharedWith, sharedWith }) => {
 					iconName: 'check',
 					color: 'blue',
 				});
-				// alert(message);
-				setInput('');
+
+				setInput({
+					recipientName: '',
+					recipientEmail: '',
+				});
+				setSelectedLists({
+					listsToShare: [],
+				});
+
 				// Wait for the sharing operation to complete successfully
 				const updatedSharedWith = [...sharedWith, input];
 				setUsersSharedWith(updatedSharedWith);
-				closeModal();
-				window.location.reload();
+
+				// Close modal after 3 seconds
+				setTimeout(() => {
+					window.location.reload();
+					closeModal();
+				}, 3000);
+
 				return;
 			}
 		} catch (err) {

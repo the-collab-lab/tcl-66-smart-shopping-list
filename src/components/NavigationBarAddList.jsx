@@ -23,7 +23,7 @@ export default function AddList({ setListPath }) {
 				setListPath(listPath);
 				setTimeout(() => {
 					navigate('/list');
-				}, 2000);
+				}, 3000);
 			} else {
 				setMessage(`Your list, ${listName} was not created. Please try again.`);
 			}

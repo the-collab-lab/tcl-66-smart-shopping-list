@@ -6,6 +6,7 @@ import { VscTrash } from 'react-icons/vsc';
 import { useToast } from '../utils/hooks';
 import Toast from './Toast';
 import ConfirmToast from './ConfirmToast.jsx';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize.js';
 
 export function SingleList({ name, path, setListPath, setLoading }) {
 	const navigate = useNavigate();
@@ -24,7 +25,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 				const confirmationId = 'deleteSharedListConfirm';
 				addConfirmToast({
 					id: confirmationId,
-					message: `The ${name} list has been shared with you. By pressing delete, you loose access until it's shared with you again.`,
+					message: `The ${capitalizeFirstLetterOfEachWord(name)} list has been shared with you. By pressing delete, you lose access until it's shared with you again.`,
 					iconName: 'warning',
 					color: 'orange',
 					onConfirm: async () => {
@@ -38,7 +39,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 				const confirmationId = 'deleteListConfirm';
 				addConfirmToast({
 					id: confirmationId,
-					message: `By pressing delete, your ${name} list will be removed from your lists, and everyone's who has access to it.`,
+					message: `By pressing delete, your ${capitalizeFirstLetterOfEachWord(name)} list will be removed from your lists, and everyone who has access to it.`,
 					iconName: 'warning',
 					color: 'orange',
 					onConfirm: async () => {
@@ -53,7 +54,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 			console.error(err.message);
 			addToast({
 				id: 'toastItemDeleteErr',
-				message: `An error occurred while deleting your ${name} list: ${err.message}`,
+				message: `An error occurred while deleting your ${capitalizeFirstLetterOfEachWord(name)} list: ${err.message}`,
 				iconName: 'error',
 				color: 'red',
 			});
