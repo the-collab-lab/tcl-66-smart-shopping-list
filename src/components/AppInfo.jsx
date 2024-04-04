@@ -34,7 +34,7 @@ const AppInfo = () => {
 									kind of soon
 								</span>
 								, or{' '}
-								<span className="inline-block w-[110px] rounded-md px-2 py-1 text-green-800 bg-green-100">
+								<span className="inline-block rounded-md px-2 py-1 text-green-800 bg-green-100">
 									not so soon
 								</span>
 								, we've got you covered!
