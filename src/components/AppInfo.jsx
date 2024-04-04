@@ -29,15 +29,15 @@ const AppInfo = () => {
 								<span className="inline-block rounded-md px-2 py-1 text-orange-800 bg-orange-100">
 									soon
 								</span>
-								,{' '}
+								{' (this week), '}
 								<span className="inline-block rounded-md px-2 py-1 text-yellow-800 bg-yellow-100">
 									kind of soon
 								</span>
-								, or{' '}
+								{' (this month), or '}
 								<span className="inline-block rounded-md px-2 py-1 text-green-800 bg-green-100">
 									not so soon
 								</span>
-								, we've got you covered!
+								{' (more than 30 days)'}, we've got you covered!
 							</li>
 							<li className="mb-2">
 								If you haven't bought something in a while, we'll give it a
