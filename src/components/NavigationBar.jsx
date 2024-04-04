@@ -3,20 +3,32 @@ import { React, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { SignInButton, SignOutButton, useAuth } from '../api/useAuth.jsx';
 import { NavigationBarSingleList } from '../components/NavigationBarSingleList.jsx';
+import AddList from '../components/AddList.jsx';
+import AppInfo from '../components/AppInfo.jsx';
 import PlusSign from '../assets/PlusSign.jsx';
 import Modal from './Modal.jsx';
 import { IoMenu } from 'react-icons/io5';
-import appTitle from '../assets/titleLogo.png';
+import { IoMdHelpCircle } from 'react-icons/io';
+import siteTitle from '../assets/titleLogo.png';
 import logo from '../assets/logo.png';
-import AddList from './AddList.jsx';
 
 export default function NavigationBar({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
 
 	const sidebarWidth = 'xsm:w-full sm:w-44 md:w-48 lg:w-56';
 	const [openFormModal, setOpenFormModal] = useState(false);
+	const [toggleModal, setToggleModal] = useState(false);
 	const [navSlide, setNavSlide] = useState(true);
 	const [screenSize, setScreenSize] = useState(window.innerWidth); // Track screen width
+
+	const openInfoModal = () => {
+		setToggleModal(true);
+		console.log('info modal opened');
+	};
+
+	const closeInfoModal = () => {
+		setToggleModal(false);
+	};
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -66,7 +78,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							<div>
 								{screenSize > 480 ? (
 									<img
-										src={appTitle}
+										src={siteTitle}
 										alt="List Genius wide logo"
 										className="xsm:hidden sm:flex sm:h-[18px]"
 									/>
@@ -74,7 +86,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									<img
 										src={logo}
 										alt="List Genius logo of shopping bag"
-										className="xsm:w-[70px] sm:hidden pb-2"
+										className="xsm:w-[70px] pb-2 sm:hidden"
 									/>
 								)}
 							</div>
@@ -95,7 +107,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									<div
 										className={`w-full flex justify-between ${sidebarWidth} h-[34px] px-2 items-center`}
 									>
-										<NavLink to="/">
+										<NavLink to="/" className="flex items-center">
 											<div className="text-sm font-medium text-[#6B7280]">
 												My Lists
 											</div>
@@ -157,14 +169,14 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 												</ul>
 											) : (
 												<p
-													className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
+													className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
 												>
 													No Lists
 												</p>
 											)
 										) : (
 											<p
-												className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
+												className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
 											>
 												No Lists
 											</p>
@@ -177,7 +189,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 									{/* Lists shared with the user by other users display when the signed-in user's uid does not match the listPath uid of a shopping list.*/}
 									<div className="flex flex-col min-h-12 overflow-auto">
 										<p
-											className={`${sidebarWidth} h-[14px] font-medium text-sm text-[#6B7280] flex pl-2 pb-2`}
+											className={`${sidebarWidth} h-[14px] font-medium font-family: 'Inter' text-sm leading-[14px] text-[#6B7280] flex pl-2 pb-4`}
 										>
 											Shared With Me
 										</p>
@@ -193,7 +205,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 														) !== user?.uid,
 												) ? (
 													<ul
-														className={`${sidebarWidth} gap-6 text-sm font-medium text-left rounded-lg min-h-12 overflow-auto`}
+														className={`${sidebarWidth} gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12 overflow-auto`}
 													>
 														{' '}
 														{data.map((list) => (
@@ -215,14 +227,14 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 													</ul>
 												) : (
 													<p
-														className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
+														className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
 													>
 														No Lists
 													</p>
 												)
 											) : (
 												<p
-													className={`pl-2 text-center place-self-center ${sidebarWidth} text-sm font-medium text-[#6B7280]`}
+													className={`pl-2 text-center place-self-center ${sidebarWidth} h-3.5 leading-[14px] text-sm font-medium font-family: 'Inter' text-[#6B7280]`}
 												>
 													No Lists
 												</p>
@@ -234,9 +246,17 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 						</div>
 					</div>
 
-					<div className="absolute xsm:pb-4 md:p-4 bottom-0 w-full flex justify-between items-center">
+					<div className="absolute xsm:p-2 bottom-0 left-0 w-full flex justify-between items-center">
+						<div>
+							<button onClick={openInfoModal} className="flex">
+								<IoMdHelpCircle size={32} />
+							</button>
+						</div>
 						{user ? <SignOutButton /> : <SignInButton />}
 					</div>
+					<Modal isOpen={toggleModal} onClose={closeInfoModal}>
+						<AppInfo />
+					</Modal>
 				</nav>
 			) : (
 				<button onClick={toggleNav} className="absolute top-2 left-2">

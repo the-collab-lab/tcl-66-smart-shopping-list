@@ -1,7 +1,7 @@
 import { SignInButton } from '../api/useAuth';
 import logo from '../assets/logo.png';
 
-export function Login() {
+export default function Login() {
 	return (
 		<div className="flex justify-center my-auto h-screen bg-[url('assets/lightestContrastGraph.png')] bg-cover pb-24 md:pb-12">
 			<div className="m-auto">
