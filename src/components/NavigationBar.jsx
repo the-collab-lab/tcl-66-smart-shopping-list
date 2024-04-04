@@ -6,7 +6,7 @@ import { NavigationBarSingleList } from '../components/NavigationBarSingleList.j
 import PlusSign from '../assets/PlusSign.jsx';
 import Modal from './Modal.jsx';
 import { IoMenu } from 'react-icons/io5';
-import logoWide from '../assets/logo-wide.png';
+import appTitle from '../assets/titleLogo.png';
 import logo from '../assets/logo.png';
 import AddList from './AddList.jsx';
 
@@ -66,9 +66,9 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							<div>
 								{screenSize > 480 ? (
 									<img
-										src={logoWide}
+										src={appTitle}
 										alt="List Genius wide logo"
-										className="xsm:hidden sm:flex sm:h-[25px]"
+										className="xsm:hidden sm:flex sm:h-[18px]"
 									/>
 								) : (
 									<img
