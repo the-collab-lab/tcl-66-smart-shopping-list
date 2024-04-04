@@ -45,7 +45,7 @@ export const SignInButton = () => {
 	return (
 		<button
 			type="button"
-			className="flex items-center h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 justify-center sm:px-[120px] md:px-48"
+			className="flex items-center h-[67px] py-2 rounded-md border-1 border-navBorder hover:bg-gray-100 justify-center w-full"
 			aria-label="Sign up or Log in with google verification"
 			onClick={handleSignIn}
 		>
@@ -79,7 +79,7 @@ export const SignOutButton = () => {
 	return (
 		<button
 			type="button"
-			className="block px-4 py-2 rounded-md hover:bg-gray-100"
+			className="flex items-center xsm:text-[12px] sm:text-[13px] md:text-[14px] px-2 py-1 border-1 rounded-lg hover:bg-hover"
 			onClick={handleSignOut}
 			aria-label="Sign Out"
 		>

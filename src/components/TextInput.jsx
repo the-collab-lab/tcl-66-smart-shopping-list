@@ -26,7 +26,7 @@ const TextInput = ({
 				type="text"
 				name={name}
 				placeholder={placeholder}
-				className={`${isSearch && 'pl-[46px]'} border border-gray-300 p-2 text-gray-900 text-sm placeholder:text-sm placeholder:text-gray-500 rounded-lg focus:tcl-blue h-[42px] pl-4 w-[300px] bg-gray-50`}
+				className={`${isSearch && 'pl-[46px]'} border border-gray-300 p-2 text-gray-900 text-sm placeholder:text-sm placeholder:text-gray-500 rounded-lg focus:tcl-blue h-[42px] pl-4 xsm:w-[260px] sm:w-[200px] md:w-[250px] lg:w-[300px] bg-gray-50`}
 				onChange={onChange}
 				value={value}
 			/>

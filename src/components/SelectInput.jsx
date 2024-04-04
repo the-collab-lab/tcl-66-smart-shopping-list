@@ -1,5 +1,3 @@
-import { IoChevronDownOutline } from 'react-icons/io5';
-
 const SelectInput = ({ id, label, name, value, onChange }) => {
 	return (
 		<div className="relative flex flex-col gap-2">
@@ -11,7 +9,7 @@ const SelectInput = ({ id, label, name, value, onChange }) => {
 				name={name}
 				onChange={onChange}
 				value={value}
-				className="cursor-pointer appearance-none bg-white shadow hover:shadow-md text-gray-900 text-sm rounded-lg focus:tcl-blue focus:tcl-blue block p-2.5 h-[42px] w-[300px]"
+				className="cursor-pointer appearance-none bg-white shadow hover:shadow-md text-gray-900 xsm:text-xs sm:text-sm rounded-lg focus:tcl-blue focus:tcl-blue block xsm:pl-2 sm:p-2.5 h-[42px] xsm:w-[150px] sm:w-[200px] md:w-[250px] lg:w-[300px]"
 			>
 				<option value="" disabled>
 					Select an option
@@ -20,10 +18,6 @@ const SelectInput = ({ id, label, name, value, onChange }) => {
 				<option value="14">Kind of Soon</option>
 				<option value="31">Not so Soon</option>
 			</select>
-			<IoChevronDownOutline
-				size={14}
-				className="absolute right-[8px] top-[43px] text-gray-900"
-			/>
 		</div>
 	);
 };

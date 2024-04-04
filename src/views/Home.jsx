@@ -6,7 +6,7 @@ export default function Home({ data, setListPath, setLoading }) {
 	const { user } = useAuth();
 	return (
 		<div>
-			<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-xl lg:text-3xl mt-6 mb-10">
+			<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-8 xsm:mb-8 sm:mt-10 sm:mb-12">
 				{user ? `Welcome ${user.displayName}!` : 'Welcome!'}
 			</h2>
 			<AddList setListPath={setListPath} />

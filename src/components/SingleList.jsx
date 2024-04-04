@@ -47,7 +47,7 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 	};
 
 	return (
-		<li className="cursor-pointer mb-2 bg-white shadow hover:shadow-md h-[72px] flex items-center justify-between rounded-lg p-6 transition-shadow duration-300 ease-in-out">
+		<li className="cursor-pointer mb-2 bg-white shadow hover:shadow-md xsm:h-[56px] sm:h-[72px] flex items-center justify-between rounded-lg p-6 transition-shadow duration-300 ease-in-out">
 			{/* Using Link instead of button */}
 			<Link
 				to="/list"

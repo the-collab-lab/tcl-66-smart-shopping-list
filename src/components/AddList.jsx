@@ -42,7 +42,7 @@ export default function AddList({ setListPath }) {
 		<>
 			<form
 				onSubmit={handleSubmit}
-				className="flex items-end flex-wrap space-x-2"
+				className="flex justify-center items-end flex-wrap space-x-2 gap-2"
 			>
 				<TextInput
 					label="Create a new shopping list:"

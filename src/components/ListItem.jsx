@@ -111,7 +111,7 @@ export function ListItem({
 			<div
 				htmlFor={`checkbox-${id}`}
 				onClick={handleChecked}
-				className={`cursor-pointer bg-white shadow hover:shadow-md h-[72px] flex items-center justify-between rounded-lg p-6 transition-shadow duration-300 ease-in-out`}
+				className={`cursor-pointer bg-white shadow hover:shadow-md xsm:h-[56px] sm:h-[72px] flex items-center justify-between rounded-lg xsm:px-4 sm:p-6 transition-shadow duration-300 ease-in-out`}
 				onKeyPress={handleKeyPress}
 				role="button"
 				tabIndex="0"
