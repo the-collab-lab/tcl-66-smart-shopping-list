@@ -45,7 +45,7 @@ const AppInfo = () => {
 								<span className="inline-block rounded-md px-2 py-1 text-gray-800 bg-gray-100">
 									inactive
 								</span>{' '}
-								after 60 days. Don't worry, you can always wake it up by
+								(after 60 days). Don't worry, you can always wake it up by
 								purchasing it again!
 							</li>
 							<li className="mb-2">
