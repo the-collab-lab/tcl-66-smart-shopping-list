@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import BulletPointListName from '../assets/BulletPointListName';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 export function NavigationBarSingleList({
 	name,
@@ -42,7 +43,7 @@ export function NavigationBarSingleList({
 					localStorageListName={localStorageListName}
 					name={name}
 				/>
-				<p>{name}</p>
+				<p>{capitalizeFirstLetterOfEachWord(name)}</p>
 			</Link>
 		</li>
 	);
