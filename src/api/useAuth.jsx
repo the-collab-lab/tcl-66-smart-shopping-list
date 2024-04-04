@@ -96,15 +96,36 @@ export const SignOutButton = () => {
  */
 export const useAuth = () => {
 	const [user, setUser] = useState(null);
-  
+	const [isAuthenticating, setIsAuthenticating] = useState(true); // Add loading state
+
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
+			setIsAuthenticating(false);
 			setUser(user);
 			if (user) {
 				addUserToDatabase(user);
 			}
 		});
 	}, []);
-  
-	return { user };
+
+	return { user, isAuthenticating };
+};
+
+export const useAuth2 = () => {
+	const [user, setUser] = useState(null);
+	const [isLoading, setIsLoading] = useState(true); // Add loading state
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged((user) => {
+			setUser(user);
+			setIsLoading(false); // Set loading to false once authentication state is resolved
+			if (user) {
+				addUserToDatabase(user);
+			}
+		});
+
+		return () => unsubscribe(); // Unsubscribe when component unmounts
+	}, []);
+
+	return { user, isLoading }; // Return loading state along with user object
 };
