@@ -2,7 +2,7 @@ import { SingleList } from '../components/SingleList';
 import AddList from '../components/AddList.jsx';
 import { useAuth } from '../api/useAuth.jsx';
 
-export function Home({ data, setListPath, setLoading }) {
+export function Home({ data, setListPath, setLoading, loading }) {
 	const { user } = useAuth();
 	return (
 		<div>

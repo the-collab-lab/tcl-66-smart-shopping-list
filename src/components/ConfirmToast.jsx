@@ -8,6 +8,10 @@ const ConfirmToast = ({
 	onConfirm,
 	onCancel,
 }) => {
+	// Render the toast only if the message is not empty
+	if (!message) {
+		return null;
+	}
 	return (
 		<div className="fixed inset-0 flex items-center justify-center z-50 backdrop-brightness-50">
 			<div

@@ -19,6 +19,11 @@ const Toast = ({ id, message, iconName, color, dismissible = true }) => {
 		setIsVisible(false);
 	};
 
+	// Render the toast only if the message is not empty
+	if (!message) {
+		return null;
+	}
+
 	return (
 		<div
 			id={id}
