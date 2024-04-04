@@ -24,7 +24,6 @@ export function App() {
 		'tcl-shopping-list-path',
 		null,
 	);
-
 	/**
 	 * This custom hook holds info about the current signed in user.
 	 * Check ./api/useAuth.jsx for its implementation.
@@ -32,7 +31,6 @@ export function App() {
 	const { user, isAuthenticating } = useAuth();
 	const userId = user?.uid;
 	const userEmail = user?.email;
-
 	/**
 	 * This custom hook takes a user ID and email and fetches
 	 * the shopping lists that the user has access to.
@@ -79,7 +77,12 @@ export function App() {
 						path="/"
 						element={
 							<Suspense fallback={<Spinner />}>
-								<Layout />
+								<Layout
+									data={lists}
+									setListPath={setListPath}
+									listPath={listPath}
+									setLoading={setLoading}
+								/>
 							</Suspense>
 						}
 					>
@@ -110,10 +113,6 @@ export function App() {
 								</Suspense>
 							}
 						/>
-						{/* <Route
-							path="/manage-list"
-							element={<ManageList listPath={listPath} data={data} />}
-						/> */}
 					</Route>
 				</Route>
 				<Route
