@@ -10,7 +10,6 @@ import SharedWithList from '../components/SharedWithList';
 import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
-import pageTitle from '../assets/titleLogo.png';
 
 export function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
