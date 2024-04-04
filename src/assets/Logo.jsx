@@ -1,12 +1,12 @@
 const Logo = () => {
 	return (
 		<svg
-			width="146"
+			width="140"
 			height="18"
 			viewBox="0 0 146 18"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
-			className="pr-6 xsm:pr-2 xsm:h-[13px] max-w-fit sm:h-fit sm:mr-6"
+			className=" xsm:h-[13px]"
 			role="img of words collablab"
 			aria-label="Shopping List App Logo"
 		>

@@ -5,6 +5,7 @@ import { useAuth } from '../api/useAuth.jsx';
 import Button from './Button.jsx';
 import TextInput from './TextInput.jsx';
 import { GoPlus } from 'react-icons/go';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize.js';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');
@@ -23,13 +24,17 @@ export default function AddList({ setListPath }) {
 			// if list is created newList will be true else newList will be false
 			if (newList) {
 				setListName('');
-				setMessage(`Your list, ${listName}, was successfully created.`);
+				setMessage(
+					`${capitalizeFirstLetterOfEachWord(listName)} was successfully created.`,
+				);
 				setListPath(listPath);
 				setTimeout(() => {
 					navigate('/list');
 				}, 2000);
 			} else {
-				setMessage(`Your list, ${listName} was not created. Please try again.`);
+				setMessage(
+					`${capitalizeFirstLetterOfEachWord(listName)} was not created. Please try again.`,
+				);
 			}
 		} catch (err) {
 			console.error(err);
@@ -42,7 +47,7 @@ export default function AddList({ setListPath }) {
 		<>
 			<form
 				onSubmit={handleSubmit}
-				className="flex items-end flex-wrap space-x-2"
+				className="flex justify-center items-end flex-wrap space-x-2 gap-2"
 			>
 				<TextInput
 					label="Create a new shopping list:"
@@ -52,7 +57,7 @@ export default function AddList({ setListPath }) {
 				/>
 				<Button
 					type="submit"
-					text="Add item"
+					text="Add list"
 					bgColor="bg-tcl-blue"
 					textColor="text-white"
 					icon={<GoPlus size={19} />}

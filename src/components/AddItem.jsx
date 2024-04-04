@@ -63,31 +63,30 @@ export default function AddItem({ listPath, data }) {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit}
-			className="flex items-end flex-wrap gap-4 w-full"
-		>
-			<TextInput
-				label="Add item"
-				name="itemName"
-				placeholder="Add item to list"
-				onChange={handleInputChange}
-				value={itemValue.itemName}
-			/>
-			<SelectInput
-				label="Timeframe"
-				id="timeframe"
-				name="daysUntilNextPurchase"
-				value={itemValue.daysUntilNextPurchase}
-				onChange={handleInputChange}
-			/>
-			<Button
-				type="submit"
-				text="Add item"
-				bgColor="bg-tcl-blue"
-				textColor="text-white"
-				icon={<GoPlus size={19} />}
-			/>
+		<form onSubmit={handleSubmit}>
+			<div className="flex items-end flex-wrap xsm:justify-center sm:justify-normal xsm:gap-2 sm:gap-4 w-full xsm:mb-4">
+				<TextInput
+					label="Add item"
+					name="itemName"
+					placeholder="Add item to list"
+					onChange={handleInputChange}
+					value={itemValue.itemName}
+				/>
+				<SelectInput
+					label="Timeframe"
+					id="timeframe"
+					name="daysUntilNextPurchase"
+					value={itemValue.daysUntilNextPurchase}
+					onChange={handleInputChange}
+				/>
+				<Button
+					type="submit"
+					text="Add item"
+					bgColor="bg-tcl-blue"
+					textColor="text-white"
+					icon={<GoPlus size={19} />}
+				/>
+			</div>
 		</form>
 	);
 }
