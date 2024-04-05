@@ -9,8 +9,10 @@ import { Timestamp } from 'firebase/firestore';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import { IoIosCheckmark } from 'react-icons/io';
 import { VscTrash } from 'react-icons/vsc';
+import ConfirmToast from './ConfirmToast';
 import Urgency from './Urgency';
 import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
+import { useToast } from '../utils/hooks';
 
 export function ListItem({
 	name,
@@ -23,6 +25,7 @@ export function ListItem({
 	totalPurchases,
 	dateCreated,
 }) {
+	const { toasts, addConfirmToast, cancelConfirmToast } = useToast();
 	const todaysDateTimestamp = Timestamp.now();
 	const isChecked = subtractDatesForAutoUncheck(
 		todaysDateTimestamp,
@@ -92,22 +95,30 @@ export function ListItem({
 
 	const handleDelete = async () => {
 		try {
-			if (
-				window.confirm(
-					`Are you sure you want to delete ${capitalizeFirstLetterOfEachWord(name)} ?`,
-				)
-			) {
-				await deleteItem(listPath, id);
-			} else {
-				return;
-			}
+			// Call addConfirmationToast to show the confirmation toast
+			const confirmationId = 'deleteItemConfirm';
+			addConfirmToast({
+				id: confirmationId,
+				message: `Are you sure you want to delete ${capitalizeFirstLetterOfEachWord(name)} from your list?`,
+				iconName: 'warning',
+				color: 'orange',
+				onConfirm: async () => {
+					await deleteItem(listPath, id);
+					// You can add any additional actions after confirmation here
+				},
+				onCancel: () => {
+					cancelConfirmToast(confirmationId);
+				},
+			});
 		} catch (err) {
 			console.error(err.message);
 		}
 	};
-
 	return (
 		<li>
+			{toasts.map((toast) => (
+				<ConfirmToast key={toast.id} {...toast} />
+			))}
 			<div
 				htmlFor={`checkbox-${id}`}
 				onClick={handleChecked}

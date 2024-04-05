@@ -31,11 +31,9 @@ export const SignInButton = () => {
 					await getRedirectResult(auth);
 				} catch (redirectError) {
 					console.error('Error during redirect sign-in:', redirectError);
-					// TODO ADD TOAST ONCE COMPONENT COMMITTED
 				}
 			} else {
 				console.error('Error during popup sign-in:', error);
-				// TODO ADD TOAST ONCE COMPONENT COMMITTED
 			}
 		} finally {
 			setLoading(false);
@@ -70,7 +68,6 @@ export const SignOutButton = () => {
 		} catch (error) {
 			console.error('Error signing out:', error);
 			window.alert('Error signing out. Please try again.');
-			// TODO ADD TOAST ONCE COMPONENT IS COMPLETE
 		} finally {
 			setLoading(false);
 		}

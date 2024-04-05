@@ -94,6 +94,7 @@ export function App() {
 										data={lists}
 										setListPath={setListPath}
 										setLoading={setLoading}
+										loading={loading}
 									/>
 								</Suspense>
 							}

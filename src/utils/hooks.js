@@ -19,3 +19,41 @@ export function useStateWithStorage(storageKey, initialValue) {
 
 	return [value, setValue];
 }
+
+export function useToast() {
+	/**
+	 * Adds a new toast notification to the list.
+	 * @param {Object} toast The toast object to add.
+	 * @param {string} toast.id The unique identifier for the toast.
+	 * @param {string} toast.message The message to display in the toast.
+	 * @param {string} toast.iconName The name of the icon to display in the toast.
+	 * @param {string} toast.color The color theme of the toast.
+	 * @param {boolean} toast.dismissible Whether the toast is dismissible or not.
+	 */
+
+	const [toasts, setToasts] = useState([]);
+	const displayDuration = 3000; // 3 seconds
+
+	const addToast = (toast) => {
+		setToasts((prevToasts) => [...prevToasts, toast]);
+		setTimeout(() => {
+			removeToast(toast.id);
+		}, displayDuration);
+	};
+	const addConfirmToast = (toast) => {
+		setToasts((prevToasts) => [...prevToasts, toast]);
+	};
+	const cancelConfirmToast = (id) => {
+		removeToast(id);
+	};
+
+	/**
+	 * Removes a toast notification from the list by its ID.
+	 * @param {string} id The ID of the toast to remove.
+	 */
+	const removeToast = (id) => {
+		setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
+	};
+
+	return { toasts, addToast, addConfirmToast, cancelConfirmToast };
+}

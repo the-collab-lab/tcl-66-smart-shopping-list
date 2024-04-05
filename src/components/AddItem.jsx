@@ -4,8 +4,12 @@ import TextInput from '../components/TextInput';
 import Button from './Button';
 import SelectInput from './SelectInput';
 import { GoPlus } from 'react-icons/go';
+import { useToast } from '../utils/hooks';
+import Toast from './Toast';
 
 export default function AddItem({ listPath, data }) {
+	const { toasts, addToast } = useToast();
+
 	const initialState = {
 		itemName: '',
 		daysUntilNextPurchase: '',
@@ -28,29 +32,58 @@ export default function AddItem({ listPath, data }) {
 		e.preventDefault();
 
 		const newItemName = itemValue.itemName.trim();
-
+		// Check that the user added the timeframe
 		if (itemValue.daysUntilNextPurchase === '') {
-			alert('Please select a timeframe to add item to list!');
+			addToast({
+				id: 'toastTimeframe',
+				message: 'Eeep, select a time frame to add an item to your list!',
+				iconName: 'warning',
+				color: 'orange',
+			});
 			return;
 		}
 		// Check if the itemName is empty
 		if (newItemName === '') {
-			alert(`Please name your item. Empty spaces don't count!`);
+			addToast({
+				id: 'toastEmptyName',
+				message: "Please name your item. Heh, empty spaces don't count!",
+				iconName: 'warning',
+				color: 'orange',
+			});
 			return;
 		}
 
 		// Check if the itemName already exists in the list
 		if (existingItem(newItemName)) {
-			alert('Uh oh, this item is already in your list!');
+			addToast({
+				id: 'toastExistingItem',
+				message: `All good, ${newItemName} is already in your list!`,
+				iconName: 'error',
+				color: 'red',
+			});
 			return;
 		}
 
 		try {
+			// adds item after checks pass
 			await addItem(listPath, itemValue);
-			alert(`${newItemName} added to list!`);
+			addToast({
+				id: 'toastItemAdded',
+				message: `Done! ${newItemName} added to list!`,
+				iconName: 'check',
+				color: 'blue',
+			});
 			setItemValue(initialState);
+			// alert(`Done! ${newItemName} added to list!`);
 		} catch (err) {
-			alert('Error adding item to database');
+			// alerts user something else went wrong
+			addToast({
+				id: 'toastItemAddErr',
+				message: `There was an error adding ${newItemName} to your list, please try again`,
+				iconName: 'error',
+				color: 'red',
+			});
+			console.error(err);
 		}
 	};
 
@@ -63,30 +96,35 @@ export default function AddItem({ listPath, data }) {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<div className="flex items-end flex-wrap xsm:justify-center sm:justify-normal xsm:gap-2 sm:gap-4 w-full xsm:mb-4">
-				<TextInput
-					label="Add item"
-					name="itemName"
-					placeholder="Add item to list"
-					onChange={handleInputChange}
-					value={itemValue.itemName}
-				/>
-				<SelectInput
-					label="Timeframe"
-					id="timeframe"
-					name="daysUntilNextPurchase"
-					value={itemValue.daysUntilNextPurchase}
-					onChange={handleInputChange}
-				/>
-				<Button
-					type="submit"
-					text="Add item"
-					bgColor="bg-tcl-blue"
-					textColor="text-white"
-					icon={<GoPlus size={19} />}
-				/>
-			</div>
-		</form>
+		<>
+			{toasts.map((toast) => (
+				<Toast key={toast.id} {...toast} />
+			))}
+			<form onSubmit={handleSubmit}>
+				<div className="flex items-end flex-wrap xsm:justify-center sm:justify-normal xsm:gap-2 sm:gap-4 w-full xsm:mb-4">
+					<TextInput
+						label="Add item"
+						name="itemName"
+						placeholder="Add item to list"
+						onChange={handleInputChange}
+						value={itemValue.itemName}
+					/>
+					<SelectInput
+						label="Timeframe"
+						id="timeframe"
+						name="daysUntilNextPurchase"
+						value={itemValue.daysUntilNextPurchase}
+						onChange={handleInputChange}
+					/>
+					<Button
+						type="submit"
+						text="Add item"
+						bgColor="bg-tcl-blue"
+						textColor="text-white"
+						icon={<GoPlus size={19} />}
+					/>
+				</div>
+			</form>
+		</>
 	);
 }

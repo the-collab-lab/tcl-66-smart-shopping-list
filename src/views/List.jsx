@@ -10,6 +10,7 @@ import SharedWithList from '../components/SharedWithList';
 import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
 export default function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
@@ -62,7 +63,9 @@ export default function List({ data, listPath, lists, loading }) {
 			) : data.length > 0 ? (
 				<>
 					<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-12 xsm:mb-8 sm:mt-10 sm:mb-12">
-						{listName ? `Hello from your ${listName} page!` : 'Hello!'}
+						{listName
+							? `Hello from your ${capitalizeFirstLetterOfEachWord(listName)} list!`
+							: 'Hello!'}
 					</h2>
 					{listPath.includes(user?.uid) ? (
 						<div className="absolute top-2 right-2 flex justify-center items-center gap-4">
