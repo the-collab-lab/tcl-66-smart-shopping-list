@@ -205,7 +205,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 														) !== user?.uid,
 												) ? (
 													<ul
-														className={`${sidebarWidth} gap-6 text-sm px-2 text-left rounded-lg min-h-12 overflow-auto`}
+														className={`${sidebarWidth} gap-6 text-sm px-2 text-left rounded-lg min-h-12 overflow-y-auto`}
 													>
 														{' '}
 														{data.map((list) => (
