@@ -7,6 +7,7 @@ import { useToast } from '../utils/hooks.js';
 import Button from './Button.jsx';
 import TextInput from './TextInput.jsx';
 import Toast from './Toast';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize.js';
 
 export default function AddList({ setListPath }) {
 	const [listName, setListName] = useState('');
@@ -33,7 +34,7 @@ export default function AddList({ setListPath }) {
 				setListName('');
 				addToast({
 					id: 'newListCreated',
-					message: `Your list, ${listName}, was successfully created.`,
+					message: `Your list, ${capitalizeFirstLetterOfEachWord(listName)}, was successfully created.`,
 					iconName: 'check',
 					color: 'blue',
 				});
@@ -44,7 +45,7 @@ export default function AddList({ setListPath }) {
 			} else {
 				addToast({
 					id: 'problemCreatingList',
-					message: `Eeep, ${listName} list was not created. Please try again.`,
+					message: `Eeep, ${capitalizeFirstLetterOfEachWord(listName)} list was not created. Please try again.`,
 					iconName: 'error',
 					color: 'red',
 				});
@@ -66,7 +67,7 @@ export default function AddList({ setListPath }) {
 			))}
 			<form
 				onSubmit={handleSubmit}
-				className="flex items-end flex-wrap space-x-2"
+				className="flex justify-center items-end flex-wrap space-x-2 gap-2"
 			>
 				<TextInput
 					label="Create a new shopping list:"

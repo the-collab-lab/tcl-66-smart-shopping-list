@@ -2,7 +2,6 @@ import { FaRegCircleUser } from 'react-icons/fa6';
 import { VscTrash } from 'react-icons/vsc';
 import { unshareList } from '../api';
 import { useToast } from '../utils';
-import Toast from './Toast';
 import ConfirmToast from './ConfirmToast';
 import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
@@ -58,7 +57,7 @@ const SharedWithList = ({
 							{sharedWith?.map((shared, index) => (
 								<li
 									key={index}
-									className="flex items-center gap-28 justify-between px-2 mb-4 h-16 bg-gray-50 rounded-lg shadow-md"
+									className="flex items-center sm:gap-28 justify-between px-2 mb-4 h-16 bg-gray-50 rounded-lg shadow-md"
 								>
 									<span className="flex items-center xsm:text-xs sm:text-md">
 										<FaRegCircleUser className="text-lg mr-2 text-gray-600" />

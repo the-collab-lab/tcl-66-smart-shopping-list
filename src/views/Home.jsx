@@ -2,11 +2,11 @@ import { SingleList } from '../components/SingleList';
 import AddList from '../components/AddList.jsx';
 import { useAuth } from '../api/useAuth.jsx';
 
-export function Home({ data, setListPath, setLoading, loading }) {
+export default function Home({ data, setListPath, setLoading, loading }) {
 	const { user } = useAuth();
 	return (
 		<div>
-			<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-xl lg:text-3xl mt-6 mb-10">
+			<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-8 xsm:mb-8 sm:mt-10 sm:mb-12">
 				{user ? `Welcome ${user.displayName}!` : 'Welcome!'}
 			</h2>
 			<AddList setListPath={setListPath} />

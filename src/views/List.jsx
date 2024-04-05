@@ -10,8 +10,9 @@ import SharedWithList from '../components/SharedWithList';
 import { useAuth } from '../api';
 import { IoMailOutline } from 'react-icons/io5';
 import { FaRegCircleUser } from 'react-icons/fa6';
+import capitalizeFirstLetterOfEachWord from '../utils/capitalize';
 
-export function List({ data, listPath, lists, loading }) {
+export default function List({ data, listPath, lists, loading }) {
 	const [search, setSearch] = useState('');
 	const [listName, setListName] = useState('');
 	const [toggleModal, setToggleModal] = useState(false);
@@ -61,8 +62,10 @@ export function List({ data, listPath, lists, loading }) {
 				<Spinner />
 			) : data.length > 0 ? (
 				<>
-					<h2 className="flex justify-center xsm:text-md sm:text-lg md:text-3xl mt-16 mb-12">
-						{listName ? `Hello from your ${listName} list!` : 'Hello!'}
+					<h2 className="flex justify-center xsm:text-lg sm:text-xl md:text-3xl xsm:mt-12 xsm:mb-8 sm:mt-10 sm:mb-12">
+						{listName
+							? `Hello from your ${capitalizeFirstLetterOfEachWord(listName)} list!`
+							: 'Hello!'}
 					</h2>
 					{listPath.includes(user?.uid) ? (
 						<div className="absolute top-2 right-2 flex justify-center items-center gap-4">
@@ -70,7 +73,7 @@ export function List({ data, listPath, lists, loading }) {
 								{usersSharedWith.length > 0 ? (
 									<button
 										onClick={() => openModal('sharedWithList')}
-										className="flex items-center gap-1"
+										className="flex items-center xsm:text-[12px] sm:text-[13px] md:text-[16px] gap-1"
 									>
 										<FaRegCircleUser />
 										{` ${usersSharedWith.length}`}
@@ -80,7 +83,7 @@ export function List({ data, listPath, lists, loading }) {
 							<div>
 								<button
 									onClick={() => openModal('inviteForm')}
-									className="flex items-center xsm:text-xs sm:text-md md:text-lg px-4 py-1 border-1 m-auto rounded-md hover:bg-hover"
+									className="flex items-center xsm:text-[12px] sm:text-[13px] md:text-[14px] px-2 py-1 border-1 m-auto rounded-lg hover:bg-hover"
 								>
 									<IoMailOutline className="mr-2" />
 									Share list
@@ -88,16 +91,16 @@ export function List({ data, listPath, lists, loading }) {
 							</div>
 						</div>
 					) : null}
-					<span className="flex justify-between items-center gap-4 flex-wrap mb-6">
+					<span className="flex xsm:justify-between items-center xsm:gap-4 sm:gap-2 flex-wrap mb-6">
 						{/* AddItem component */}
-						<div className="md:flex md:flex-col md:items-start">
+						<div className="justify-center flex sm:flex-col sm:items-start">
 							<AddItem listPath={listPath} data={data} />
 						</div>
 
 						{/* Search form */}
 						<form
 							onSubmit={handleSubmit}
-							className="xsm:text-xs sm:text-sm md:text-md"
+							className="flex xsm:text-xs sm:text-sm md:text-md xsm:mx-auto sm:mx-0"
 						>
 							<TextInput
 								name="search"
@@ -158,12 +161,12 @@ export function List({ data, listPath, lists, loading }) {
 			) : loading ? (
 				<Spinner />
 			) : data.length < 1 ? (
-				<>
-					<p className="py-2">
+				<div className="flex flex-col justify-center px-8">
+					<p className="pb-8 font-medium xsm:pt-16 sm:pt-8">
 						Please add an item to your {listName} list to get started
 					</p>
 					<AddItem listPath={listPath} data={data} />
-				</>
+				</div>
 			) : null}
 		</>
 	);

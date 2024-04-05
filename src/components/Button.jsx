@@ -10,7 +10,7 @@ const Button = ({
 	return (
 		<button
 			type={type}
-			className={`cursor-pointer flex items-center gap-2 ${bgColor} ${textColor} ${borderColor} text-sm rounded-lg py-2 px-3 h-[42px] `}
+			className={`cursor-pointer flex items-center gap-2 ${bgColor} ${textColor} ${borderColor} text-sm rounded-lg py-2 px-3 h-[42px] xsm:text-xs sm:text-sm `}
 			onClick={onClick}
 		>
 			{icon}

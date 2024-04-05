@@ -76,14 +76,14 @@ export function SingleList({ name, path, setListPath, setLoading }) {
 				/>
 			) : null}
 
-			<li className="cursor-pointer mb-2 bg-white shadow hover:shadow-md h-[72px] flex items-center justify-between rounded-lg p-6 transition-shadow duration-300 ease-in-out">
+			<li className="cursor-pointer mb-2 bg-white shadow hover:shadow-md xsm:h-[56px] sm:h-[72px] flex items-center justify-between rounded-lg p-6 transition-shadow duration-300 ease-in-out">
 				{/* Using Link instead of button */}
 				<Link
 					to="/list"
 					onClick={() => handleClick()}
 					className="flex items-center w-full h-full"
 				>
-					{name}
+					{capitalizeFirstLetterOfEachWord(name)}
 				</Link>
 				<button onClick={() => handleDelete()}>
 					<VscTrash size={20} className="text-gray-600" />
