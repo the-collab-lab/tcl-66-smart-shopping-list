@@ -131,12 +131,12 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 							{/* The user's lists display when the user's uid matches the uid contained in the listPath of a shopping list.*/}
 							{openFormModal ? (
 								<Modal isOpen={openFormModal} onClose={closeModal}>
-									<div className="flex flex-col gap-4 p-4">
+									<div className="flex flex-col gap-4 p-2">
 										<AddList setListPath={setListPath} />
 									</div>
 								</Modal>
 							) : (
-								<div className={`flex-col ${sidebarWidth} `}>
+								<div className={`flex-col ${sidebarWidth}`}>
 									<div
 										className={`flex min-h-12 xsm:h-[30vh] sm:h-[35vh] pt-2 pb-4 ${sidebarWidth}`}
 									>
@@ -147,7 +147,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 													user?.uid,
 											) ? (
 												<ul
-													className={`${sidebarWidth} gap-6 text-sm text-left overflow-auto`}
+													className={`${sidebarWidth} gap-6 text-sm text-left px-2 overflow-auto`}
 												>
 													{' '}
 													{data.map((list) => (
@@ -205,7 +205,7 @@ export default function NavigationBar({ data, setListPath, setLoading }) {
 														) !== user?.uid,
 												) ? (
 													<ul
-														className={`${sidebarWidth} gap-6 text-sm font-family: Inter font-medium leading-4 text-left rounded-lg min-h-12 overflow-auto`}
+														className={`${sidebarWidth} gap-6 text-sm px-2 text-left rounded-lg min-h-12 overflow-y-auto`}
 													>
 														{' '}
 														{data.map((list) => (
