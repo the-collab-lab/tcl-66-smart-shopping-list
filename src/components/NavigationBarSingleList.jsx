@@ -32,7 +32,7 @@ export function NavigationBarSingleList({
 
 	return (
 		<li
-			className={`flex-grow justify-between xsm:px-4 sm:px-2 h-12 bg-list rounded-lg shadow-sm mt-4 hover:bg-[#ebf5ff] hover:bg-opacity-85 ${windowLocationListPath && localStorageListName === name ? 'bg-[#ebf5ff] bg-opacity-85' : null}`}
+			className={`flex-grow justify-between xsm:px-4 sm:px-2 h-12 bg-list rounded-lg shadow-sm mt-4 hover:bg-[#ebf5ff] hover:bg-opacity-85 mx-1 ${windowLocationListPath && localStorageListName === name ? 'bg-[#ebf5ff] bg-opacity-85' : null}`}
 		>
 			{/*The above hex code (#ebf5ff) only worked in the ternary operator in lowercase format, not uppercase.*/}
 			{/* Using Link instead of button */}
